@@ -1843,7 +1843,7 @@ a.detail-link {
 
 
 a.detail-link span {
-    font-size: 12px;
+    font-size: 14px;
     vertical-align: middle;
     -webkit-transition-duration: .3s;
     transition-duration: .3s;
@@ -2710,7 +2710,7 @@ a.video-play-icon-without-bip:hover{
     line-height: 14px;
 }
 .client-ratting-list li span{
-    font-size: 12px;
+    font-size: 14px;
 }
 
 
@@ -3244,7 +3244,7 @@ figure {
 }
 .service-block-one .inner-box .content-box .link-btn i {
     position: relative;
-    font-size: 12px;
+    font-size: 14px;
     transition: all 500ms ease;
 }
 .service-block-one .inner-box .content-box .link-btn a:hover i {
@@ -3339,7 +3339,7 @@ figure {
   background-color: white;
   padding: 15px 20px;
   border-radius: 8px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: bold;
 }
 .vertical {
@@ -3545,7 +3545,7 @@ a.pricing-value {
 }
 
 .footer-nav-list li a span {
-    font-size: 12px;
+    font-size: 14px;
     vertical-align: middle;
 }
 
@@ -3937,7 +3937,7 @@ button, [type="button"], [type="reset"], [type="submit"] {
     font-family: 'Cera Pro', sans-serif;
     letter-spacing: 1px;
     font-weight: 600;
-    font-size: 12px;
+    font-size: 14px;
     margin: 0;
     color: #788487;
 }
