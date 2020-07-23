@@ -47,6 +47,38 @@
    License: none (public domain)
 */
 
+@font-face {
+  font-family: 'Cera Pro';
+  src: url("../fonts/cera/CeraPro-Light.eot");
+  src: url("../fonts/cera/CeraPro-Light.eot") format("embedded-opentype"), url("../fonts/cera/CeraPro-Light.woff2") format("woff2"), url("../cera/CeraPro-Light.woff") format("woff"), url("../fonts/cera/CeraPro-Light.ttf") format("truetype");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Cera Pro';
+  src: url("../fonts/cera/CeraPro-Regular.eot");
+  src: url("../fonts/cera/CeraPro-Regular.eot") format("embedded-opentype"), url("../fonts/cera/CeraPro-Regular.woff2") format("woff2"), url("../cera/CeraPro-Regular.woff") format("woff"), url("../fonts/cera/CeraPro-Light.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Cera Pro';
+  src: url("../fonts/cera/CeraPro-Bold.eot");
+  src: url("../fonts/cera/CeraPro-Bold.eot") format("embedded-opentype"), url("../fonts/cera/CeraPro-Bold.woff2") format("woff2"), url("../cera/CeraPro-Bold.woff") format("woff"), url("../../fonts/Cera Pro/CeraPro-Light.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+/*@font-face {
+  font-family: 'Cera Pro';
+  src: url("../fonts/cera/CeraPro-Black.eot");
+  src: url("../fonts/cera/CeraPro-Black.eot") format("embedded-opentype"), url("../fonts/cera/CeraPro-Black.woff2") format("woff2"), url("../cera/CeraPro-Black.woff") format("woff"), url("../../fonts/Cera Pro/CeraPro-Light.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}*/
+
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -113,7 +145,7 @@ body, h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, 
 
 body {
     background-color: #ffffff;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Cera Pro', sans-serif;
     font-size: 1rem;
     color: #707070;
     font-weight: 400;
@@ -126,7 +158,7 @@ p:not(:last-child) {
 
 h1, h2, h3, h4, h5 {
     margin: 0 0 1rem;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Cera Pro', sans-serif;
     font-weight: 600;
     line-height: 1.21;
     color: initial;
@@ -159,7 +191,7 @@ small, .text_small {
 
 strong, b ,span {
     font-weight: 600 !important;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Cera Pro', sans-serif;
 }
 .badge-primary-2{
     color: #fff;
@@ -321,7 +353,7 @@ a:hover {
 
 .outline-btn, .secondary-solid-btn, .primary-solid-btn, .solid-white-btn, .outline-white-btn, .secondary-outline-btn {
     padding: 12px 30px;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Cera Pro', sans-serif;
     font-weight: 600;
     font-size: 13px;
     transition: all .25s ease-in-out;
@@ -559,7 +591,7 @@ select.form-control.has-value{
 .topbar-text ul li {
     font-size: 13px;
     font-weight: 500;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Cera Pro', sans-serif;
 }
 .topbar-text ul li:not(:last-child){
     margin-right: 20px;
@@ -651,7 +683,7 @@ select.form-control.has-value{
 .menu li a {
     font-size: 15px;
     font-weight: 600;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Cera Pro', sans-serif;
     text-decoration: none;
     padding: 20px 15px;
     display: block;
@@ -718,7 +750,7 @@ select.form-control.has-value{
     display: block;
     color: #424141;
     padding: 8px 15px;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Cera Pro', sans-serif;
 }
 .menu ul li a:hover, .menu ul li:hover>a {
     color: #ffffff;
@@ -1224,7 +1256,7 @@ select.form-control.has-value{
     justify-content: center;
     border-radius: 4px 4px 0 0;
     transition: all 0.3s ease-in;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Cera Pro', sans-serif;
     font-weight: 600;
 }
 .custom-indicators li.active button{
@@ -1794,7 +1826,7 @@ button.filter-btn:focus {
 }
 .single-blog-card a{
     font-weight: 600;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Cera Pro', sans-serif;
 }
 .single-blog-card a, .single-blog-card a:hover {
     text-decoration: none;
@@ -1806,7 +1838,7 @@ a.detail-link {
     color: #495057;
     font-weight: 600;
     font-size: 14px;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Cera Pro', sans-serif;
 }
 
 
@@ -2085,7 +2117,7 @@ a.detail-link:hover span{
     top: -20px;
     font-size: 20px;
     font-weight: 700;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Cera Pro', sans-serif;
 }
 
 .single-work-process:last-child .work-process-divider{
@@ -2179,7 +2211,7 @@ a.detail-link:hover span{
 .feature-tabs li a h6{
     font-size: 16px;
     line-height: 21px;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Cera Pro', sans-serif;
     font-weight: 600;
 }
 .feature-tabs li a:before{
@@ -3137,7 +3169,7 @@ a.video-play-icon-without-bip:hover{
 }
 .accordion-faq.accordion > .card .card-header h6{
     font-weight: 600;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Cera Pro', sans-serif;
 }
 .accordion-faq.accordion .card-header[aria-expanded=false]:after {
     content: "+";
@@ -3153,7 +3185,7 @@ a.video-play-icon-without-bip:hover{
     -webkit-transform: translateY(-50%);
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Cera Pro', sans-serif;
     font-weight: 700;
 }
 
@@ -3274,24 +3306,24 @@ figure {
 
 .font-weight-bolder{
     font-weight: 700;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Cera Pro', sans-serif;
 }
 .font-weight-lighter{
-    font-weight: lighter;
-    font-family: 'Montserrat', sans-serif;
+    font-weight: 100 !important;
+    font-family: 'Cera Pro', sans-serif;
 }
 .font-weight-normal{
     font-weight: normal;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Cera Pro', sans-serif;
 }
 
 .fw-500{
     font-weight: 500 !important;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Cera Pro', sans-serif;
 }
 .fw-600{
     font-weight:600 !important;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Cera Pro', sans-serif;
 }
 .text-gray{
     color: gray;
@@ -3843,7 +3875,7 @@ a.pricing-value {
     line-height: 33px;
     border-radius: 100%;
     padding: inherit;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Cera Pro', sans-serif;
     font-weight: 600;
     color: #1A2C79;
 }
@@ -3902,7 +3934,7 @@ button, [type="button"], [type="reset"], [type="submit"] {
 
 .widget .widget-title > h6 {
     text-transform: uppercase;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Cera Pro', sans-serif;
     letter-spacing: 1px;
     font-weight: 600;
     font-size: 12px;
@@ -3957,7 +3989,7 @@ button, [type="button"], [type="reset"], [type="submit"] {
     font-size: 10px !important;
     color: #222;
     font-weight: 500;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Cera Pro', sans-serif;
 }
 .tag-cloud > a:hover, .post-tags > a:hover {
     background: #1A2C79;
@@ -4124,7 +4156,7 @@ a.sign-up:hover{
     position: relative;
 }
 .login-signup-form .form-group label{
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Cera Pro', sans-serif;
     font-weight: 500;
     font-size: 90%;
 }
