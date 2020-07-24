@@ -92,7 +92,7 @@ class AuthController extends Controller{
 		Auth::logout();
 		session()->forget('auth_id');
 		session()->flash('notification-status', "success");
-		session()->flash('notification-msg', "Session closed.");
+		session()->flash('notification-msg','You are now signed off.');
 		return redirect()->route('system.auth.login');
 	}
 

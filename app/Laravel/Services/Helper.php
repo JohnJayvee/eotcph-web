@@ -553,5 +553,15 @@ class Helper{
 			return "bg-danger";
 		}
 	}
+
+	public static function status_color($status){
+		if ($status == "approved") {
+			return "bg-success";
+		}elseif($status == "pending"){
+			return "bg-warning";
+		}else{
+			return "bg-danger";
+		}
+	}
 }
 

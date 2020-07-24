@@ -39,6 +39,25 @@ class ApplicationsController extends Controller{
 		return view('system.application.show',$this->data);
 	}
 	
+	public function process($id = NULL,PageRequest $request){
+		DB::beginTransaction();
+		try{
+
+			$application = $request->get('application_data');
+			$application->status = $request->get('status_type');
+			$application->save();
+
+			DB::commit();
+			session()->flash('notification-status', "success");
+			session()->flash('notification-msg', "Application has been successfully Processed.");
+			return redirect()->route('system.application.index');
+		}catch(\Exception $e){
+			DB::rollback();
+			session()->flash('notification-status', "failed");
+			session()->flash('notification-msg', "Server Error: Code #{$e->getLine()}");
+			return redirect()->back();
+		}
+	}
 
 	public function  destroy(PageRequest $request,$id = NULL){
 		$application = $request->get('application_data');

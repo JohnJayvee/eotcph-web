@@ -47,15 +47,15 @@
         <p class="text-title pt-4 pl-3 fw-500">Review Attached Requirements : 3 Items</p>
       </div>
     </div>
-    <button class="btn btn-primary mt-4 border-5"><i class="fa fa-check-circle"></i> Approved Application</button>
-    <button class="btn btn-danger mt-4 ml-3 border-5"><i class="fa fa-times-circle"></i> Declined Application</button>
+    <a  data-url="{{route('system.application.process',[$application->id])}}?status_type=approved" data-toggle="modal" data-target="#confirm-process" class="btn btn-primary mt-4 border-5 text-white action-process"><i class="fa fa-check-circle"></i> Approved Application</a>
+    <a  data-url="{{route('system.application.process',[$application->id])}}?status_type=declined" data-toggle="modal" data-target="#confirm-process" class="btn btn-danger mt-4 border-5 text-white action-process"><i class="fa fa-times-circle"></i> Declined Application</a>
   </div>
   
 </div>
 @stop
 
 @section('page-modals')
-<div id="confirm-delete" class="modal fade">
+<div id="confirm-process" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -63,8 +63,8 @@
       </div>
 
       <div class="modal-body">
-        <h6 class="text-semibold">Deleting Record...</h6>
-        <p>You are about to delete a record, this action can no longer be undone, are you sure you want to proceed?</p>
+        <h6 class="text-semibold">Processing Record...</h6>
+        <p>You are about to process a record, this action can no longer be undone, are you sure you want to proceed?</p>
 
         <hr>
 
@@ -74,7 +74,7 @@
 
       <div class="modal-footer">
         <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
-        <a href="#" class="btn btn-sm btn-danger" id="btn-confirm-delete">Delete</a>
+        <a href="#" class="btn btn-sm btn-primary" id="btn-confirm-process">Process</a>
       </div>
     </div>
   </div>
@@ -96,9 +96,9 @@
       format : "yyyy-mm-dd"
     });
 
-    $(".action-delete").on("click",function(){
+    $(".action-process").on("click",function(){
       var btn = $(this);
-      $("#btn-confirm-delete").attr({"href" : btn.data('url')});
+      $("#btn-confirm-process").attr({"href" : btn.data('url')});
     });
 
   })

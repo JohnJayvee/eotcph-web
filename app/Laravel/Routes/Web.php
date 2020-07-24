@@ -11,8 +11,6 @@ Route::group(['as' => "web.",
 		Route::get('/', [ 'as' => "index",'uses' => "MainController@index"]);
 	});
 	Route::get('type',['as' => "get_application_type",'uses' => "MainController@get_application_type"]);
-
-
 	Route::get('contact-us',['as' => "contact",'uses' => "MainController@contact"]);
 	Route::any('logout',['as' => "logout",'uses' => "AuthController@destroy"]);
 

@@ -59,7 +59,7 @@
             <th>{{ $application->name}}</th>
             <th>{{ $application->company_name}}</th>
             <th>{{ $application->type->name}}</th>
-            <td><p class="btn text-white" style="background-color: #EF9E06">{{Str::title($application->status)}}</p></td>
+            <td><p class="btn text-white {{Helper::status_color($application->status)}}">{{Str::title($application->status)}}</p></td>
             <td >
               <button type="button" class="btn btn-sm p-0" data-toggle="dropdown" style="background-color: transparent;"> <i class="mdi mdi-dots-horizontal" style="font-size: 30px"></i></button>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuSplitButton2">
