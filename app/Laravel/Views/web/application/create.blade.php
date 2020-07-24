@@ -129,7 +129,7 @@
                     <h5 class="text-title text-uppercase ">Print Requirements</h5>
                     <div class="custom-control custom-checkbox mb-3">
                         <input type="checkbox" class="custom-control-input" id="customControlValidation1" name="is_check" value="yes">
-                        <label class="custom-control-label fs-12 fw-600 text-black" for="customControlValidation1">&nbsp;&nbsp; Check this option to receive printable application form with QRCode which will be sent physically</label>
+                        <label class="custom-control-label fs-12 fw-600 text-black" for="customControlValidation1">&nbsp;&nbsp; Check this option if you're going to submit physical copies of your documents. The system will generate a QR Code that you'll have to attach to the envelope of your physical copies.</label>
                         
                     </div>
                     <button class="btn badge badge-primary-2 text-white px-4 py-2 fs-14" type="submit"><i class="fa fa-paper-plane pr-2"></i>  Send Application</button>
