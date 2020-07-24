@@ -48,11 +48,12 @@ class AuthController extends Controller{
 			// 	session()->flash('notification-msg', "Invalid username/password");
 			// 	return redirect()->back();
 			// }
-
+			
 			if(Auth::attempt([$field => $username,'password' => $password])){
+				$user = Auth::user();
 				session()->put('auth_id', Auth::user()->id);
 				session()->flash('notification-status','success');
-				session()->flash('notification-msg',"Welcome to EOTC Portal, {Auth::user()->name}!");
+				session()->flash('notification-msg',"Welcome to EOTC Portal, {$user->name}!");
 				Auth::user()->save();
 				if($redirect_uri AND session()->has($redirect_uri)){
 					return redirect( session()->get($redirect_uri) );
