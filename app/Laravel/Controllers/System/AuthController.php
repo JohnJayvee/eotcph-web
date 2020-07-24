@@ -123,7 +123,7 @@ class AuthController extends Controller{
 			DB::commit();
 			session()->flash('notification-status', "success");
 			session()->flash('notification-msg','Successfully registered.');
-			return redirect()->route('web.login');
+			return redirect()->route('system.auth.login');
 		}catch(\Exception $e){
 			DB::rollback();
 			session()->flash('notification-status', "failed");

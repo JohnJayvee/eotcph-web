@@ -16,9 +16,8 @@ use App\Laravel\Requests\Web\RegisterRequest;
  * Models
  */
 use App\Laravel\Models\{Attendance,Employee,EmployeeLeaveCredit};
-use App\LaraveL\Models\User;
-/* App Classes
- */
+use App\Laravel\Models\User;
+
 use Carbon,Auth,DB,Str,ImageUploader;
 
 class AuthController extends Controller{
@@ -40,15 +39,15 @@ class AuthController extends Controller{
 			$this->data['page_title'] = " :: Login";
 			$username = $request->get('email');
 			$password = $request->get('password');
-			// $remember_me = Input::get('remember_me',0);
+			
 			$field = filter_var($username, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';	
 
-			$user = User::where($field,$username)->first();
-			if(!$user){
-				session()->flash('notification-status', "error");
-				session()->flash('notification-msg', "Invalid username/password");
-				return redirect()->back();
-			}
+			// $user = User::where($field,$username)->first();
+			// if(!$user){
+			// 	session()->flash('notification-status', "error");
+			// 	session()->flash('notification-msg', "Invalid username/password");
+			// 	return redirect()->back();
+			// }
 			if(Auth::attempt([$field => $username,'password' => $password])){
 				session()->put('auth_id', $user->id);
 				session()->flash('notification-status','success');
