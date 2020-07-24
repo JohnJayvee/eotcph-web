@@ -52,7 +52,7 @@ class AuthController extends Controller{
 			if(Auth::attempt([$field => $username,'password' => $password])){
 				session()->put('auth_id', Auth::user()->id);
 				session()->flash('notification-status','success');
-				session()->flash('notification-msg',"Welcome to EOTC Portal, {$user->name}!");
+				session()->flash('notification-msg',"Welcome to EOTC Portal, {Auth::user()->name}!");
 				Auth::user()->save();
 				if($redirect_uri AND session()->has($redirect_uri)){
 					return redirect( session()->get($redirect_uri) );
