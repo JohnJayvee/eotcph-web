@@ -194,7 +194,7 @@
                         </div>
                         
                     </div>
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-md-6 col-lg-6">
                             <label class="text-form pb-2">Application Requirements</label>
                             <div class="form-group">
@@ -213,8 +213,8 @@
                                     
                             </div>
                         </div>
-                    </div>
-                     <button type="submit" class="btn secondary-solid-btn px-4 py-3 fs-14 mb-3"><i class="fa fa-paper-plane pr-2"></i>Create Account</button>
+                    </div> -->
+                     <button type="submit" class="btn secondary-solid-btn px-3 py-3 fs-14 "><i class="fa fa-paper-plane pr-2"></i>Create Account</button>
                 </div>
             </form>
         </div>

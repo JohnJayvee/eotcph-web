@@ -39,7 +39,7 @@ class AuthController extends Controller{
 			$this->data['page_title'] = " :: Login";
 			$username = $request->get('email');
 			$password = $request->get('password');
-			
+
 			$field = filter_var($username, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';	
 
 			// $user = User::where($field,$username)->first();
@@ -48,8 +48,9 @@ class AuthController extends Controller{
 			// 	session()->flash('notification-msg', "Invalid username/password");
 			// 	return redirect()->back();
 			// }
+
 			if(Auth::attempt([$field => $username,'password' => $password])){
-				session()->put('auth_id', $user->id);
+				session()->put('auth_id', Auth::user()->id);
 				session()->flash('notification-status','success');
 				session()->flash('notification-msg',"Welcome to EOTC Portal, {$user->name}!");
 				Auth::user()->save();

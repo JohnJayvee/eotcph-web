@@ -24,7 +24,7 @@ class AdminRequest extends RequestManager{
 			'contact_number' => "required|max:10|phone:PH",
 			'email'	=> "required|unique:user,email,{$id}",
 			'password'	=> "required|confirmed",
-			'file' =>"required",
+			
 		];
 		
 		return $rules;
@@ -34,7 +34,7 @@ class AdminRequest extends RequestManager{
 		return [
 			'required'	=> "Field is required.",
 			'contact_number.phone' => "Please provide a valid PH mobile number.",
-			'file.required'	=> "No File Uploaded.",
+			
 		];
 	}
 }
