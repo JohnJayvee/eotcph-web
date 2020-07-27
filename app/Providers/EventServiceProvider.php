@@ -15,12 +15,16 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        Registered::class => [
-            SendEmailVerificationNotification::class,
-        ],
-        \SocialiteProviders\Manager\SocialiteWasCalled::class => [
-            // add your listeners (aka providers) here
-            'SocialiteProviders\\Graph\\GraphExtendSocialite@handle',
+        // Registered::class => [
+        //     SendEmailVerificationNotification::class,
+        // ],
+        // \SocialiteProviders\Manager\SocialiteWasCalled::class => [
+        //     // add your listeners (aka providers) here
+        //     'SocialiteProviders\\Graph\\GraphExtendSocialite@handle',
+        // ],
+
+        'send-sms' => [
+            'App\Laravel\Listeners\SendReferenceListener'
         ],
     ];
 

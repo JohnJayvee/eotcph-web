@@ -39,6 +39,7 @@
         <thead>
           <tr>
             <th width="25%" class="text-title fs-15 fs-500 p-3">Application Name</th>
+            <th width="25%" class="text-title fs-15 fs-500 p-3">Payment Fee</th>
             <th width="25%" class="text-title fs-15 fs-500 p-3">Department</th>
             <th width="25%" class="text-title fs-15 fs-500 p-3">Created At</th>
             <th width="10%" class="text-title fs-15 fs-500 p-3">Action</th>
@@ -48,6 +49,7 @@
           @forelse($application_types as $application_type)
           <tr>
             <th>{{ $application_type->name}}</th>
+            <th>PHP {{ Helper::money_format($application_type->payment_fee)}}</th>
             <th>{{ $application_type->department->name}}</th>
             <th>{{ Helper::date_format($application_type->created_at)}}</th>
             <td >

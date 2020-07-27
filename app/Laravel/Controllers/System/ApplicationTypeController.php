@@ -44,6 +44,7 @@ class ApplicationTypeController extends Controller
 			$new_application_type = new ApplicationType;
 			$new_application_type->department_id = $request->get('department_id');
 			$new_application_type->name = $request->get('name');
+			$new_application_type->payment_fee = $request->get('payment_fee');
 			$new_application_type->save();
 			DB::commit();
 			session()->flash('notification-status', "success");
@@ -70,6 +71,8 @@ class ApplicationTypeController extends Controller
 			$application_type = $request->get('application_type_data');
 			$application_type->name = $request->get('name');
 			$application_type->department_id = $request->get('department_id');
+			$application_type->payment_fee = $request->get('payment_fee');
+			
 			$application_type->save();
 
 			DB::commit();

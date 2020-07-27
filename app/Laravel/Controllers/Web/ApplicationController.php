@@ -15,7 +15,9 @@ use App\Laravel\Models\Department;
 
 /* App Classes
  */
-use Carbon,Auth,DB,Str,ImageUploader;
+use App\Laravel\Events\SendReference;
+
+use Carbon,Auth,DB,Str,ImageUploader,Event;
 
 class ApplicationController extends Controller
 {
@@ -40,8 +42,8 @@ class ApplicationController extends Controller
 
 	public function store(ApplicationRequest $request){
 
-		DB::beginTransaction();
-		try{
+		
+		
 			
 			$new_application = new Application;
 			$new_application->fill($request->except('full_name'));
@@ -58,17 +60,20 @@ class ApplicationController extends Controller
 			    $new_application->directory = $image['directory'];
 			    $new_application->filename = $image['filename'];
 			}
-			$new_application->save();
-			DB::commit();
-			session()->flash('notification-status', "success");
-			session()->flash('notification-msg','Successfully Submit Appliction.');
-			return redirect()->route('web.application.create');
-		}catch(\Exception $e){
-			DB::rollback();
-			session()->flash('notification-status', "failed");
-			session()->flash('notification-msg', "Server Error: Code #{$e->getLine()}");
-			return redirect()->back();
-		}
+			if ($new_application->save()) {
+				$insert[] = [
+		                'contact_number' => $new_application->contact_number,
+		                'ref_num' => $new_application->reference_code
+		            ];	
+				$notification_data = new SendReference($insert);
+			    Event::dispatch('send-sms', $notification_data);
+
+				session()->flash('notification-status', "success");
+				session()->flash('notification-msg','Successfully Submit Appliction.');
+				return redirect()->route('web.application.create');
+			}
+			
+		
 	}
 
 }

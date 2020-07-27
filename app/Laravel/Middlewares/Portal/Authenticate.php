@@ -45,13 +45,12 @@ class Authenticate {
             return redirect()->route('web.login', [$redirect_key]);
         }
 
-      //   if ($this->auth->check() AND $this->auth->user()->allowed_portal != "yes"){
-    		// $this->auth->logout();
-
-    		// session()->flash('notification-status', "error");
-    		// session()->flash('notification-msg', "Restricted area. Unauthorized access.");
-    		// return redirect()->route('frontend.login');
-      //   }
+        if (Auth::check() AND Auth::user()->active != 1){
+    		Auth::logout();
+    		session()->flash('notification-status', "error");
+    		session()->flash('notification-msg', "Please Make sure your account is verified.");
+    		return redirect()->route('web.login');
+        }
 
         return $next($request);
     }

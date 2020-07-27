@@ -29,6 +29,13 @@
           @endif
         </div>
         <div class="form-group">
+          <label for="input_title">Payment Fee</label>
+          <input type="text" class="form-control {{$errors->first('payment_fee') ? 'is-invalid' : NULL}}" id="input_title" name="payment_fee" placeholder="Payment Fee" value="{{old('payment_fee')}}">
+          @if($errors->first('payment_fee'))
+          <p class="mt-1 text-danger">{!!$errors->first('payment_fee')!!}</p>
+          @endif
+        </div>
+        <div class="form-group">
           <label for="input_suffix">Department/Agency</label>
           {!!Form::select("department_id", $department, old('department_id'), ['id' => "input_department_id", 'class' => "form-control mb-2 mr-sm-2 ".($errors->first('department_id') ? 'is-invalid' : NULL)])!!}
           @if($errors->first('department_id'))

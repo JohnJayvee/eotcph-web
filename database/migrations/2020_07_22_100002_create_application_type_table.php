@@ -17,6 +17,7 @@ class CreateApplicationTypeTable extends Migration
             $table->bigIncrements('id');
             $table->string('department_id')->nullable();
             $table->string('name')->nullable();
+            $table->string('payment_fee')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

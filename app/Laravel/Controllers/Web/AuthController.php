@@ -18,7 +18,9 @@ use App\Laravel\Requests\Web\RegisterRequest;
 use App\Laravel\Models\{Attendance,Employee,EmployeeLeaveCredit};
 use App\Laravel\Models\User;
 
-use Carbon,Auth,DB,Str,ImageUploader;
+use App\Laravel\Listeners\SendCode;
+
+use Carbon,Auth,DB,Str,ImageUploader,Event;
 
 class AuthController extends Controller{
 
@@ -74,26 +76,51 @@ class AuthController extends Controller{
 		return view('web.auth.registration',$this->data);
 	}
 	public function store(RegisterRequest $request){
-		
 		DB::beginTransaction();
 		try{
 			$new_user = new User;
 			$new_user->fill($request->except('_token'));
 			$new_user->type = "user";
 			$new_user->password = bcrypt($request->get('password'));
+			$new_user->code = SendCode::sendCode($request->get('contact_number'));
 			$new_user->save();
 			DB::commit();
+			
 			session()->flash('notification-status', "success");
-			session()->flash('notification-msg','Successfully registered.');
-			return redirect()->route('web.login');
+			session()->flash('notification-msg','Verify your phone number.');
+			return redirect()->route('web.verify',[$new_user->id]);
+			
 		}catch(\Exception $e){
 			DB::rollback();
 			session()->flash('notification-status', "failed");
 			session()->flash('notification-msg', "Server Error: Code #{$e->getLine()}");
 			return redirect()->back();
 		}
+			
+	}
+	public function verify(){
+		$this->data['page_title'] = " :: Verify Account";
+		return view('web.auth.verify',$this->data);
+
 	}
 
+	public function verified($id = NULL , PageRequest $request){
+		
+		$verified_user = User::where('id',$id)->where('code',$request->get('code'))->first();
+
+		if ($verified_user) {
+			User::where('id',$id)->update(['active' => "1"]);
+			session()->flash('notification-status', "success");
+			session()->flash('notification-msg','Your Account has been Successfully verified.');
+			return redirect()->route('web.login');
+		}
+		else{
+			Session()->flash('notification-status', "failed");
+			session()->flash('notification-msg', "Verification Failed");
+			return redirect()->back();
+		}
+
+	}
 	public function destroy(){
 		Auth::logout();
 		session()->forget('auth_id');

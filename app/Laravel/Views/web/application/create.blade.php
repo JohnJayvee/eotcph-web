@@ -67,7 +67,7 @@
                                   <div class="input-group-prepend">
                                     <span class="input-group-text text-title fw-600">PHP <span class="pr-1 pl-2" style="padding-bottom: 2px"> |</span></span>
                                   </div>
-                                  <input type="number" class="form-control br-left-white br-right-white {{ $errors->first('amount') ? 'is-invalid': NULL  }}" placeholder="Payment Amount" name="amount" value="{{old('amount')}}">
+                                  <input type="number" class="form-control br-left-white br-right-white {{ $errors->first('amount') ? 'is-invalid': NULL  }}" placeholder="Payment Amount" name="amount" id="input_amount" value="{{old('amount')}}" readonly>
                                   <div class="input-group-append">
                                     <span class="input-group-text text-title fw-600">| <span class="text-gray pl-2 pr-2 pt-1"> .00</span></span>
                                   </div>
@@ -160,7 +160,6 @@
       $('#lblName').text(fileName);
     });
 
-
     $.fn.get_application_type = function(department_id,input_purpose,selected){
         $(input_purpose).empty().prop('disabled',true)
         $(input_purpose).append($('<option>', {
@@ -191,12 +190,37 @@
         // return result;
     };
 
+    // $.fn.get_payment_fee = function(type_id,input_amount,selected){
+    //     $(input_amount).empty()
+        
+    //     $.getJSON( "{{route('web.get_payment_fee')}}?type_id="+type_id, function( result ) {
+    //         $(input_amount).empty()
+    //         $.each(result.data,function(value){
+    //           // console.log(index+value)
+    //           $(input_amount).val(value);
+    //         })
+
+    //         if(selected.length > 0){
+    //            $(input_amount).val("Dass");
+
+    //         }else{
+    //            $(input_amount).empty()
+    //         }
+    //     });
+    //     // return result;
+    // };
 
     $("#input_department_id").on("change",function(){
       var department_id = $(this).val()
       $(this).get_application_type(department_id,"#input_purpose","")
       
     })
+
+    $('#input_purpose').change(function() {
+        $.getJSON('/amount?type_id='+this.value, function(result){
+            $('#input_amount').val(result.data);
+        });
+    });
 
     @if(old('purpose'))
         $(this).get_application_type("{{old('department_id')}}","#input_purpose","{{old('purpose')}}")

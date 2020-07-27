@@ -34,6 +34,8 @@ class CreateUsersTable extends Migration
             $table->string('username')->nullable();
             $table->string('contact_number')->nullable();
             $table->string('password')->nullable();
+            $table->string('code')->nullable();
+            $table->string('active')->default(0)->nullable();
             $table->string('type')->default("admin")->nullable();
             $table->string('status')->default("active")->nullable();
             $table->timestamp('last_login_at')->nullable();

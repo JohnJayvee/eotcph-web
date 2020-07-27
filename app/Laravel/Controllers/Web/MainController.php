@@ -50,4 +50,14 @@ class MainController extends Controller{
 		return response()->json($response, 200);
 	}
 
+	public function get_payment_fee(PageRequest $request){
+		$id = $request->get('type_id');
+		$payment_amount = ApplicationType::find($id);
+		$response['msg'] = "List of ApplicationType";
+		$response['status_code'] = "TYPE_LIST";
+		$response['data'] = $payment_amount->payment_fee;
+		callback:
+		return response()->json($response, 200);
+	}
+
 }

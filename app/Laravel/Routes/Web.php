@@ -11,12 +11,16 @@ Route::group(['as' => "web.",
 		Route::get('/', [ 'as' => "index",'uses' => "MainController@index"]);
 	});
 	Route::get('type',['as' => "get_application_type",'uses' => "MainController@get_application_type"]);
+	Route::get('amount',['as' => "get_payment_fee",'uses' => "MainController@get_payment_fee"]);
 	Route::get('contact-us',['as' => "contact",'uses' => "MainController@contact"]);
 	Route::any('logout',['as' => "logout",'uses' => "AuthController@destroy"]);
 
 	Route::group(['middleware' => ["web","portal.guest"]], function(){
 		Route::get('login/{redirect_uri?}',['as' => "login",'uses' => "AuthController@login"]);
         Route::post('login/{redirect_uri?}',['uses' => "AuthController@authenticate"]);
+		Route::get('verify/{id?}',['as' => "verify",'uses' => "AuthController@verify"]);
+        Route::post('verify/{id?}',['uses' => "AuthController@verified"]);
+
     /*  Route::get('forgot-password',['as' => "forgot_password",'uses' => "AuthController@forgot_pass"]);
         Route::post('change-password',['as' => "change_password",'uses' => "AuthController@change_password"]);*/
 		Route::group(['prefix'=> "register",'as' => 'register.' ],function(){
