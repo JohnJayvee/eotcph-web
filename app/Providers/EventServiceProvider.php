@@ -26,6 +26,9 @@ class EventServiceProvider extends ServiceProvider
         'send-sms' => [
             'App\Laravel\Listeners\SendReferenceListener'
         ],
+        'send-application' => [
+            'App\Laravel\Listeners\SendApplicationListener'
+        ],
     ];
 
     /**

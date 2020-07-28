@@ -18,7 +18,7 @@
                 <ul class="navbar-nav ml-auto menu">
                     
                     <li>
-                        <a href="#" class=""><img src="{{asset('placeholder/user.png')}}" alt="logo" class="img-fluid profile-image"/> Welcome , {{Auth::user()->fname}}</a>
+                        <a href="#" class=""><img src="{{asset('placeholder/user.png')}}" alt="logo" class="img-fluid profile-image"/> Welcome , {{Str::title(Auth::user()->fname)}}</a>
                         <ul class="sub-menu">
                             <li><a href="index.html">Edit Profile</a></li>
                             <li><a href="index.html">Change Password</a></li>

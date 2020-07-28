@@ -16,6 +16,7 @@ class ApplicationRequest extends RequestManager{
 			'amount' => "required",
 			'contact_number' => "required|max:10|phone:PH",
 			'email'	=> "required",
+            'file.*' => "required|file|mimes:pdf,jpeg,jpg,png,PNG,JPG,JPEG,docx,doc|max:204800",
 		];
 
 		
@@ -27,6 +28,7 @@ class ApplicationRequest extends RequestManager{
 			'required'	=> "Field is required.",
 			'contact_number.phone' => "Please provide a valid PH mobile number.",
 			'file.required'	=> "No File Uploaded.",
+			'mimes' => "Invalid attachment. Only allow PDF and image file format only.",
 
 		];
 	}

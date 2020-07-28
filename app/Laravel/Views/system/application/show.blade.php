@@ -36,17 +36,42 @@
           </div>
           <div class="col-md-6">
             <p class="text-title fw-500">Deparatment/Agency: <span class="text-black">{{$application->department->name}}</span></p>
-            <p class="text-title fw-500">Contact Number: <span class="text-black">+631{{$application->contact_number}}</span></p>
+            <p class="text-title fw-500">Contact Number: <span class="text-black">+63{{$application->contact_number}}</span></p>
           </div>  
          
         </div> 
         <p class="fw-500" style="color: #DC3C3B;">Amount: Php {{Helper::money_format($application->amount)}}</p>
       </div>
       <div class="card-body d-flex">
-        <p class="btn btn-transparent  p-3"><i class="fa fa-download" style="font-size: 1.5rem;"></i></p>
-        <p class="text-title pt-4 pl-3 fw-500">Review Attached Requirements : 3 Items</p>
+        <button class="btn btn-transparent p-3" data-toggle="collapse" data-target="#collapseExample"><i class="fa fa-download" style="font-size: 1.5rem;"></i></button>
+        <p class="text-title pt-4 pl-3 fw-500">Review Attached Requirements : {{$count_file}} Item/s</p>
       </div>
     </div>
+    <div class="collapse pt-2" id="collapseExample">
+      <div class="card card-body card-rounded">
+        <div class="row justify-content-center">
+          @forelse($attachments as $index => $attachment)
+          <div class="col-md-3">
+            <div class="card card-rounded h-100">
+                <div class="card-body text-center">
+                    <code style="color: black;">Attachments # {{$index + 1}}</code>
+                    <p><i class="fa {{$attachment->type == "file" ? "fa-file-pdf" : "fa-image"}} fa-5x mt-2"></i></p>
+                    <p class="card-title">{{$attachment->original_name}}</p>
+                    @if($attachment->type == "file")
+                      <a href="{{$attachment->directory}}/{{$attachment->filename}}" target="_blank" class="btn btn-primary btn-sm"><i class="fa fa-eye"></i></a>
+                    @else
+                      <a href="#checkImage" data-toggle="modal" data-myimage="{{$attachment->directory}}/{{$attachment->filename}}" class="btn btn-primary btn-sm"><i class="fa fa-eye"></i></a>
+                    @endif
+                </div>
+            </div>
+          </div>
+          @empty
+            <h5>No Items available.</h5>
+          @endforelse
+        </div>
+      </div>
+    </div>  
+
     <a  data-url="{{route('system.application.process',[$application->id])}}?status_type=approved" data-toggle="modal" data-target="#confirm-process" class="btn btn-primary mt-4 border-5 text-white action-process"><i class="fa fa-check-circle"></i> Approved Application</a>
     <a  data-url="{{route('system.application.process',[$application->id])}}?status_type=declined" data-toggle="modal" data-target="#confirm-process" class="btn btn-danger mt-4 border-5 text-white action-process"><i class="fa fa-times-circle"></i> Declined Application</a>
   </div>
@@ -79,6 +104,18 @@
     </div>
   </div>
 </div>
+
+
+<div class="modal fade" id="checkImage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">              
+      <div class="modal-body">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button> 
+        <img src="" class="imagepreview" alt="bank_chalan" id="thanks" style="width: 100%;" >
+      </div>
+    </div>
+  </div>
+</div>
 @stop
 
 @section('page-styles')
@@ -101,6 +138,11 @@
       $("#btn-confirm-process").attr({"href" : btn.data('url')});
     });
 
+    $('#checkImage').on('show.bs.modal', function (e) {
+      var img = $(e.relatedTarget).data('myimage');
+      //alert(img);
+      $("#thanks").attr("src", img);
+    });  
   })
 </script>
 @stop

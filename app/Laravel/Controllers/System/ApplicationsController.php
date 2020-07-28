@@ -11,6 +11,8 @@ use App\Laravel\Requests\PageRequest;
  * Models
  */
 use App\Laravel\Models\Application;
+use App\Laravel\Models\UserFile;
+
 /* App Classes
  */
 use Carbon,Auth,DB,Str,ImageUploader;
@@ -33,7 +35,8 @@ class ApplicationsController extends Controller{
 		return view('system.application.index',$this->data);
 	}
 	public function show(PageRequest $request,$id = NULL){
-		
+		$this->data['count_file'] = UserFile::where('application_id',$id)->count();
+		$this->data['attachments'] = UserFile::where('application_id',$id)->get();
 		$this->data['application'] = $request->get('application_data');
 		$this->data['page_title'] = "Application Details";
 		return view('system.application.show',$this->data);
@@ -42,7 +45,6 @@ class ApplicationsController extends Controller{
 	public function process($id = NULL,PageRequest $request){
 		DB::beginTransaction();
 		try{
-
 			$application = $request->get('application_data');
 			$application->status = $request->get('status_type');
 			$application->save();

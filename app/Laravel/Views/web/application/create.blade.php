@@ -11,6 +11,7 @@
          <h5 class="text-title pb-3"><i class="fa fa-file"></i> E<span class="text-title-two"> SUBMISSION</span></h5>
           @include('web._components.notifications')
         <div class="card">
+         
             <form method="POST" action="" enctype="multipart/form-data">
             {!!csrf_field()!!}
            
@@ -62,7 +63,7 @@
                     <div class="row">
                         <div class="col-md-6 col-lg-6">
                             <div class="form-group">
-                                <label for="exampleInputEmail1" class="text-form pb-2">Amount to pay</label>
+                                <label for="exampleInputEmail1" class="text-form pb-2">Processing Fee</label>
                                 <div class="input-group mb-3">
                                   <div class="input-group-prepend">
                                     <span class="input-group-text text-title fw-600">PHP <span class="pr-1 pl-2" style="padding-bottom: 2px"> |</span></span>
@@ -105,7 +106,7 @@
                     </div>
                     <h5 class="text-title text-uppercase pt-3">Upload Requirements</h5>
                     <div class="row">
-                        <div class="col-md-6 col-lg-6">
+                        <div class="col-md-12 col-lg-12">
                             <label class="text-form pb-2">Application Requirements</label>
                             <div class="form-group">
                                 <div class="upload-btn-wrapper">
@@ -113,10 +114,10 @@
                                         <i class="fa fa-upload fa-4x" ></i>
                                         <span class="pt-1">Upload Here</span>
                                     </button>
-                                    <input type="file" name="file" class="form-control" id="file">
+                                    <input type="file" name="file[]" class="form-control" id="file" multiple>
                                 </div>
                                 @if($errors->first('file'))
-                                    <label style="vertical-align: top;padding-top: 40px;color: red;" class="fw-500 pl-3">{{$errors->first('file')}}</label>
+                                    <label id="lblName" style="vertical-align: top;padding-top: 40px;color: red;" class="fw-500 pl-3">{{$errors->first('file')}}</label>
                                 @else
                                     <label id="lblName" style="vertical-align: top;padding-top: 40px;" class="fw-500 pl-3"></label>
                                 @endif
@@ -156,9 +157,15 @@
     }(document, 'script', 'gwt-footer-jsdk'));
 
     $('#file').change(function(e){
-      var fileName = e.target.files[0].name;
-      $('#lblName').text(fileName);
+        $('#lblName').empty();
+        $('#lblName').css("color", "black");
+       var files = [];
+        for (var i = 0; i < $(this)[0].files.length; i++) {
+            files.push($(this)[0].files[i].name);
+        }
+        $('#lblName').text(files.join(', '));
     });
+
 
     $.fn.get_application_type = function(department_id,input_purpose,selected){
         $(input_purpose).empty().prop('disabled',true)
@@ -189,26 +196,6 @@
         });
         // return result;
     };
-
-    // $.fn.get_payment_fee = function(type_id,input_amount,selected){
-    //     $(input_amount).empty()
-        
-    //     $.getJSON( "{{route('web.get_payment_fee')}}?type_id="+type_id, function( result ) {
-    //         $(input_amount).empty()
-    //         $.each(result.data,function(value){
-    //           // console.log(index+value)
-    //           $(input_amount).val(value);
-    //         })
-
-    //         if(selected.length > 0){
-    //            $(input_amount).val("Dass");
-
-    //         }else{
-    //            $(input_amount).empty()
-    //         }
-    //     });
-    //     // return result;
-    // };
 
     $("#input_department_id").on("change",function(){
       var department_id = $(this).val()

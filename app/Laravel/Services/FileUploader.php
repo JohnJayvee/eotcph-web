@@ -11,7 +11,7 @@ namespace App\Laravel\Services;
 *
 * Classes used for this class
 */
-use Carbon, Str, File, Image, AzureStorage, URL, Storage;
+use Carbon, Str, File, Image, AzureStorage, URL;
 
 class FileUploader {
 
@@ -26,11 +26,11 @@ class FileUploader {
 		
 		$storage = env('FILE_STORAGE', "file");
 
+
 		switch (Str::lower($storage)) {
 			case 'file':
 				// $file = $request->file("file");
-				$ext = $file->getClientOriginalExtension()?: "txt";
-				$mime_type = $file->getMimeType()?:"plain/text";
+				$ext = $file->getClientOriginalExtension();
 				$path_directory = $file_directory."/".Carbon::now()->format('Ymd');
 
 				if (!File::exists($path_directory)){
@@ -42,20 +42,17 @@ class FileUploader {
 				$file->move($path_directory, $filename); 
 
 				return [ 
-					"path" => Str::lower($file_directory), 
-					"directory" => Str::lower(URL::to($path_directory)), 
-					"filename" => Str::lower($filename),
-					"source" => Str::lower($storage),
-					"type" => $mime_type
-					
+					"path" => $file_directory, 
+					"directory" => URL::to($path_directory), 
+					"filename" => $filename
 				];
 
 			break;
 
 			case 'azure':
 				// $file = $request->file('file');
-				$ext = $file->getClientOriginalExtension()?: "txt";
-				$mime_type = $file->getMimeType()?:"plain/text";
+				$ext = $file->getClientOriginalExtension();
+				$filename = $file->getClientOriginalName();
 
 				$path_directory = "{$file_directory}/".Carbon::now()->format('Ymd');
 
@@ -64,10 +61,160 @@ class FileUploader {
 				}
 
 
-				$filename = Helper::create_filename($ext);
+				// $filename = Helper::create_filename($ext);
 				$new_image_filename = $filename;
 				$file->move($path_directory, $filename); 
 
+				// if(Image::make("{$path_directory}/{$filename}")->width() > Image::make("{$path_directory}/{$filename}")->height()){
+				// 	Image::make("{$path_directory}/{$filename}")->resize(null, 512, function ($constraint) {
+				// 	    $constraint->aspectRatio();
+				// 	})->orientate()->save("{$resized_directory}/{$filename}",95);
+				// 	Image::make("{$path_directory}/{$filename}")->resize(null, 256, function ($constraint) {
+				// 	    $constraint->aspectRatio();
+				// 	})->orientate()->save("{$thumb_directory}/{$filename}",90);
+
+				// }else{
+				// 	Image::make("{$path_directory}/{$filename}")->resize(512, null, function ($constraint) {
+				// 	    $constraint->aspectRatio();
+				// 	})->orientate()->save("{$resized_directory}/{$filename}",95);
+				// 	Image::make("{$path_directory}/{$filename}")->resize(256, null, function ($constraint) {
+				// 	    $constraint->aspectRatio();
+				// 	})->orientate()->save("{$thumb_directory}/{$filename}",90);
+				// }
+
+				$client = new AzureStorage(env('BLOB_STORAGE_URL'),env('BLOB_ACCOUNT_NAME'),env('BLOB_ACCESS_KEY'));
+				
+				$container= env('BLOB_CONTAINER');
+				$orig_container = env('BLOB_ORIG_CONTAINER');
+				$directory = env('BLOB_STORAGE_URL')."/".env('BLOB_CONTAINER');
+
+				// $new_file_directory = "{$directory}/{$path_directory}";
+				// $new_image_path = "{$path_directory}";
+
+				$new_file_directory = "{$directory}/".str_replace("uploads/", "", $path_directory); 
+				$new_image_path = str_replace("uploads/", "", $path_directory);
+				
+				$client->putBlob($orig_container, "{$new_image_path}/{$filename}", "{$path_directory}/{$filename}");
+				$client->putBlob($container, "{$new_image_path}/{$filename}", "{$path_directory}/{$filename}");
+				
+			
+				if (File::exists("{$path_directory}/{$filename}")){
+					File::delete("{$path_directory}/{$filename}");
+				}
+
+				return [ 
+					"path" => $new_image_path, 
+					"directory" => $new_file_directory, 
+					"filename" => $new_image_filename,
+				];
+			break;
+			
+			default:
+				return array();
+			break;
+		}
+	}
+
+	/**
+	*
+	*@param string $url
+	*@param string $file_directory
+	*
+	*@return array
+	*/
+	public static function copy($url = "", $file_directory = "uploads"){
+		
+		$storage = env('IMAGE_STORAGE', "file");
+		$file = Image::make($url);
+		$ext = "jpg";
+
+		$width = $file->width();
+		$height = $file->height();
+
+		switch (Str::lower($storage)) {
+			case 'file':
+				// $file = $request->file("file");
+				// $ext = $file->getClientOriginalExtension();
+				$thumbnail = ['height' => 250, 'width' => 250];
+				$path_directory = $file_directory."/".Carbon::now()->format('Ymd');
+				$resized_directory = $file_directory."/".Carbon::now()->format('Ymd')."/resized";
+				$thumb_directory = $file_directory."/".Carbon::now()->format('Ymd')."/thumbnails";
+
+				if (!File::exists($path_directory)){
+					File::makeDirectory($path_directory, $mode = 0777, true, true);
+				}
+
+				if (!File::exists($resized_directory)){
+					File::makeDirectory($resized_directory, $mode = 0777, true, true);
+				}
+
+				if (!File::exists($thumb_directory)){
+					File::makeDirectory($thumb_directory, $mode = 0777, true, true);
+				}
+
+				$filename = Helper::create_filename($ext);
+
+				// $file->move($path_directory, $filename); 
+				File::copy($url, $path_directory . "/" . $filename);
+				Image::make("{$path_directory}/{$filename}")->interlace()->save("{$resized_directory}/{$filename}",95);
+				Image::make("{$path_directory}/{$filename}")->interlace()->crop($thumbnail['width'],$thumbnail['height'])->save("{$thumb_directory}/{$filename}",95);
+
+				return [ 
+					"path" => $file_directory, 
+					"directory" => URL::to($path_directory), 
+					"filename" => $filename,
+					"width" => $width,
+					"height" => $height,
+				];
+
+			break;
+
+			case 'azure':
+				// $file = $request->file('file');
+				// $ext = $file->getClientOriginalExtension();
+				$thumbnail = ['height' => 250, 'width' => 250];
+
+				$path_directory = "{$file_directory}/".Carbon::now()->format('Ymd');
+				$resized_directory = "{$file_directory}/".Carbon::now()->format('Ymd')."/resized";
+				$thumb_directory = "{$file_directory}/".Carbon::now()->format('Ymd')."/thumbnails";
+
+				if (!File::exists($path_directory)){
+					File::makeDirectory($path_directory, $mode = 0777, true, true);
+				}
+
+				if (!File::exists($resized_directory)){
+					File::makeDirectory($resized_directory, $mode = 0777, true, true);
+				}
+
+				if (!File::exists($thumb_directory)){
+					File::makeDirectory($thumb_directory, $mode = 0777, true, true);
+				}
+
+				$filename = Helper::create_filename($ext);
+				$new_image_filename = $filename;
+
+				// $file->move($path_directory, $filename); 
+				File::copy($url, $path_directory . "/" . $filename);
+
+				// if(Image::make("{$path_directory}/{$filename}")->width() > Image::make("{$path_directory}/{$filename}")->height()){
+				// 	Image::make("{$path_directory}/{$filename}")->resize(null, 512, function ($constraint) {
+				// 	    $constraint->aspectRatio();
+				// 	})->orientate()->save("{$resized_directory}/{$filename}",95);
+				// 	Image::make("{$path_directory}/{$filename}")->resize(null, 256, function ($constraint) {
+				// 	    $constraint->aspectRatio();
+				// 	})->orientate()->save("{$thumb_directory}/{$filename}",90);
+
+				// }else{
+				// 	Image::make("{$path_directory}/{$filename}")->resize(512, null, function ($constraint) {
+				// 	    $constraint->aspectRatio();
+				// 	})->orientate()->save("{$resized_directory}/{$filename}",95);
+				// 	Image::make("{$path_directory}/{$filename}")->resize(256, null, function ($constraint) {
+				// 	    $constraint->aspectRatio();
+				// 	})->orientate()->save("{$thumb_directory}/{$filename}",90);
+				// }
+
+				Image::make("{$path_directory}/{$filename}")->interlace()->save("{$resized_directory}/{$filename}",95);
+				Image::make("{$path_directory}/{$filename}")->interlace()->crop($thumbnail['width'],$thumbnail['height'])->save("{$thumb_directory}/{$filename}",95);
 				
 				$client = new AzureStorage(env('BLOB_STORAGE_URL'),env('BLOB_ACCOUNT_NAME'),env('BLOB_ACCESS_KEY'));
 				
@@ -75,57 +222,32 @@ class FileUploader {
 				$orig_container = env('BLOB_ORIG_CONTAINER');
 				$directory = env('BLOB_STORAGE_URL')."/".env('BLOB_CONTAINER');
 
+				// $new_file_directory = "{$directory}/{$path_directory}";
+				// $new_image_path = "{$path_directory}";
+
 				$new_file_directory = "{$directory}/".str_replace("uploads/", "", $path_directory); 
 				$new_image_path = str_replace("uploads/", "", $path_directory);
 				
-				// $client->putBlob($orig_container, "{$new_image_path}/{$filename}", "{$path_directory}/{$filename}",[],null,['x-ms-blob-content-type'     => $mime_type]);
-				$client->putBlob($container, "{$new_image_path}/{$filename}", "{$path_directory}/{$filename}",[],null,['x-ms-blob-content-type'     => $mime_type]);
-				
+				$client->putBlob($orig_container, "{$new_image_path}/{$filename}", "{$path_directory}/{$filename}");
+				$client->putBlob($container, "{$new_image_path}/thumbnails/{$filename}", "{$path_directory}/thumbnails/{$filename}");
+				$client->putBlob($container, "{$new_image_path}/resized/{$filename}", "{$path_directory}/resized/{$filename}");
 			
 				if (File::exists("{$path_directory}/{$filename}")){
 					File::delete("{$path_directory}/{$filename}");
 				}
-
-				return [ 
-					"path" => Str::lower($new_image_path), 
-					"directory" => Str::lower($new_file_directory), 
-					"filename" => Str::lower($new_image_filename),
-					"source" => Str::lower($storage),
-					"type" => $mime_type
-
-				];
-			break;
-
-			case 'aws':
-				$ext = $file->getClientOriginalExtension()?: "txt";
-				$mime_type = $file->getMimeType()?:"plain/text";
-			
-				$path_directory = "{$file_directory}/".Carbon::now()->format('Ymd');
-
-				if (!File::exists(public_path($path_directory))){
-					File::makeDirectory(public_path($path_directory), $mode = 0777, true, true);
+				if (File::exists("{$path_directory}/thumbnails/{$filename}")){
+					File::delete("{$path_directory}/thumbnails/{$filename}");
 				}
-
-				$filename = Helper::create_filename($ext);
-				$new_image_filename = $filename;
-				$file->move($path_directory, $filename); 
-
-				$new_image_directory = str_replace("uploads/", "", $path_directory); 
-				$new_image_path = str_replace("uploads/", "", $path_directory);
-				$directory = env('AWS_CONTAINER')."/".$new_image_path;
-				
-				Storage::disk('s3')->put("{$new_image_path}/{$filename}",file_get_contents("{$path_directory}/{$filename}"),'public');
-
-				if (File::exists("{$path_directory}/{$filename}")){
-					File::delete("{$path_directory}/{$filename}");
+				if (File::exists("{$path_directory}/resized/{$filename}")){
+					File::delete("{$path_directory}/resized/{$filename}");
 				}
 
 				return [ 
-					"path" => Str::lower($new_image_path), 
-					"directory" => Str::lower($directory), 
-					"filename" => Str::lower($new_image_filename),
-					"source" => Str::lower($storage),
-					"type" => $mime_type
+					"path" => $new_image_path, 
+					"directory" => $new_file_directory, 
+					"filename" => $new_image_filename,
+					"width" => $width,
+					"height" => $height,
 				];
 
 			break;
