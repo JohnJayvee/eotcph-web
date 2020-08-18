@@ -510,7 +510,10 @@ class Helper{
 	*/
 	public static function money_format($amount){
 		$amount = str_replace(",", "", $amount);
-		return number_format($amount,2,'.',',');
+		if ($amount) {
+			return number_format($amount,2,'.',',');
+		}
+		 return NULL;
 	}
 
 	/**
