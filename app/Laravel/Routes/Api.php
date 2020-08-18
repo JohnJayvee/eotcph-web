@@ -111,6 +111,10 @@ Route::group(['as' => "api.",
 			
 		});
 	});
-		
+	//Route for Api transaction
+	Route::group(['prefix' => "transaction",'as' => 'transaction.'],function(){
+		Route::post('store.{format}',['as' => 'store', 'uses' => "TransactionController@store"]);
+		Route::post('inquire.{format}',['as' => 'show', 'uses' => "TransactionController@show"]);
+	});
 
 });
