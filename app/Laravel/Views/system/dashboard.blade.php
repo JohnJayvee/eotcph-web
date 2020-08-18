@@ -64,40 +64,7 @@
 			</div>
 		</div>
 	</div>
-	<!-- <div class="row pt-2">
-		<div class="col-md-12">
-			<div class="table-responsive shadow-sm fs-15">
-				<table class="table table-striped">
-					<thead>
-					    <tr>
-					      <th width="25%" class="text-title fs-15 fs-500 p-3">Applicant Name</th>
-					      <th width="25%" class="text-title fs-15 fs-500 p-3">Company Name</th>
-					      <th width="25%" class="text-title fs-15 fs-500 p-3">Purpose</th>
-					      <th width="15%" class="text-title fs-15 fs-500 p-3">Status</th>
-					      <th width="10%" class="text-title fs-15 fs-500 p-3">Action</th>
-					    </tr>
-					</thead>
-					<tbody>
-						@forelse($applications as $application)
-							<th>{{$application->name}}</th>
-							<th>{{$application->company_name}}</th>
-							<th>{{$application->type->name}}</th>
-							<td><p class="btn text-white" style="background-color: #EF9E06">{{Str::title($application->status)}}</p></td>
-							<td >
-								<button type="button" class="btn btn-sm p-0" data-toggle="dropdown" style="background-color: transparent;"> <i class="mdi mdi-dots-horizontal" style="font-size: 30px"></i></button>
-			                    <div class="dropdown-menu" aria-labelledby="dropdownMenuSplitButton2">
-			                      <a class="dropdown-item" href="{{route('system.application.show',[$application->id])}}">View Application</a>
-			                      <a class="dropdown-item action-delete"  data-url="{{route('system.application.destroy',[$application->id])}}" data-toggle="modal" data-target="#confirm-delete">Remove Record</a>
-			                    </div>
-			                </td>
-						@empty
 	
-						@endforelse
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</div> -->
 </div>
 @stop 
 
