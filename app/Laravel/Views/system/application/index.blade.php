@@ -58,7 +58,7 @@
           <tr>
             <th>{{ $application->name}}</th>
             <th>{{ $application->company_name}}</th>
-            <th>{{ $application->type->name}}</th>
+            <th>{{ $application->type ? $application->type->name : "N/A"}}</th>
             <td><p class="btn text-white {{Helper::status_color($application->status)}}">{{Str::title($application->status)}}</p></td>
             <td >
               <button type="button" class="btn btn-sm p-0" data-toggle="dropdown" style="background-color: transparent;"> <i class="mdi mdi-dots-horizontal" style="font-size: 30px"></i></button>
