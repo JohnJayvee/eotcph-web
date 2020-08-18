@@ -50,7 +50,7 @@
           <tr>
             <th>{{ $application_type->name}}</th>
             <th>PHP {{ Helper::money_format($application_type->payment_fee)}}</th>
-            <th>{{ $application_type->department->name}}</th>
+            <th>{{ $application_type->department ? $application_type->department->name : "N/A"}}</th>
             <th>{{ Helper::date_format($application_type->created_at)}}</th>
             <td >
               <button type="button" class="btn btn-sm p-0" data-toggle="dropdown" style="background-color: transparent;"> <i class="mdi mdi-dots-horizontal" style="font-size: 30px"></i></button>
