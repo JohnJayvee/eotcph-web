@@ -25,6 +25,7 @@
   </div>
   @yield('page-modals')
   @include('system._components.scripts')
+  
 </body>
 
 </html>

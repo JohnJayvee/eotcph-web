@@ -109,8 +109,8 @@ class AuthController extends Controller{
 			$new_admin->fill($request->except('_token'));
 			$new_admin->type = "admin";
 			$new_admin->region = $request->get('region');
-			$new_admin->city = $request->get('city');
-			$new_admin->barangay = $request->get('barangay');
+			$new_admin->city = $request->get('town');
+			$new_admin->barangay = $request->get('brgy');
 			$new_admin->street_name = $request->get('street_name');
 			$new_admin->unit_number = $request->get('unit_number');
 			$new_admin->zipcode = $request->get('zipcode');

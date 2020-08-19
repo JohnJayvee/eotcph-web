@@ -51,7 +51,13 @@
 
 
 @stop
-
+@section('page-styles')
+<style type="text/css">
+    .input-transparent{
+        color:#fff;
+    }
+</style>
+@endsection
 @section('page-scripts')
 <script type="text/javascript">
     (function(d, s, id) {

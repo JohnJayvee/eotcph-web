@@ -5,6 +5,7 @@
 {{-- <script src="{{asset('system/js/settings.js')}}"></script> --}}
 <script src="{{asset('system/js/todolist.js')}}"></script>
 <script type="text/javascript">
+
 	$(function () {
 		$("form").on('submit',function(){
 		  $(this).find('button').addClass("disabled").text("Processing...");
@@ -31,8 +32,6 @@
 	    //     radioClass: 'iradio_square-blue',
 	    //     increaseArea: '20%'
 	    // });
-
-
 	});
 
 	function date_only(id){
@@ -99,6 +98,7 @@
 	    return true;
 	}
 
+	
 	
 </script>
 @yield('page-scripts')

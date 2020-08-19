@@ -87,11 +87,14 @@
                             </div>
                         </div>
                     </div>
+                    <input type="hidden" class="form-control" name="region_name" id="input_region_name" value="{{old('region_name')}}">
+                    <input type="hidden" class="form-control" name="town_name" id="input_town_name" value="{{old('town_name')}}">
+                    <input type="hidden" class="form-control" name="brgy_name" id="input_brgy_name" value="{{old('brgy_name')}}">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="text-form pb-2">Region</label>
-                                {!!Form::select("region", $regions, old('region'), ['id' => "input_region", 'class' => "form-control form-control-sm classic ".($errors->first('region') ? 'border-red' : NULL)])!!}
+                                {!!Form::select('region',[],old('region'),['id' => "input_region",'class' => "form-control form-control-sm classic ".($errors->first('region') ? 'border-red' : NULL)])!!}
                                 @if($errors->first('region'))
                                     <small class="form-text pl-1" style="color:red;">{{$errors->first('region')}}</small>
                                 @endif
@@ -100,18 +103,18 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="text-form pb-2">City Municipality</label>
-                                {!!Form::select("city", $cities, old('city_code'), ['id' => "input_city", 'class' => "form-control form-control-sm classic ".($errors->first('city') ? 'border-red' : NULL)]) !!}
-                                @if($errors->first('city'))
-                                    <small class="form-text pl-1" style="color:red;">{{$errors->first('city')}}</small>
+                                {!!Form::select('town',[],old('town'),['id' => "input_town",'class' => "form-control form-control-sm classic ".($errors->first('city') ? 'border-red' : NULL)])!!}
+                                @if($errors->first('town'))
+                                    <small class="form-text pl-1" style="color:red;">{{$errors->first('town')}}</small>
                                 @endif
                             </div>
                         </div>
                         <div class="col-md-6 col-lg-6">
                             <div class="form-group">
                                 <label class="text-form pb-2">Barangay</label>
-                                <input type="text" class="form-control {{ $errors->first('barangay') ? 'is-invalid': NULL  }} form-control-sm" name="barangay" placeholder="Barangay" value="{{old('barangay')}}">
-                                @if($errors->first('barangay'))
-                                    <small class="form-text pl-1" style="color:red;">{{$errors->first('barangay')}}</small>
+                                {!!Form::select('brgy',[],old('brgy'),['id' => "input_brgy",'class' => "form-control form-control-sm classic ".($errors->first('brgy') ? 'border-red' : NULL)])!!}
+                                @if($errors->first('brgy'))
+                                    <small class="form-text pl-1" style="color:red;">{{$errors->first('brgy')}}</small>
                                 @endif
                             </div>
                         </div>
@@ -137,12 +140,13 @@
                         </div>
                     </div>
                     <div class="row">
+
                         <div class="col-md-6 col-lg-6">
                             <div class="form-group">
-                                <label class="text-form pb-2">Zipcode</label>
-                                <input type="text" class="form-control {{ $errors->first('zipcode') ? 'is-invalid': NULL  }} form-control-sm" name="zipcode" placeholder="Zipcode"value="{{old('zipcode')}}">
+                                <label for="input_zipcode" class="text-form pb-2">Zipcode</label>
+                                <input type="text" id="input_zipcode" class="form-control {{ $errors->first('zipcode') ? 'is-invalid': NULL  }}" name="zipcode" value="{{old('zipcode',session()->get('soleproprietorship.new_business.zip_code'))}}" readonly="readonly">
                                 @if($errors->first('zipcode'))
-                                    <small class="form-text pl-1" style="color:red;">{{$errors->first('zipcode')}}</small>
+                                <p class="help-block text-danger">{{$errors->first('zipcode')}}</p>
                                 @endif
                             </div>
                         </div>
@@ -256,6 +260,96 @@
       $('#lblName').text(fileName);
     });
 
+    $.fn.get_region = function(input_region,input_province,input_city,input_brgy,selected){
+    
+      $(input_city).empty().prop('disabled',true)
+      $(input_brgy).empty().prop('disabled',true)
+
+      $(input_region).append($('<option>', {
+                value: "",
+                text: "Loading Content..."
+            }));
+      $.getJSON("{{env('PSGC_REGION_URL')}}", function( response ) {
+          $(input_region).empty().prop('disabled',true)
+          $.each(response.data,function(index,value){
+            $(input_region).append($('<option>', {
+                value: index,
+                text: value
+            }));
+          })
+
+          $(input_region).prop('disabled',false)
+          $(input_region).prepend($('<option>',{value : "",text : "--Select Region--"}))
+          if(selected.length > 0){
+            $(input_region).val($(input_region+" option[value="+selected+"]").val());
+          }else{
+            $(input_region).val($(input_region+" option:first").val());
+          }
+      });
+      // return result;
+    };
+
+    $.fn.get_city = function(reg_code,input_city,input_brgy,selected){
+      $(input_brgy).empty().prop('disabled',true)
+      $(input_city).append($('<option>', {
+            value: "",
+            text: "Loading Content..."
+        }));
+      $.getJSON("{{env('PSGC_CITY_URL')}}?region_code="+reg_code, function( data ) {
+        console.log(data)
+          $(input_city).empty().prop('disabled',true)
+          $.each(data,function(index,value){
+              $(input_city).append($('<option>', {
+                  value: index,
+                  text: value
+              }));
+          })
+
+          $(input_city).prop('disabled',false)
+          $(input_city).prepend($('<option>',{value : "",text : "--SELECT MUNICIPALITY/CITY, PROVINCE--"}))
+          if(selected.length > 0){
+            $(input_city).val($(input_city+" option[value="+selected+"]").val());
+          }else{
+            $(input_city).val($(input_city+" option:first").val());
+          }
+      });
+      // return result;
+    };
+
+    $.fn.get_brgy = function(munc_code,input_brgy,selected){
+      $(input_brgy).empty().prop('disabled',true);
+      $(input_brgy).append($('<option>', {
+                value: "",
+                text: "Loading Content..."
+            }));
+      $.getJSON("{{env('PSGC_BRGY_URL')}}?city_code="+munc_code, function( data ) {
+          $(input_brgy).empty().prop('disabled',true);
+
+          $.each(data,function(index,value){
+            $(input_brgy).append($('<option>', {
+                value: index,
+                text: value.desc,
+                "data-zip_code" : (value.zip_code).trim()
+            }));
+          })
+          $(input_brgy).prop('disabled',false)
+          $(input_brgy).prepend($('<option>',{value : "",text : "--SELECT BARANGAY--"}))
+
+          if(selected.length > 0){
+            $(input_brgy).val($(input_brgy+" option[value="+selected+"]").val());
+
+            if(typeof $(input_brgy+" option[value="+selected+"]").data('zip_code')  === undefined){
+              $(input_brgy.replace("brgy","zipcode")).val("")
+            }else{
+              $(input_brgy.replace("brgy","zipcode")).val($(input_brgy+" option[value="+selected+"]").data('zip_code'))
+            }
+
+          }else{
+            $(input_brgy).val($(input_brgy+" option:first").val());
+          }
+      });
+    }
+   
     $(function(){
         $('.datepicker').datepicker({
           format : "yyyy-mm-dd",
@@ -264,32 +358,37 @@
           zIndexOffset: 9999
         });
 
-        var old_city = $('input[name=city]').val()
-        $('#input_region').on('change', function(){
-            $.ajax({
-                url : "{{route('system.auth.get_municipalities')}}",
-                dataType : "json",
-                data: {id : $(this).val()},
-                type: "GET",
-                async: false,
-                success : function(data){
-                    if(data){
-                        $('#input_city').empty()
-                        $('#input_city').append('<option value="">--Select City--</option>');
-                        $.each(data,function(i, city){
-                            if(old_city == city.citymunCode){
-                              $('#input_city').append('<option value="' + city.citymunCode +'" selected>' + city.citymunDesc +"</option>");
-                            }
-                            else{
-                              $('#input_city').append('<option value="' + city.citymunCode +'">' + city.citymunDesc +"</option>");
-                            }
-                        });
-                    }
-                },  
-                error : function(jqXHR,textStatus,thrownError){
-                }
-            });
-        }).change();
+        $(this).get_region("#input_region","#input_province","#input_town","#input_brgy","{{old('region')}}")
+
+        $("#input_region").on("change",function(){
+            var _val = $(this).val();
+            var _text = $("#input_region option:selected").text();
+            $(this).get_city($("#input_region").val(), "#input_town", "#input_brgy", "{{old('town')}}");
+            $('#input_zipcode').val('');
+            $('#input_region_name').val(_text);
+        });
+
+        $("#input_town").on("change",function(){
+            var _val = $(this).val();
+            var _text = $("#input_town option:selected").text();
+            $(this).get_brgy(_val, "#input_brgy", "");
+            $('#input_zipcode').val('');
+            $('#input_town_name').val(_text);
+        });
+
+        @if(strlen(old('region')) > 0)
+            $(this).get_city("{{old('region')}}", "#input_town", "#input_brgy", "{{old('town')}}");
+        @endif
+
+        @if(strlen(old('town')) > 0)
+            $(this).get_brgy("{{old('town')}}", "#input_brgy", "{{old('brgy', session()->get('soleproprietorship.new_business.brgy'))}}");
+        @endif
+
+        $("#input_brgy").on("change",function(){
+            $('#input_zipcode').val($(this).find(':selected').data('zip_code'))
+            var _text = $("#input_brgy option:selected").text();
+            $('#input_brgy_name').val(_text);
+        });
 
     })
 </script>

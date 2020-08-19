@@ -31,16 +31,23 @@
       <div class="card-body" style="border-bottom: 3px dashed #E3E3E3;">
         <div class="row">
           <div class="col-md-6">
-            <p class="text-title fw-500">Applying For: <span class="text-black">{{$application->type->name}}</span></p>
+            <p class="text-title fw-500">Applying For: <span class="text-black">{{$application->type ? $application->type->name : "N/A"}}</span></p>
             <p class="text-title fw-500">Email Address: <span class="text-black">{{$application->email}}</span></p>
           </div>
           <div class="col-md-6">
-            <p class="text-title fw-500">Deparatment/Agency: <span class="text-black">{{$application->department->name}}</span></p>
+            <p class="text-title fw-500">Deparatment/Agency: <span class="text-black">{{$application->department ? $application->department->name : "N/A"}}</span></p>
             <p class="text-title fw-500">Contact Number: <span class="text-black">+63{{$application->contact_number}}</span></p>
-          </div>  
-         
+          </div>
+          <div class="col-md-6">
+             <p class="fw-500" style="color: #DC3C3B;">Amount: Php {{Helper::money_format($application->amount)}}</p>
+          </div>
+          <div class="col-md-6">
+           
+            <p class="text-title fw-500">Application Status: <span class="text-black">{{Str::title($application->status)}}</span></p>
+          </div>
+
         </div> 
-        <p class="fw-500" style="color: #DC3C3B;">Amount: Php {{Helper::money_format($application->amount)}}</p>
+       
       </div>
       <div class="card-body d-flex">
         <button class="btn btn-transparent p-3" data-toggle="collapse" data-target="#collapseExample"><i class="fa fa-download" style="font-size: 1.5rem;"></i></button>
@@ -72,8 +79,8 @@
       </div>
     </div>  
 
-    <a  data-url="{{route('system.application.process',[$application->id])}}?status_type=approved" data-toggle="modal" data-target="#confirm-process" class="btn btn-primary mt-4 border-5 text-white action-process"><i class="fa fa-check-circle"></i> Approved Application</a>
-    <a  data-url="{{route('system.application.process',[$application->id])}}?status_type=declined" data-toggle="modal" data-target="#confirm-process" class="btn btn-danger mt-4 border-5 text-white action-process"><i class="fa fa-times-circle"></i> Declined Application</a>
+    <a data-url="{{route('system.application.process',[$application->id])}}?status_type=approved" data-toggle="modal" data-target="#confirm-process" class="btn btn-primary mt-4 border-5 text-white action-process {{$application->status == 'approved' ? "isDisabled" : ""}}"><i class="fa fa-check-circle"></i> Approved Application</a>
+    <a  data-url="{{route('system.application.process',[$application->id])}}?status_type=declined" data-toggle="modal" data-target="#confirm-process" class="btn btn-danger mt-4 border-5 text-white action-process {{$application->status == 'approved' ? "isDisabled" : ""}}""><i class="fa fa-times-circle"></i> Declined Application</a>
   </div>
   
 </div>
@@ -122,6 +129,14 @@
 <link rel="stylesheet" href="{{asset('system/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css')}}">
 <style type="text/css" >
   .input-daterange input{ background: #fff!important; }  
+  .isDisabled{
+    color: currentColor;
+    display: inline-block;  /* For IE11/ MS Edge bug */
+    pointer-events: none;
+    text-decoration: none;
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
 </style>
 @stop
 
