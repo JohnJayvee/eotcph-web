@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUserFileTable extends Migration
+class CreateTransactionRequirementsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,16 @@ class CreateUserFileTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_file', function (Blueprint $table) {
+        Schema::create('transaction_requirements', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('application_id')->nullable();
+            $table->string('transaction_id')->nullable();
+            $table->string('status')->default('pending')->nullable();
             $table->string('type')->nullable();
             $table->text('path')->nullable();
             $table->text('directory')->nullable();
-            $table->string('filename', 100)->nullable();
+            $table->string('filename')->nullable();
             $table->string('original_name')->nullable();
+            $table->string('source')->default("file")->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -33,6 +35,6 @@ class CreateUserFileTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_file');
+        Schema::dropIfExists('transaction_requirements');
     }
 }

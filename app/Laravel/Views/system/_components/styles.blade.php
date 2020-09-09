@@ -30,7 +30,7 @@
         background-color: #df1234;
     }
     .text-danger{
-        color: #df1234;
+        color: #df1234 !important;
     }
     
     .badge-success,.btn-success{
@@ -198,6 +198,7 @@
         z-index: 2;
         color: #254DA0;
     }
+
     input[type=password]::-ms-reveal,
     input[type=password]::-ms-clear
     {

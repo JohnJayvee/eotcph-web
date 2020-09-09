@@ -158,16 +158,32 @@
         background: #1d1d1f!important; 
         color: #f5f5f7;
     }
+    .image-header img{
+        width: 100%;
+    }
     .services-single h5{ font-weight: 800; }
-
+    .registration-card{
+        padding-right: 10em;
+        padding-left: 3em;
+    }
     .badge { font-family: 'SF Pro Display', sans-serif; font-weight: 400; }
 
     @media (max-width: 992px) and (min-width: 320px){
         .navbar {
-            background: rgba(29,29,31,0.72)!important; 
+            background: #fff!important; 
             -webkit-backdrop-filter: saturate(180%) blur(20px);
             backdrop-filter: saturate(180%) blur(20px);
             padding: .45rem 1rem !important;
+        }
+        .navbar-toggler{
+            background-color: #27437D !important;
+        }
+        .image-header img{
+            width: 30%;
+        }
+        .registration-card{
+            padding-right: 1em;
+            padding-left: 1em;
         }
         .menu li a { padding: 10px 10px; border-bottom: 1px solid #f1f1f155; }
         .menu li a:hover{ background: none; color: #fff; }
@@ -178,11 +194,17 @@
         .menu li a .badge.badge-primary i{ display: none; }
 
     }
+    @media (max-width: 770px) and (min-width: 320px){
+        .date-time{
+            display: none;
+        }
+    }
     .brand-logo img{
         width: 150px;
     }
     .brand-logo{
-        margin-bottom: 1.5em;
+        margin-bottom: 1em;
+        margin-top: 1em;
     }
     .profile-image{
         width: 32px;

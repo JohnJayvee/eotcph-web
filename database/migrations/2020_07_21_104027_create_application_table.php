@@ -15,21 +15,12 @@ class CreateApplicationTable extends Migration
     {
         Schema::create('application', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('user_id')->nullable();
-            $table->string('reference_code')->nullable();
-            $table->string('name')->nullable();
-            $table->string('company_name')->nullable();
-            $table->string('purpose')->nullable();
             $table->string('department_id')->nullable();
-            $table->string('amount')->nullable();
-            $table->string('email')->nullable();
-            $table->string('contact_number')->nullable();
-            $table->string('status')->default("pending")->nullable();
-            $table->text('directory')->nullable();
-            $table->text('path')->nullable();
-            $table->string('filename')->nullable();
-            $table->string('source')->default("file")->nullable();
-            $table->string('is_copy_check')->default("no")->nullable();
+            $table->string('name')->nullable();
+            $table->string('has_processing_fee')->default(0)->nullable();
+            $table->string('processing_fee')->nullable();
+            $table->string('processing_days')->nullable();
+            $table->string('requirements_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

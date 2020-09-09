@@ -40,7 +40,7 @@ class RedirectIfAuthenticated {
 			session()->flash('notification-status', "error");
 			session()->flash('notification-msg', "Restricted area. Unauthorized access.");
 			return redirect()->route('web.main.index');
-			return new RedirectResponse(route('web.application.create'));
+			return new RedirectResponse(route('web.transaction.create'));
 		}
 
 		return $next($request);

@@ -29,7 +29,7 @@
                             <h6 class="fw-600 text-black text-center mb-4">Processors Portal</h6>
                             <h6 class="fw-600 text-black text-center mb-4">Sign in to your account</h6>
                             <div class="form-group">
-                                <input type="text" class="form-control login-input" id="input_username" name="username" value="{{old('username')}}" placeholder="Email Address">
+                                <input type="text" class="form-control login-input" id="input_username" name="username" value="{{old('username')}}" placeholder="Reference id/Username">
                             </div>
                             <!-- Password -->
                             <div class="form-group">
@@ -40,11 +40,12 @@
                             <button type="submit" class="btn btn-block secondary-solid-btn fw-500 mt-4 mb-3">
                                 <i class="fa fa-sign-in-alt"></i> Sign In
                             </button>
+                            <a href="{{route('system.auth.activate')}}" class="btn btn-block btn-white text-black">Activate Account</a>
                             </form>
-                            <div class="text-center">
+<!--                             <div class="text-center">
                               <p class="fw-600 text-black mb-0">Don't have an account?</p>
                               <a href="{{route('system.auth.register')}}" class="fw-600 sign-up">Sign Up</a>
-                            </div>
+                            </div> -->
                         </div>
 
                     </div>

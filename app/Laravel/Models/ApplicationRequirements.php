@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Laravel\Traits\DateFormatter;
 use Str;
 
-class ApplicationType extends Model{
+class ApplicationRequirements extends Model{
     
     use SoftDeletes,DateFormatter;
     
@@ -16,7 +16,7 @@ class ApplicationType extends Model{
      *
      * @var string
      */
-    protected $table = "application_type";
+    protected $table = "application_requirements";
 
     /**
      * The database connection used by the model.
@@ -63,8 +63,6 @@ class ApplicationType extends Model{
     protected $casts = [
     ];
 
-    public function department(){
-        return $this->BelongsTo("App\Laravel\Models\Department",'department_id','id');
-    }
+    
 
 }

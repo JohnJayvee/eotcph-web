@@ -22,7 +22,9 @@ class EventServiceProvider extends ServiceProvider
         //     // add your listeners (aka providers) here
         //     'SocialiteProviders\\Graph\\GraphExtendSocialite@handle',
         // ],
-
+        'send-sms-processor' => [
+            'App\Laravel\Listeners\SendProcessorReferenceListener'
+        ],
         'send-sms' => [
             'App\Laravel\Listeners\SendReferenceListener'
         ],

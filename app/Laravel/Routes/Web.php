@@ -12,6 +12,7 @@ Route::group(['as' => "web.",
 	});
 	Route::get('type',['as' => "get_application_type",'uses' => "MainController@get_application_type"]);
 	Route::get('amount',['as' => "get_payment_fee",'uses' => "MainController@get_payment_fee"]);
+	Route::get('requirements',['as' => "get_requirements",'uses' => "MainController@get_requirements"]);
 	Route::get('contact-us',['as' => "contact",'uses' => "MainController@contact"]);
 	Route::any('logout',['as' => "logout",'uses' => "AuthController@destroy"]);
 
@@ -30,9 +31,9 @@ Route::group(['as' => "web.",
 	});
 
 	Route::group(['middleware' => ["web","portal.auth"]], function(){
-		Route::group(['prefix' => "application", 'as' => "application."], function () {
-			Route::get('create',['as' => "create", 'uses' => "ApplicationController@create"]);
-			Route::post('create',['uses' => "ApplicationController@store"]);
+		Route::group(['prefix' => "transaction", 'as' => "transaction."], function () {
+			Route::get('create',['as' => "create", 'uses' => "CustomerTransactionController@create"]);
+			Route::post('create',['uses' => "CustomerTransactionController@store"]);
 		});
 	});
 		// Route::group(['prefix'=> "register",'as' => 'register.' ],function(){

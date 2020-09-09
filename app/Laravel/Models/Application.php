@@ -39,7 +39,7 @@ class Application extends Authenticatable{
      *
      * @var array
      */
-    protected $fillable = ['company_name','purpose','department_id', 'email', 'contact_number','amount'];
+    protected $fillable = ['name','department_id', 'has_processing_fee', 'processing_fee','processing_days'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -59,10 +59,6 @@ class Application extends Authenticatable{
     protected $casts = [];
 
     
-    public function type(){
-        return $this->BelongsTo("App\Laravel\Models\ApplicationType",'purpose','id');
-    }
-
     public function department(){
         return $this->BelongsTo("App\Laravel\Models\Department",'department_id','id');
     }

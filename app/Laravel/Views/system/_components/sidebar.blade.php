@@ -8,23 +8,37 @@
         <span class="menu-title">Dashboard</span>
       </a>
     </li>
-    @if(in_array($auth->type,['super_user','admin']))
-    <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.application.index','system.application.show')) ? 'active' : ''}}">
-      <a class="nav-link" href="{{route('system.application.index')}}">
+    @if(in_array($auth->type,['super_user','admin','processor']))
+    <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.transaction.index','system.transaction.show')) ? 'active' : ''}}">
+      <a class="nav-link" href="{{route('system.transaction.index')}}">
         <i class="fa fa-file menu-icon"></i>
+        <span class="menu-title">Transactions</span>
+      </a>
+    </li>
+    
+    <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.application.index','system.application.create','system.application.edit')) ? 'active' : ''}}">
+      <a class="nav-link" href="{{route('system.application.index')}}">
+        <i class="fa fa-bookmark menu-icon"></i>
         <span class="menu-title">Applications</span>
       </a>
     </li>
     <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.department.index','system.department.create','system.department.edit')) ? 'active' : ''}}">
       <a class="nav-link" href="{{route('system.department.index')}}">
         <i class="fa fa-globe menu-icon"></i>
-        <span class="menu-title">Departments</span>
+        <span class="menu-title">Peza Units</span>
       </a>
     </li>
-    <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.application_type.index','system.application_type.create','system.application_type.edit')) ? 'active' : ''}}">
-      <a class="nav-link" href="{{route('system.application_type.index')}}">
-        <i class="fa fa-bookmark menu-icon"></i>
-        <span class="menu-title">Application Type</span>
+    @if(in_array($auth->type,['super_user','admin']))
+    <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.application_requirements.index','system.application_requirements.create','system.application_requirements.edit')) ? 'active' : ''}}">
+      <a class="nav-link" href="{{route('system.application_requirements.index')}}">
+        <i class="fa fa-check-circle menu-icon"></i>
+        <span class="menu-title">Application Requirements</span>
+      </a>
+    </li>
+     <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.zone_location.index','system.zone_location.create','system.zone_location.edit')) ? 'active' : ''}}">
+      <a class="nav-link" href="{{route('system.zone_location.index')}}">
+        <i class="fa fa-compass menu-icon"></i>
+        <span class="menu-title">Zone Location</span>
       </a>
     </li>
     <li class="p-3 nav-item">
@@ -33,6 +47,13 @@
         <span class="menu-title">Reporting</span>
       </a>
     </li>
+    <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.processor.index','system.processor.create','system.processor.edit','system.processor.reset')) ? 'active' : ''}}">
+      <a class="nav-link" href="{{route('system.processor.index')}}">
+        <i class="fa fa-user-plus menu-icon"></i>
+        <span class="menu-title">Accounts</span>
+      </a>
+    </li>
+    @endif
     @endif
   </ul>
 

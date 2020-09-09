@@ -3,24 +3,26 @@
 use Session,Auth;
 use App\Laravel\Requests\RequestManager;
 
-class ApplicationRequest extends RequestManager{
+class TransactionRequest extends RequestManager{
 
 	public function rules(){
 
 		$id = $this->route('id')?:0;
+		$file = $this->file('file') ? count($this->file('file')) : 0;
 		$rules = [
 			'full_name' => "required",
 			'company_name' => "required",
-			'purpose' => "required",
+			'application_id' => "required",
 			'department_id' => "required",
-			'amount' => "required",
+			'processing_fee' => "required",
+			'zone_id' => "required",
 			'contact_number' => "required|max:10|phone:PH",
-			'email'	=> "required",
-            'file.*' => "required|file|mimes:pdf,jpeg,jpg,png,PNG,JPG,JPEG,docx,doc|max:204800",
+			'file' =>'required',
+    		'file.*' => 'required|mimes:pdf,docx,doc|max:204800',
 		];
-
 		
 		return $rules;
+		
 	}
 
 	public function messages(){
@@ -28,7 +30,7 @@ class ApplicationRequest extends RequestManager{
 			'required'	=> "Field is required.",
 			'contact_number.phone' => "Please provide a valid PH mobile number.",
 			'file.required'	=> "No File Uploaded.",
-			'mimes' => "Invalid attachment. Only allow PDF and image file format only.",
+			'file.*' => 'Only PDF File are allowed.'
 
 		];
 	}

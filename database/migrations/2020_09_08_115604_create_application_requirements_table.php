@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateApplicationTypeTable extends Migration
+class CreateApplicationRequirementsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateApplicationTypeTable extends Migration
      */
     public function up()
     {
-        Schema::create('application_type', function (Blueprint $table) {
+        Schema::create('application_requirements', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('department_id')->nullable();
             $table->string('name')->nullable();
-            $table->string('payment_fee')->nullable();
+            $table->string('is_required')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -30,6 +29,6 @@ class CreateApplicationTypeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('application_type');
+        Schema::dropIfExists('application_requirements');
     }
 }

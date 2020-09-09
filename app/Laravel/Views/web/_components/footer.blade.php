@@ -1,4 +1,5 @@
 <!-- footer section start--> 
+<div id="gwt-standard-footer"></div>
 <footer class="footer-section">
     <!--footer top start-->
     <!-- <div class="footer-top gradient-bg">

@@ -11,10 +11,19 @@ class RegisterRequest extends RequestManager{
 		$rules = [
 			'fname' => "required",
 			'lname' => "required",
+			'region' => "required",
+			'town' => "required",
+			'brgy' => "required",
+			'street_name' => "required",
+			'unit_number' => "required",
+			'zipcode' => "required",
+			'birthdate' => "required",
+			'tin_no' => "required",
+			'sss_no' => "required",
+			'phic_no' => "required",
 			'contact_number' => "required|max:10|phone:PH",
-			'email'	=> "required|unique:user,email,{$id}",
+			'email'	=> "required|unique:customer,email,{$id}",
 			'password'	=> "required|confirmed",
-
 		];
 		
 		return $rules;

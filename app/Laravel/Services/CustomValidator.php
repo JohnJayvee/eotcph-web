@@ -6,10 +6,9 @@ use Illuminate\Validation\Validator;
 // use App\Laravel\Models\{IPAddress,Employee,AttendanceOvertime,EmployeeLeaveCredit,AttendanceLeave};
 use App\Laravel\Models\{User,Citizen,Barangay};
 use App\Laravel\Models\{AccountCode};
+use App\Laravel\Models\{Application,ApplicationRequirements};
 
-
-use Illuminate\Http\Request;
-use Auth, Hash,Str,Carbon,Helper;
+use Auth, Hash,Str,Carbon,Helper,Request;
 
 class CustomValidator extends Validator {
 
@@ -46,12 +45,30 @@ class CustomValidator extends Validator {
                         ->where('status','available')
                         ->count() ? TRUE : FALSE;
     }
+    public function validateIsRequired($attribute,$value,$parameters){
+        if(is_array($parameters) AND isset($parameters[0])){ $application_id = Request::get($parameters[0]); }
+        if(is_array($parameters) AND isset($parameters[1])){ $file_count = $parameters[1]; }
+        $application =  Application::where('id',$application_id)->first();
+        
+        $requirements = ApplicationRequirements::whereIn('id',explode(",", $application->requirements_id))->where('is_required',"yes")->count();
+
+        if ($file_count < $requirements) {
+
+            return FALSE;
+        }else{
+
+            return TRUE;
+        }
+
+    }
 
     public function validateValidBrgy($attribute,$value,$parameters){
         $brgy = Str::upper($value);
         return  Barangay::whereRaw("UPPER(name) = '{$brgy}'")
                         ->count() ? TRUE : FALSE;
     }
+
+    
 
     public function validateWithLeave($attribute,$value,$parameters){
         $employee_id = (is_array($parameters) AND isset($parameters[0]) ) ? $parameters[0] : "0";

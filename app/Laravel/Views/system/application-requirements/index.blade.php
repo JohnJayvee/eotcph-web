@@ -9,7 +9,7 @@
         <h5 class="text-title text-uppercase">{{$page_title}}</h5>
       </div>
       <div class="col-md-6 ">
-        <p class="text-dim  float-right">EOR-PHP Processor Portal / Application Type</p>
+        <p class="text-dim  float-right">EOR-PHP Processor Portal / Application Requirements</p>
       </div>
     </div>
   
@@ -18,51 +18,49 @@
   <div class="col-12 ">
     <form>
       <div class="row">
-        <div class="col-md-4 pt-2">
+        
+        <div class="col-md-3 p-2">
           <div class="form-group has-search">
             <span class="fa fa-search form-control-feedback"></span>
             <input type="text" class="form-control form-control-lg" placeholder="Search">
           </div>
         </div>
-        <div class="col-md-8">
-          <span class="float-right pt-2">
-            <a href="{{route('system.application_type.create')}}" class="btn btn-sm btn-primary mt-1">Add New</a>
-          </span>
-        </div>
       </div>
     </form>
   </div>
   <div class="col-md-12">
-      
+    <h4 class="pb-4">Record Data
+      <span class="float-right">
+        <a href="{{route('system.application_requirements.create')}}" class="btn btn-sm btn-primary">Add New</a>
+      </span>
+    </h4>
     <div class="table-responsive shadow fs-15">
       <table class="table table-striped">
         <thead>
           <tr>
-            <th width="25%" class="text-title fs-15 fs-500 p-3">Application Name</th>
-            <th width="25%" class="text-title fs-15 fs-500 p-3">Payment Fee</th>
-            <th width="25%" class="text-title fs-15 fs-500 p-3">Department</th>
+            <th width="25%" class="text-title fs-15 fs-500 p-3">Name</th>
+            <th width="25%" class="text-title fs-15 fs-500 p-3">Is Required</th>
             <th width="25%" class="text-title fs-15 fs-500 p-3">Created At</th>
             <th width="10%" class="text-title fs-15 fs-500 p-3">Action</th>
           </tr>
         </thead>
         <tbody>
-          @forelse($application_types as $application_type)
-          <tr>
-            <th>{{ $application_type->name}}</th>
-            <th>PHP {{ Helper::money_format($application_type->payment_fee)}}</th>
-            <th>{{ $application_type->department ? $application_type->department->name : "N/A"}}</th>
-            <th>{{ Helper::date_format($application_type->created_at)}}</th>
+          @forelse($application_requirements as $application_requirement)
+          <tr >
+            <th style="text-transform: capitalize;">{{ $application_requirement->name}}</th>
+            <th style="text-transform: capitalize;">{{ $application_requirement->is_required}}</th>
+            <th>{{ Helper::date_format($application_requirement->created_at)}}</th>
             <td >
               <button type="button" class="btn btn-sm p-0" data-toggle="dropdown" style="background-color: transparent;"> <i class="mdi mdi-dots-horizontal" style="font-size: 30px"></i></button>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuSplitButton2">
-                <a class="dropdown-item" href="{{route('system.application_type.edit',[$application_type->id])}}">Edit Application</a>
-                <a class="dropdown-item action-delete"  data-url="{{route('system.application_type.destroy',[$application_type->id])}}" data-toggle="modal" data-target="#confirm-delete">Remove Record</a>
+                <a class="dropdown-item" href="{{route('system.application_requirements.edit',[$application_requirement->id])}}">Edit Application</a>
+                <!-- <a class="dropdown-item action-delete"  data-url="{{route('system.department.destroy',[$application_requirement->id])}}" data-toggle="modal" data-target="#confirm-delete">Remove Record</a> -->
               </div>
             </td>
           </tr>
           @empty
           <tr>
-           <td colspan="5" class="text-center"><i>No Application Types Records Available.</i></td>
+           <td colspan="5" class="text-center"><i>No Application Requirements Records Available.</i></td>
           </tr>
           @endforelse
           
@@ -100,12 +98,12 @@
 </div>
 @stop
 
-
 @section('page-scripts')
 <script src="{{asset('system/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>
 <script type="text/javascript">
   $(function(){
-  
+   
+
     $(".action-delete").on("click",function(){
       var btn = $(this);
       $("#btn-confirm-delete").attr({"href" : btn.data('url')});

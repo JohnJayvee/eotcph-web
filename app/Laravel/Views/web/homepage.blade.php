@@ -15,7 +15,7 @@
                         <h5 style="letter-spacing: 3px;"><i class="fa fa-file"></i> E<span class="font-weight-lighter">SUBMISSION</span></h5>
                     </div>
                      <div class="col-lg-12">
-                        <a href="{{route('web.application.create')}}" class="btn btn-white"> <i class="fa fa-laptop"></i> Submit</a>
+                        <a href="{{route('web.transaction.create')}}" class="btn btn-white"> <i class="fa fa-laptop"></i> Submit</a>
                     </div>
                     <div class="col-lg-12 pt-4">
                         <h5 style="letter-spacing: 3px;"><i class="fa fa-calculator"></i> E<span class="font-weight-lighter">PAYMENT</span></h5>
@@ -47,7 +47,7 @@
 
 </section>
 <!--team section end-->
-<div id="gwt-standard-footer"></div>
+
 
 
 @stop
@@ -57,15 +57,4 @@
         color:#fff;
     }
 </style>
-@endsection
-@section('page-scripts')
-<script type="text/javascript">
-    (function(d, s, id) {
-    var js, gjs = d.getElementById('gwt-standard-footer');
-
-    js = d.createElement(s); js.id = id;
-    js.src = "//gwhs.i.gov.ph/gwt-footer/footer.js";
-    gjs.parentNode.insertBefore(js, gjs);
-    }(document, 'script', 'gwt-footer-jsdk'));
-</script>
 @endsection

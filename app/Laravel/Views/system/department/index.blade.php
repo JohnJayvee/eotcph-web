@@ -9,7 +9,7 @@
         <h5 class="text-title text-uppercase">{{$page_title}}</h5>
       </div>
       <div class="col-md-6 ">
-        <p class="text-dim  float-right">EOR-PHP Processor Portal / Department</p>
+        <p class="text-dim  float-right">EOR-PHP Processor Portal / Peza Units</p>
       </div>
     </div>
   
@@ -52,7 +52,7 @@
               <button type="button" class="btn btn-sm p-0" data-toggle="dropdown" style="background-color: transparent;"> <i class="mdi mdi-dots-horizontal" style="font-size: 30px"></i></button>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuSplitButton2">
                 <a class="dropdown-item" href="{{route('system.department.edit',[$department->id])}}">Edit Application</a>
-                <a class="dropdown-item action-delete"  data-url="{{route('system.department.destroy',[$department->id])}}" data-toggle="modal" data-target="#confirm-delete">Remove Record</a>
+                <!-- <a class="dropdown-item action-delete"  data-url="{{route('system.department.destroy',[$department->id])}}" data-toggle="modal" data-target="#confirm-delete">Remove Record</a> -->
               </div>
             </td>
           </tr>

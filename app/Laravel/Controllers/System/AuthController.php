@@ -6,7 +6,6 @@ namespace App\Laravel\Controllers\System;
 /*
  * Models
  */
-use App\Laravel\Models\Region;
 use App\Laravel\Models\City;
 use App\Laravel\Models\User;
 
@@ -16,6 +15,8 @@ use App\Laravel\Models\User;
  */
 use App\Laravel\Requests\PageRequest;
 use App\Laravel\Requests\System\AdminRequest;
+use App\Laravel\Requests\System\SetupPasswordRequest;
+
 
 
 use Carbon,Auth,DB,Str,Socialize;
@@ -26,51 +27,62 @@ class AuthController extends Controller{
 	
 	public function __construct(){
 		parent::__construct();
-		$this->data['regions'] = ['' => '--Select Region--'] + Region::pluck('regDesc', 'regCode')->toArray();
-		$this->data['cities'] = ['' => '--Select City--'];
 		array_merge($this->data, parent::get_data());
 	}
 
 	public function login(){
 		$this->data['page_title'] .=  " :: Login";
-		
 		return view('system.auth.login',$this->data);
 	}
 
 	public function authenticate(PageRequest $request,$uri = NULL){
-
 		$password = $request->get('password');
 		$username = Str::lower($request->get('username'));
 		$remember_me = $request->get('remember_me',0);
 		$field = filter_var($username, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
-		if(Auth::attempt([$field => $username,'password' => $password],$remember_me)){
+		if(Auth::attempt(['username' => $username,'password' => $password])){
 			// dd(Auth::user());exit;
 			$account = Auth::user();
 
 			if(Str::lower($account->status) != "active"){
 				Auth::logout();
 				session()->flash('notification-status','info');
-				session()->flash('notification-msg','Account locked. Access to system was removed.');
+				session()->flash('notification-msg','Account is not Activated yet.');
 				return redirect()->route('system.auth.login');
 			}
-
 			if(in_array($account->type,['user'])){
-
 				Auth::logout();
 				session()->flash('notification-status','info');
             	session()->flash('notification-msg',"You don't have enough access to the requested page.");
-				
 				return redirect()->route('system.auth.login');
 			}
-			
-
-			$account->last_login_at = Carbon::now();
-			$account->save();
 
 			session()->put('auth_id',$account->id);
+			if($uri AND session()->has($uri)){
+				session()->flash('notification-status','success');
+				session()->flash('notification-msg',"Welcome {$account->name}!");
+				return redirect( session()->get($uri) );
+			}
 
-
+			session()->flash('notification-status','success');
+			session()->flash('notification-msg',"Welcome {$account->name}!");
+			return redirect()->route('system.dashboard');
+		}elseif (Auth::attempt(['reference_id' => $username,'password' => $password])) {
+			$account = Auth::user();
+			if(Str::lower($account->status) != "active"){
+				Auth::logout();
+				session()->flash('notification-status','info');
+				session()->flash('notification-msg','Account is not Activated yet.');
+				return redirect()->route('system.auth.login');
+			}
+			if(in_array($account->type,['user'])){
+				Auth::logout();
+				session()->flash('notification-status','info');
+            	session()->flash('notification-msg',"You don't have enough access to the requested page.");
+				return redirect()->route('system.auth.login');
+			}
+			session()->put('auth_id',$account->id);
 			if($uri AND session()->has($uri)){
 				session()->flash('notification-status','success');
 				session()->flash('notification-msg',"Welcome {$account->name}!");
@@ -96,45 +108,69 @@ class AuthController extends Controller{
 		return redirect()->route('system.auth.login');
 	}
 
-	public function register(){
-		$this->data['page_title'] = " :: Create Processor Account";
-		return view('system.auth.registration',$this->data);
+
+	public function activate(){
+		$this->data['page_title'] .=  " :: activate";
+		return view('system.auth.activate',$this->data);
+	}
+	public function activate_account(PageRequest $request){
+		$otp = $request->get('otp');
+		$reference_id = $request->get('reference_id');
+
+		$has_account = User::where('reference_id',$reference_id)->where('otp',$otp)->first();
+		if ($otp) {
+			if ($has_account) {
+				if ($has_account->status == "inactive") {
+					return redirect()->route('system.auth.change_password');
+				}else{
+					session()->flash('notification-status','failed');
+					session()->flash('notification-msg','Account was Already Activated.');
+					return redirect()->back();
+				}
+			}
+
+		}
+		
+		session()->flash('notification-status','failed');
+		session()->flash('notification-msg','Invalid credentials.');
+		return redirect()->back();
+
+	}
+	public function change(){
+		$this->data['page_title'] .=  " :: setup password";
+		return view('system.auth.changepassword',$this->data);
 	}
 
-	public function store(AdminRequest $request){
-			
+	public function setup_password(SetupPasswordRequest $request){
+
+		$reference_number = $request->get('reference_number');
 		DB::beginTransaction();
 		try{
-			$new_admin = new User;
-			$new_admin->fill($request->except('_token'));
-			$new_admin->type = "admin";
-			$new_admin->region = $request->get('region');
-			$new_admin->city = $request->get('town');
-			$new_admin->barangay = $request->get('brgy');
-			$new_admin->street_name = $request->get('street_name');
-			$new_admin->unit_number = $request->get('unit_number');
-			$new_admin->zipcode = $request->get('zipcode');
-			$new_admin->birthdate = $request->get('birthdate');
-			$new_admin->tin_no = $request->get('tin_no');
-			$new_admin->sss_no = $request->get('sss_no');
-			$new_admin->phic_no = $request->get('phic_no');
-			$new_admin->password = bcrypt($request->get('password'));
-			$new_admin->save();
-			DB::commit();
-			session()->flash('notification-status', "success");
-			session()->flash('notification-msg','Successfully registered.');
-			return redirect()->route('system.auth.login');
+			$account = User::where('reference_id',$reference_number)->first();
+			if ($account) {
+				$account->password = bcrypt($request->get('password'));
+				$account->status = "active";
+				$account->otp = NULL;
+				$account->save();
+				DB::commit();
+				session()->flash('notification-status', "success");
+				session()->flash('notification-msg', "Your Password was successfully updated.");
+				return redirect()->route('system.auth.login');
+			}
+
+			DB::rollback();
+			session()->flash('notification-status', "failed");
+			session()->flash('notification-msg', "Invalid Credentials");
+			return redirect()->back();
+
 		}catch(\Exception $e){
 			DB::rollback();
 			session()->flash('notification-status', "failed");
 			session()->flash('notification-msg', "Server Error: Code #{$e->getLine()}");
 			return redirect()->back();
 		}
-	}
-
-	public function get_municipalities(PageRequest $request){
-		$id = $request->get('id');
-		$cities = City::where('regDesc', $id)->get();
-		return response()->json($cities);
+		
+		
+		
 	}
 }

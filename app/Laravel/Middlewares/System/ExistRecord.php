@@ -3,7 +3,7 @@
 namespace App\Laravel\Middlewares\System;
 
 use Closure, Helper,Str;
-use App\Laravel\Models\{Department,ApplicationType,Application};
+use App\Laravel\Models\{Department,ApplicationType,Application,User,Transaction,ZoneLocation,ApplicationRequirements};
 
 use App\Laravel\Models\{AccountCode};
 
@@ -27,8 +27,17 @@ class ExistRecord
         $module = "dashboard";
         $found_record = true;
         $previous_route = app('router')->getRoutes()->match(app('request')->create(url()->previous()))->getName();
-
         switch (strtolower($record)) {
+
+            case 'transaction':
+                if(! $this->__exist_transaction($request)) {
+                    $found_record = false;
+                    session()->flash('notification-status', "failed");
+                    session()->flash('notification-msg', "No record found or resource already removed.");
+
+                    $module = "transaction.index";
+                }
+            break;
 
             case 'application':
                 if(! $this->__exist_application($request)) {
@@ -36,17 +45,7 @@ class ExistRecord
                     session()->flash('notification-status', "failed");
                     session()->flash('notification-msg', "No record found or resource already removed.");
 
-                    $module = "account_code.index";
-                }
-            break;
-
-            case 'application_type':
-                if(! $this->__exist_application_type($request)) {
-                    $found_record = false;
-                    session()->flash('notification-status', "failed");
-                    session()->flash('notification-msg', "No record found or resource already removed.");
-
-                    $module = "application_type.index";
+                    $module = "application.index";
                 }
             break;
             case 'department':
@@ -56,6 +55,34 @@ class ExistRecord
                     session()->flash('notification-msg', "No record found or resource already removed.");
 
                     $module = "department.index";
+                }
+            break;
+            case 'processor':
+
+                if(! $this->__exist_processor($request)) {
+                    $found_record = false;
+                    session()->flash('notification-status', "failed");
+                    session()->flash('notification-msg', "No record found or resource already removed.");
+
+                    $module = "processor.index";
+                }
+            break;
+            case 'zone-location':
+                if(! $this->__exist_zone_lcation($request)) {
+                    $found_record = false;
+                    session()->flash('notification-status', "failed");
+                    session()->flash('notification-msg', "No record found or resource already removed.");
+
+                    $module = "zone-location.index";
+                }
+            break;
+            case 'requirements':
+                if(! $this->__exist_requirements($request)) {
+                    $found_record = false;
+                    session()->flash('notification-status', "failed");
+                    session()->flash('notification-msg', "No record found or resource already removed.");
+
+                    $module = "application-requirements.index";
                 }
             break;
             
@@ -68,10 +95,10 @@ class ExistRecord
         return redirect()->route("system.{$module}");
     }
 
-    private function __exist_application($request){
-        $application = Application::find($this->reference_id);
-        if($application){
-            $request->merge(['application_data' => $application]);
+    private function __exist_transaction($request){
+        $transaction = Transaction::find($this->reference_id);
+        if($transaction){
+            $request->merge(['transaction_data' => $transaction]);
             return TRUE;
         }
 
@@ -89,11 +116,42 @@ class ExistRecord
         return FALSE;
     }
 
-    private function __exist_application_type($request){
-        $application_type = ApplicationType::find($this->reference_id);
+    private function __exist_application($request){
+        $application= Application::find($this->reference_id);
 
-        if($application_type){
-            $request->merge(['application_type_data' => $application_type]);
+        if($application){
+            $request->merge(['application_data' => $application]);
+            return TRUE;
+        }
+
+        return FALSE;
+    }
+
+    private function __exist_processor($request){
+        $processor= User::find($this->reference_id);
+
+        if($processor){
+            $request->merge(['processor_data' => $processor]);
+            return TRUE;
+        }
+
+        return FALSE;
+    }
+    private function __exist_zone_lcation($request){
+        $zone= ZoneLocation::find($this->reference_id);
+
+        if($zone){
+            $request->merge(['zone_location_data' => $zone]);
+            return TRUE;
+        }
+
+        return FALSE;
+    }
+    private function __exist_requirements($request){
+        $requirements= ApplicationRequirements::find($this->reference_id);
+
+        if($requirements){
+            $request->merge(['requirement_data' => $requirements]);
             return TRUE;
         }
 

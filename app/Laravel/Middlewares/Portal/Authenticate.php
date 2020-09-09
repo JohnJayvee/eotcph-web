@@ -34,7 +34,7 @@ class Authenticate {
 	 */
 	public function handle($request, Closure $next, $guard = null)
     {
-        if ( !Auth::check() ) {
+        if (!Auth::guard('customer')->check()) {
             
             $redirect_uri = $request->url();
             $redirect_key = base64_encode($redirect_uri);
@@ -45,12 +45,7 @@ class Authenticate {
             return redirect()->route('web.login', [$redirect_key]);
         }
 
-        if (Auth::check() AND Auth::user()->active != 1){
-    		Auth::logout();
-    		session()->flash('notification-status', "error");
-    		session()->flash('notification-msg', "Please Make sure your account is verified.");
-    		return redirect()->route('web.login');
-        }
+       
 
         return $next($request);
     }

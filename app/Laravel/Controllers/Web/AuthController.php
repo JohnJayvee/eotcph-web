@@ -15,8 +15,7 @@ use App\Laravel\Requests\Web\RegisterRequest;
 /*
  * Models
  */
-use App\Laravel\Models\{Attendance,Employee,EmployeeLeaveCredit};
-use App\Laravel\Models\User;
+use App\Laravel\Models\Customer;
 
 use App\Laravel\Listeners\SendCode;
 
@@ -39,28 +38,19 @@ class AuthController extends Controller{
 	public function authenticate($redirect_uri = NULL , PageRequest $request){
 		try{
 			$this->data['page_title'] = " :: Login";
-			$username = $request->get('email');
+			$email = $request->get('email');
 			$password = $request->get('password');
-
-			$field = filter_var($username, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';	
-
-			// $user = User::where($field,$username)->first();
-			// if(!$user){
-			// 	session()->flash('notification-status', "error");
-			// 	session()->flash('notification-msg', "Invalid username/password");
-			// 	return redirect()->back();
-			// }
 			
-			if(Auth::attempt([$field => $username,'password' => $password])){
-				$user = Auth::user();
-				session()->put('auth_id', Auth::user()->id);
+			if(Auth::guard('customer')->attempt(['email' => $email,'password' => $password])){
+				$user = Auth::guard('customer')->user();
+				session()->put('auth_id', Auth::guard('customer')->user()->id);
 				session()->flash('notification-status','success');
-				session()->flash('notification-msg',"Welcome to EOTC Portal, {$user->name}!");
-				Auth::user()->save();
+				session()->flash('notification-msg',"Welcome to EOTC Portal, {$user->fullname}!");
+				
 				if($redirect_uri AND session()->has($redirect_uri)){
 					return redirect( session()->get($redirect_uri) );
 				}
-				return redirect()->route('web.application.create');
+				return redirect()->route('web.transaction.create');
 			}
 			session()->flash('notification-status','error');
 			session()->flash('notification-msg','Wrong username or password.');
@@ -78,18 +68,27 @@ class AuthController extends Controller{
 	public function store(RegisterRequest $request){
 		DB::beginTransaction();
 		try{
-			$new_user = new User;
-			$new_user->fill($request->except('_token'));
-			$new_user->type = "user";
-			$new_user->password = bcrypt($request->get('password'));
-			$new_user->code = SendCode::sendCode($request->get('contact_number'));
-			$new_user->save();
+			$new_customer = new Customer;
+			$new_customer->fill($request->all());
+			$new_customer->region = $request->get('region');
+			$new_customer->region_name = $request->get('region_name');
+			$new_customer->town = $request->get('town');
+			$new_customer->town_name = $request->get('town_name');
+			$new_customer->barangay = $request->get('brgy');
+			$new_customer->barangay_name= $request->get('brgy_name');
+			$new_customer->street_name = $request->get('street_name');
+			$new_customer->unit_number = $request->get('unit_number');
+			$new_customer->zipcode = $request->get('zipcode');
+			$new_customer->birthdate = $request->get('birthdate');
+			$new_customer->tin_no = $request->get('tin_no');
+			$new_customer->sss_no = $request->get('sss_no');
+			$new_customer->phic_no = $request->get('phic_no');
+			$new_customer->password = bcrypt($request->get('password'));
+			$new_customer->save();
 			DB::commit();
-			
 			session()->flash('notification-status', "success");
-			session()->flash('notification-msg','Verify your phone number.');
-			return redirect()->route('web.verify',[$new_user->id]);
-			
+			session()->flash('notification-msg','Successfully registered.');
+			return redirect()->route('web.login');
 		}catch(\Exception $e){
 			DB::rollback();
 			session()->flash('notification-status', "failed");

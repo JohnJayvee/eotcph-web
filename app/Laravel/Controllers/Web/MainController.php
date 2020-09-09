@@ -6,7 +6,8 @@ namespace App\Laravel\Controllers\Web;
  * Request Validator
  */
 use App\Laravel\Requests\PageRequest;
-use App\Laravel\Models\ApplicationType;
+use App\Laravel\Models\Application;
+use App\Laravel\Models\ApplicationRequirements;
 /*
  * Models
  */
@@ -40,10 +41,10 @@ class MainController extends Controller{
 
 	public function get_application_type(PageRequest $request){
 		$id = $request->get('department_id');
-		$application_type = ApplicationType::where('department_id',$id)->get()->pluck('name', 'id');
-		$response['msg'] = "List of ApplicationType";
+		$application = Application::where('department_id',$id)->get()->pluck('name', 'id');
+		$response['msg'] = "List of Application";
 		$response['status_code'] = "TYPE_LIST";
-		$response['data'] = $application_type;
+		$response['data'] = $application;
 		callback:
 
 
@@ -52,11 +53,33 @@ class MainController extends Controller{
 
 	public function get_payment_fee(PageRequest $request){
 		$id = $request->get('type_id');
-		$payment_amount = ApplicationType::find($id);
-		$response['msg'] = "List of ApplicationType";
+		$payment_amount = Application::find($id);
+		$response['msg'] = "List of Application";
 		$response['status_code'] = "TYPE_LIST";
-		$response['data'] = $payment_amount->payment_fee;
+		$response['data'] = $payment_amount->processing_fee;
 		callback:
+		return response()->json($response, 200);
+	}
+
+	public function get_requirements(PageRequest $request){
+		$id = $request->get('type_id');
+		$application = Application::find($id);
+		$required = [];
+		$requirements = ApplicationRequirements::whereIn('id',explode(",", $application->requirements_id))->get();
+
+		foreach ($requirements as $key => $value) {
+			if ($value->is_required == "yes") {
+				$string = $value->name . " (Required)";
+			}else{
+				$string = $value->name . " (Optional)";
+			}
+			array_push($required, [$string]);
+		}
+		$response['msg'] = "List of Requirements";
+		$response['status_code'] = "TYPE_LIST";
+		$response['data'] = $required;
+		callback:
+		
 		return response()->json($response, 200);
 	}
 

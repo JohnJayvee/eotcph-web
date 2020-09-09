@@ -41,10 +41,9 @@ return [
             'provider' => 'users',
         ],
 
-        'citizen' => [
-            'driver' => 'jwt',
-            'provider' => 'citizens',
-            'hash' => false,
+        'customer' => [
+            'driver' => 'session',
+            'provider' => 'customer',
         ],
 
         'officer' => [
@@ -72,9 +71,9 @@ return [
     */
 
     'providers' => [
-        'citizens' => [
+        'customer' => [
             'driver' => 'eloquent',
-            'model' => App\Laravel\Models\Citizen::class,
+            'model' => App\Laravel\Models\Customer::class,
         ],
 
         'users' => [
@@ -104,9 +103,9 @@ return [
     */
 
     'passwords' => [
-        'citizens' => [
-            'provider' => 'citizens',
-            'table' => 'citizen_password_resets',
+        'customer' => [
+            'provider' => 'customer',
+            'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,
         ],

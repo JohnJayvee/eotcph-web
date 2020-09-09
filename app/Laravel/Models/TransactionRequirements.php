@@ -7,11 +7,11 @@ use App\Laravel\Traits\DateFormatter;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Auth,Helper;
 
-class UserFile extends Model
+class TransactionRequirements extends Model
 {
     use SoftDeletes,DateFormatter;
 
-    protected $table = "user_file";
+    protected $table = "transaction_requirements";
 
     /**
      * The attributes that are mass assignable.
@@ -19,7 +19,7 @@ class UserFile extends Model
      * @var array
      */
     protected $fillable = [
-        'application_id', 'type'
+        'transaction_id', 'type'
     ];
     
     public $timestamps = true;
