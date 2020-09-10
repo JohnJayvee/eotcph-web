@@ -32,6 +32,8 @@ Route::group(['as' => "web.",
 
 	Route::group(['middleware' => ["web","portal.auth"]], function(){
 		Route::group(['prefix' => "transaction", 'as' => "transaction."], function () {
+			Route::get('history',['as' => "history", 'uses' => "CustomerTransactionController@history"]);
+			Route::get('show/{id?}',['as' => "show", 'uses' => "CustomerTransactionController@show"]);
 			Route::get('create',['as' => "create", 'uses' => "CustomerTransactionController@create"]);
 			Route::post('create',['uses' => "CustomerTransactionController@store"]);
 		});

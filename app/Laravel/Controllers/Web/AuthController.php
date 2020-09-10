@@ -121,7 +121,7 @@ class AuthController extends Controller{
 
 	}
 	public function destroy(){
-		Auth::logout();
+		Auth::guard('customer')->logout();
 		session()->forget('auth_id');
 		session()->flash('notification-status','success');
 		session()->flash('notification-msg','You are now signed off.');

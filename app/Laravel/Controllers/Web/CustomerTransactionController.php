@@ -137,7 +137,21 @@ class CustomerTransactionController extends Controller
 			
 		
 	}
+	public function history(){
+		$auth_id = Auth::guard('customer')->user()->id;
 
+		$this->data['transactions'] = Transaction::where('customer_id', $auth_id)->orderBy('created_at',"DESC")->get();
+		$this->data['page_title'] = "Application history";
+		return view('web.transaction.history',$this->data);
+
+	}
+
+	public function show($id = NULL){
+		$this->data['transaction'] = Transaction::find($id);
+		$this->data['page_title'] = "Application Details";
+		return view('web.transaction.show',$this->data);
+
+	}
 	// public function pdf(){
 	// 	QrCode::size(500)->format('png')->generate('HDTuto.com', public_path('web/img/qrcode.png'));
 
