@@ -17,13 +17,11 @@
         <div class="card card-rounded shadow-sm">
       <div class="card-body" style="border-bottom: 3px dashed #E3E3E3;">
         <div class="row">
-          <div class="col-md-1 text-center">
-            <img src="{{asset('system/images/default.jpg')}}" class="rounded-circle" width="100%">
-          </div>
+         
           <div class="col-md-11 d-flex">
-            <p class="text-title fw-500 pt-3">Application by: <span class="text-black">{{Str::title($transaction->customer->full_name)}}</span></p>
+            <p class="text-title fw-600 pt-3">Company: <span class="text-black">{{Str::title($transaction->company_name)}}</span></p>
             <p class="text-title fw-500 pl-3" style="padding-top: 15px;">|</p>
-            <p class="text-title fw-500 pt-3 pl-3">Application Sent: <span class="text-black">{{ Helper::date_format($transaction->created_at)}}</span></p>
+            <p class="text-title fw-600 pt-3 pl-3">Application Sent: <span class="text-black">{{ Helper::date_format($transaction->created_at)}}</span></p>
           </div>
         </div> 
       </div>
@@ -31,28 +29,50 @@
       <div class="card-body" style="border-bottom: 3px dashed #E3E3E3;">
         <div class="row">
           <div class="col-md-6">
-            <p class="text-title fw-500">Applying For: <span class="text-black">{{$transaction->type ? Str::title($transaction->type->name) : "N/A"}}</span></p>
-            <p class="text-title fw-500">Email Address: <span class="text-black">{{$transaction->email}}</span></p>
-          </div>
-          <div class="col-md-6">
-            <p class="text-title fw-500">Deparatment/Agency: <span class="text-black">{{$transaction->department ? Str::title($transaction->department->name) : "N/A"}}</span></p>
-            <p class="text-title fw-500">Contact Number: <span class="text-black">+63{{$transaction->customer->contact_number}}</span></p>
-          </div>
-          <div class="col-md-6">
-             <p class="fw-500" style="color: #DC3C3B;">Amount: Php {{Helper::money_format($transaction->processing_fee)}}</p>
-          </div>
-          <div class="col-md-6">
-           
-            <p class="text-title fw-500">Application Status: <span class="text-black">{{Str::title($transaction->transaction_status)}}</span></p>
-          </div>
+            <p class="text-title fw-600">Application: <span class="text-black">{{$transaction->type ? Str::title($transaction->type->name) : "N/A"}}</span></p>
+            <p class="text-title fw-600">Email Address: <span class="text-black">{{$transaction->email}}</span></p>
 
+            <p class="fw-600" style="color: #DC3C3B;">Amount: Php {{Helper::money_format($transaction->amount ? $transaction->amount : "0.00")}}</p>
+
+            <p class="text-title fw-600">Application Status: <span class="btn-sm text-center fw-600 text-black {{Helper::status_color($transaction->transaction_status)}}">{{Str::title($transaction->transaction_status)}}</span></p>
+          </div>
+          <div class="col-md-6">
+            <p class="text-title fw-600">Deparatment/Agency: <span class="text-black">{{$transaction->department ? Str::title($transaction->department->name) : "N/A"}}</span></p>
+            <p class="text-title fw-600">Contact Number: <span class="text-black">+63{{$transaction->customer->contact_number}}</span></p>
+            <p class="fw-600" style="color: #DC3C3B;">Processing Fee: Php {{Helper::money_format($transaction->processing_fee)}}</p>
+          </div>
         </div> 
        
       </div>
       <div class="card-body d-flex">
         <button class="btn btn-transparent p-3" data-toggle="collapse" data-target="#collapseExample"><i class="fa fa-download" style="font-size: 1.5rem;"></i></button>
+        <p class="text-title pt-4 pl-3 fw-500">Review Attached Requirements : {{$count_file}} Item/s</p>
       </div>
     </div>
+    <div class="collapse pt-2" id="collapseExample">
+      <div class="card card-body card-rounded">
+        <div class="row justify-content-center">
+          <table class="table table-striped">
+            <thead>
+              <th>FileName</th>
+              <th>Date Submitted</th>
+              <th>Status</th>
+            </thead>
+            <tbody>
+            @forelse($attachments as $index => $attachment)
+              <tr>
+                <td><a href="{{$attachment->directory}}/{{$attachment->filename}}" target="_blank" class="fw-600">{{$attachment->original_name}}</a></td>
+                <td>{{Helper::date_format($attachment->created_at)}}</td>
+                <td><p class="btn-sm text-center fw-600 text-black {{Helper::status_color($attachment->status)}}">{{Str::title($attachment->status)}}</p></td>
+              </tr>
+            @empty
+            <h5>No Items available.</h5>
+            @endforelse
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>  
         
     </div>
 

@@ -558,9 +558,9 @@ class Helper{
 	}
 
 	public static function status_color($status){
-		if ($status == "approved") {
+		if ($status == "approved" || $status == "APPROVED") {
 			return "bg-success";
-		}elseif($status == "pending"){
+		}elseif($status == "pending" || $status == "PENDING"){
 			return "bg-warning";
 		}else{
 			return "bg-danger";

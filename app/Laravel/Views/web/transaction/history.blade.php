@@ -29,7 +29,7 @@
               @forelse($transactions as $transaction)
               <tr>
                 <td>{{$transaction->company_name}}</th>
-                <td>{{$transaction->type->name}}<br><a href="{{route('web.transaction.show',[$transaction->id])}}}">{{$transaction->code}}</a></th>
+                <td>{{$transaction->type->name}}<br><a href="{{route('web.transaction.show',[$transaction->id])}}">{{$transaction->code}}</a></th>
                 <td style="text-align: center;">{{$transaction->processing_fee}}<p class="btn-status btn-sm bg-warning text-white">{{$transaction->payment_status}}</p></th>
                 <td><p class="btn text-white {{Helper::status_color($transaction->status)}}">{{Str::title($transaction->transaction_status)}}</p></td>
                 <td>{{Helper::date_format($transaction->created_at)}}</td>

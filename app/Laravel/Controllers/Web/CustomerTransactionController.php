@@ -147,8 +147,11 @@ class CustomerTransactionController extends Controller
 	}
 
 	public function show($id = NULL){
+		
+		$this->data['page_title'] = "Application Details"; 
 		$this->data['transaction'] = Transaction::find($id);
-		$this->data['page_title'] = "Application Details";
+		$this->data['attachments'] = TransactionRequirements::where('transaction_id',$id)->get();
+		$this->data['count_file'] = TransactionRequirements::where('transaction_id',$id)->count();
 		return view('web.transaction.show',$this->data);
 
 	}
