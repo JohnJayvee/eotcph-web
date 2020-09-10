@@ -12,6 +12,7 @@ use App\Laravel\Requests\System\ProcessorPasswordRequest;
  * Models
  */
 use App\Laravel\Models\User;
+use App\Laravel\Models\Transaction;
 use App\Laravel\Models\Department;
 /* App Classes
  */
@@ -202,5 +203,21 @@ class ProcessorController extends Controller
 			session()->flash('notification-msg', "Server Error: Code #{$e->getLine()}");
 			return redirect()->back();
 		}
+	}
+
+	public function  list(){
+		$this->data['page_title'] .= " List of Processor";
+		$this->data['processors']  = User::where('type',"processor")->orderBy('created_at',"DESC")->get();
+
+
+		return view('system.processor.list',$this->data);
+	}
+
+	public function  show($id = NULL){
+		$this->data['page_title'] .= " List of Transaction";
+		$this->data['transactions']  = Transaction::where('processor_user_id',$id)->orderBy('created_at',"DESC")->get();
+
+
+		return view('system.processor.show',$this->data);
 	}
 }

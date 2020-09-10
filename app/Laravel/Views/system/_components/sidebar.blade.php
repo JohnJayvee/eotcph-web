@@ -9,6 +9,12 @@
       </a>
     </li>
     @if(in_array($auth->type,['super_user','admin','processor']))
+    <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.processor.list','system.processor.show')) ? 'active' : ''}}">
+      <a class="nav-link" href="{{route('system.processor.list')}}">
+        <i class="fa fa-user-circle menu-icon"></i>
+        <span class="menu-title">Processors</span>
+      </a>
+    </li>
     <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.transaction.index','system.transaction.show')) ? 'active' : ''}}">
       <a class="nav-link" href="{{route('system.transaction.index')}}">
         <i class="fa fa-file menu-icon"></i>

@@ -33,6 +33,9 @@ Route::group(['as' => "auth."], function(){
 			Route::any('delete/{id?}',['as' => "destroy",'uses' => "TransactionController@destroy"]);
 		});
 
+
+		
+
 		Route::group(['as' => "profile.",'prefix' => "profile"], function(){
 			Route::get('/',['as' => "index",'uses' => "ProfileController@index"]);
 			Route::get('edit',['as' => "edit",'uses' => "ProfileController@edit"]);
@@ -93,6 +96,8 @@ Route::group(['as' => "auth."], function(){
 			Route::get('reset/{id?}',['as' => "reset",'uses' => "ProcessorController@reset",'middleware' => "system.exist:processor"]);
 			Route::post('reset/{id?}',['uses' => "ProcessorController@update_password",'middleware' => "system.exist:processor"]);
 			Route::any('delete/{id?}',['as' => "destroy",'uses' => "ProcessorController@destroy",'middleware' => "system.exist:processor"]);
+			Route::get('list',['as' => "list",'uses' => "ProcessorController@list"]);
+			Route::get('show/{id?}',['as' => "show",'uses' => "ProcessorController@show"]);
 		});
 	});
 

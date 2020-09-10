@@ -1,7 +1,7 @@
 <?php 
 
 namespace App\Laravel\Services;
-
+use App\Laravel\Models\Transaction;
 use Route,Str,Carbon,Input,DB,DateTime,DateInterval,DatePeriod;
 
 class Helper{
@@ -558,13 +558,20 @@ class Helper{
 	}
 
 	public static function status_color($status){
-		if ($status == "approved" || $status == "APPROVED") {
+		if ($status == "approved" || $status == "APPROVED" || $status == "PAID") {
 			return "bg-success";
-		}elseif($status == "pending" || $status == "PENDING"){
+		}elseif($status == "pending" || $status == "PENDING" || $status == "UNPAID"){
 			return "bg-warning";
 		}else{
 			return "bg-danger";
 		}
+	}
+
+	public static function processed_count($id){
+		$application_count = Transaction::where('processor_user_id',$id)->count();
+
+		return $application_count;
+		
 	}
 }
 

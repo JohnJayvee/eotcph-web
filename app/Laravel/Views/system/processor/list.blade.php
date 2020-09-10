@@ -9,7 +9,7 @@
         <h5 class="text-title text-uppercase">{{$page_title}}</h5>
       </div>
       <div class="col-md-6 ">
-        <p class="text-dim  float-right">EOR-PHP Accounts Portal / Accounts</p>
+        <p class="text-dim  float-right">EOR-PHP Processor Portal / Processors</p>
       </div>
     </div>
   
@@ -29,39 +29,25 @@
     </form>
   </div>
   <div class="col-md-12">
-    <h4 class="pb-4">Record Data
-      <span class="float-right">
-        <a href="{{route('system.processor.create')}}" class="btn btn-sm btn-primary">Add New</a>
-      </span>
-    </h4>
+    <h4 class="pb-4">Record Data</h4>
     <div class="table-responsive shadow fs-15">
       <table class="table table-striped">
         <thead>
           <tr>
-            <th width="25%" class="text-title fs-15 fs-500 p-3">Reference #</th>
-            <th width="25%" class="text-title fs-15 fs-500 p-3">Last Name</th>
-            <th width="25%" class="text-title fs-15 fs-500 p-3">First Name</th>
-            <th width="10%" class="text-title fs-15 fs-500 p-3">Status</th>
-            <th width="10%" class="text-title fs-15 fs-500 p-3">Type</th>
-            <th width="10%" class="text-title fs-15 fs-500 p-3">Date Created</th>
+            <th width="25%" class="text-title fs-15 fs-500 p-3">Name</th>
+            <th width="25%" class="text-title fs-15 fs-500 p-3"># of Application Processed</th>
             <th width="10%" class="text-title fs-15 fs-500 p-3">Action</th>
           </tr>
         </thead>
         <tbody>
           @forelse($processors as $processor)
           <tr>
-            <th>{{ $processor->reference_id}}</th>
-            <th>{{ Str::title($processor->lname)}}</th>
-            <th>{{ Str::title($processor->fname)}}</th>
-            <th>{{ Str::title($processor->status)}}</th>
-            <th>{{ Str::title($processor->type)}}</th>
-            <th>{{ Helper::date_format($processor->created_at)}}</th>
+            <th>{{ $processor->full_name}}</th>
+            <th>{{ Helper::processed_count($processor->id)}} as of {{Helper::date_format(Carbon::now())}}</th>
             <td >
               <button type="button" class="btn btn-sm p-0" data-toggle="dropdown" style="background-color: transparent;"> <i class="mdi mdi-dots-horizontal" style="font-size: 30px"></i></button>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuSplitButton2">
-                <a class="dropdown-item" href="{{route('system.processor.edit',[$processor->id])}}">Edit Processor</a>
-                <a class="dropdown-item" href="{{route('system.processor.reset',[$processor->id])}}">Reset Password</a>
-                <!-- <a class="dropdown-item action-delete"  data-url="{{route('system.processor.destroy',[$processor->id])}}" data-toggle="modal" data-target="#confirm-delete">Remove Record</a> -->
+                <a class="dropdown-item" href="{{route('system.processor.show',[$processor->id])}}">View Details</a>
               </div>
             </td>
           </tr>

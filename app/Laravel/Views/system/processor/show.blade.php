@@ -9,7 +9,7 @@
         <h5 class="text-title text-uppercase">{{$page_title}}</h5>
       </div>
       <div class="col-md-6 ">
-        <p class="text-dim  float-right">EOR-PHP Accounts Portal / Accounts</p>
+        <p class="text-dim  float-right">EOR-PHP Processor Portal / Transaction</p>
       </div>
     </div>
   
@@ -29,41 +29,26 @@
     </form>
   </div>
   <div class="col-md-12">
-    <h4 class="pb-4">Record Data
-      <span class="float-right">
-        <a href="{{route('system.processor.create')}}" class="btn btn-sm btn-primary">Add New</a>
-      </span>
-    </h4>
+    <h4 class="pb-4">Record Data</h4>
     <div class="table-responsive shadow fs-15">
       <table class="table table-striped">
         <thead>
           <tr>
-            <th width="25%" class="text-title fs-15 fs-500 p-3">Reference #</th>
-            <th width="25%" class="text-title fs-15 fs-500 p-3">Last Name</th>
-            <th width="25%" class="text-title fs-15 fs-500 p-3">First Name</th>
-            <th width="10%" class="text-title fs-15 fs-500 p-3">Status</th>
-            <th width="10%" class="text-title fs-15 fs-500 p-3">Type</th>
-            <th width="10%" class="text-title fs-15 fs-500 p-3">Date Created</th>
-            <th width="10%" class="text-title fs-15 fs-500 p-3">Action</th>
+            <th width="25%" class="text-title fs-15 fs-500 p-3">Transaction Date</th>
+            <th width="25%" class="text-title fs-15 fs-500 p-3">Application Name / Ref. Code</th>
+            <th width="25%" class="text-title fs-15 fs-500 p-3">Submitted By</th>
+            <th width="25%" class="text-title fs-15 fs-500 p-3">Processing Fee</th>
+            <th width="10%" class="text-title fs-15 fs-500 p-3">Processor/Status</th>
           </tr>
         </thead>
         <tbody>
-          @forelse($processors as $processor)
+          @forelse($transactions as $transaction)
           <tr>
-            <th>{{ $processor->reference_id}}</th>
-            <th>{{ Str::title($processor->lname)}}</th>
-            <th>{{ Str::title($processor->fname)}}</th>
-            <th>{{ Str::title($processor->status)}}</th>
-            <th>{{ Str::title($processor->type)}}</th>
-            <th>{{ Helper::date_format($processor->created_at)}}</th>
-            <td >
-              <button type="button" class="btn btn-sm p-0" data-toggle="dropdown" style="background-color: transparent;"> <i class="mdi mdi-dots-horizontal" style="font-size: 30px"></i></button>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuSplitButton2">
-                <a class="dropdown-item" href="{{route('system.processor.edit',[$processor->id])}}">Edit Processor</a>
-                <a class="dropdown-item" href="{{route('system.processor.reset',[$processor->id])}}">Reset Password</a>
-                <!-- <a class="dropdown-item action-delete"  data-url="{{route('system.processor.destroy',[$processor->id])}}" data-toggle="modal" data-target="#confirm-delete">Remove Record</a> -->
-              </div>
-            </td>
+            <th>{{ Helper::date_format($transaction->created_at)}}</th>
+            <th class="text-center">{{ $transaction->type->name}} <br> <a href="{{route('system.transaction.show',[$transaction->id])}}">{{$transaction->code}}</a></th>
+            <th>{{$transaction->customer->full_name}}</th>
+            <th class="text-center">{{$transaction->processing_fee}}<p class="btn-sm custom-btn text-white {{Helper::status_color($transaction->payment_status)}}">{{$transaction->payment_status}}</p></th>
+            <th>{{$transaction->admin->full_name}}</th>
           </tr>
           @empty
           <tr>
@@ -104,7 +89,14 @@
   </div>
 </div>
 @stop
-
+@section('page-styles')
+<style type="text/css">
+  .custom-btn {
+    border-radius: 10px;
+    text-align: center;
+  }
+</style>
+@endsection
 @section('page-scripts')
 <script src="{{asset('system/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>
 <script type="text/javascript">

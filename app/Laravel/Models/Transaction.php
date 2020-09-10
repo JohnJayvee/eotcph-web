@@ -71,8 +71,12 @@ class Transaction extends Model{
         return $this->BelongsTo("App\Laravel\Models\Department",'department_id','id');
     }
 
-     public function customer(){
+    public function customer(){
         return $this->BelongsTo("App\Laravel\Models\Customer",'customer_id','id');
+    }
+
+     public function admin(){
+        return $this->BelongsTo("App\Laravel\Models\User",'processor_user_id','id');
     }
     
 
