@@ -43,7 +43,7 @@
           </div>
           <div class="col-md-6">
            
-            <p class="text-title fw-500">Application Status: <span class="text-black">{{Str::title($transaction->transaction_status)}}</span></p>
+            <p class="text-title fw-500">Application Status: <span class="text-black">{{Str::title($transaction->status)}}</span></p>
           </div>
 
         </div> 
@@ -63,7 +63,9 @@
               <th>File Type</th>
               <th>Status</th>
               @if(Auth::user()->type == "processor")
-              <th>Action</th>
+                @if($transaction->status == "PENDING" || $transaction->status == "ONGOING")
+                  <th>Action</th>
+                @endif
               @endif
             </thead>
             <tbody>
@@ -72,7 +74,8 @@
                 <td><a href="{{$attachment->directory}}/{{$attachment->filename}}" target="_blank">{{$attachment->original_name}}</a></td>
                 <td>{{$attachment->type}}</td>
                 <td>{{Str::title($attachment->status)}}</td>
-                @if(Auth::user()->type == "processor")
+                @if(Auth::user()->type == "processor" )
+                  @if($transaction->status == "PENDING" || $transaction->status == "ONGOING")
                   <td >
                     <button type="button" class="btn btn-sm p-0" data-toggle="dropdown" style="background-color: transparent;"> <i class="mdi mdi-dots-horizontal" style="font-size: 30px"></i></button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuSplitButton2">
@@ -80,6 +83,7 @@
                       <a class="dropdown-item action-process" href="#" data-url="{{route('system.transaction.requirements',[$attachment->id])}}?status=declined"  data-toggle="modal" data-target="#confirm-process">Declined</a>
                     </div>
                   </td>
+                  @endif
                 @endif
               </tr>
             @empty
@@ -92,8 +96,10 @@
     </div>  
 
     @if(Auth::user()->type == "processor")
-      <a data-url="{{route('system.transaction.process',[$transaction->id])}}?status_type=approved" data-toggle="modal" data-target="#confirm-process" class="btn btn-primary mt-4 border-5 text-white action-process {{$transaction->status == 'approved' ? "isDisabled" : ""}}"><i class="fa fa-check-circle"></i> Approved Transactions</a>
-      <a  data-url="{{route('system.transaction.process',[$transaction->id])}}?status_type=declined" data-toggle="modal" data-target="#confirm-process" class="btn btn-danger mt-4 border-5 text-white action-process {{$transaction->status == 'approved' ? "isDisabled" : ""}}""><i class="fa fa-times-circle"></i> Decline Transactions</a>
+      @if($transaction->status == "PENDING" || $transaction->status == "ONGOING")
+        <a data-url="{{route('system.transaction.process',[$transaction->id])}}?status_type=approved" data-toggle="modal" data-target="#confirm-process" class="btn btn-primary mt-4 border-5 text-white action-process {{$transaction->status == 'approved' ? "isDisabled" : ""}}"><i class="fa fa-check-circle"></i> Approved Transactions</a>
+        <a  data-url="{{route('system.transaction.process',[$transaction->id])}}?status_type=declined" data-toggle="modal" data-target="#confirm-process" class="btn btn-danger mt-4 border-5 text-white action-process {{$transaction->status == 'approved' ? "isDisabled" : ""}}""><i class="fa fa-times-circle"></i> Decline Transactions</a>
+      @endif
     @endif
   </div>
   

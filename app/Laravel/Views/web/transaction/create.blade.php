@@ -96,7 +96,7 @@
                         <div class="col-sm-12 col-md-6 col-lg-6">
                             <div class="form-group">
                                 <label for="exampleInputEmail1" class="text-form pb-2">Your Email Address</label>
-                                <input type="text" class="form-control form-control-sm" name="email" placeholder="Email Address" value="{{old('email')}}">
+                                <input type="text" class="form-control form-control-sm" name="email" placeholder="Email Address" value="{{old('email',Auth::guard('customer')->user()->email)}}">
                                 @if($errors->first('email'))
                                     <small class="form-text pl-1" style="color:red;">{{$errors->first('email')}}</small>
                                 @endif
@@ -109,7 +109,7 @@
                                   <div class="input-group-prepend">
                                     <span class="input-group-text text-title fw-600">+63 <span class="pr-1 pl-2" style="padding-bottom: 2px"> |</span></span>
                                   </div>
-                                  <input type="text" class="form-control br-left-white" placeholder="Contact Number" name="contact_number" value="{{old('contact_number')}}">
+                                  <input type="text" class="form-control br-left-white" placeholder="Contact Number" name="contact_number" value="{{old('contact_number',Auth::guard('customer')->user()->contact_number)}}">
                                 </div>
                                 @if($errors->first('contact_number'))
                                     <small class="form-text pl-1" style="color:red;">{{$errors->first('contact_number')}}</small>
@@ -156,7 +156,7 @@
                     <h5 class="text-title text-uppercase ">Print Requirements</h5>
                     <div class="custom-control custom-checkbox mb-3">
                         <input type="checkbox" class="custom-control-input" id="customControlValidation1" name="is_check" value="1">
-                        <label class="custom-control-label fs-12 fw-600 text-black" for="customControlValidation1">&nbsp;&nbsp; Check this option if you're going to submit physical copies of your documents. The system will generate a QR Code that you'll have to attach to the envelope of your physical copies.</label>
+                        <label class="custom-control-label fs-14 fw-600 text-black" for="customControlValidation1">&nbsp;&nbsp; Check this option if you're going to submit physical copies of your documents. The system will generate a QR Code that you'll have to attach to the envelope of your physical copies.</label>
                         
                     </div>
                     <button class="btn badge badge-primary-2 text-white px-4 py-2 fs-14" type="submit"><i class="fa fa-paper-plane pr-2"></i>  Send Application</button>

@@ -30,6 +30,8 @@ class CreateTransactionTable extends Migration
             $table->string('zone_id')->nullable();
             $table->string('zone_name')->nullable();
             $table->string('is_received_copy')->default(0)->nullable();
+
+
             $table->string('processing_fee')->nullable();
             $table->string('payment_reference')->nullable();
             $table->string('payment_type')->nullable();
@@ -41,10 +43,24 @@ class CreateTransactionTable extends Migration
             $table->string('convenience_fee')->nullable();
             $table->date('payment_date')->nullable();
             $table->string('amount')->nullable();
+
+            $table->string('application_payment_reference')->nullable();
+            $table->string('application_payment_type')->nullable();
+            $table->string('application_payment_option')->nullable();
+            $table->string('application_payment_method')->nullable();
+            $table->string('application_payment_status')->default("UNPAID")->nullable();
+            $table->string('application_transaction_status')->default("PENDING")->nullable();
+            $table->string('application_total_amount')->nullable();
+            $table->string('application_convenience_fee')->nullable();
+            $table->timestamp('application_payment_date')->nullable();
+
             $table->string('processor_user_id')->nullable();
-            $table->string('status')->nullable();
-            $table->date('application_date')->nullable();
+            $table->string('status')->nullable()->default('PENDING');
+            $table->timestamp('application_date')->nullable();
+            $table->timestamp('modified_at')->nullable();
+            $table->text('remarks')->nullable();
             $table->string('is_printed_requirements')->default(0)->nullable();
+            
             $table->timestamps();
             $table->softDeletes();
         });

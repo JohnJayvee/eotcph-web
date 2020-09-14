@@ -33,10 +33,19 @@ Route::group(['as' => "web.",
 	Route::group(['middleware' => ["web","portal.auth"]], function(){
 		Route::group(['prefix' => "transaction", 'as' => "transaction."], function () {
 			Route::get('history',['as' => "history", 'uses' => "CustomerTransactionController@history"]);
+			Route::get('payment/{code?}',['as' => "payment", 'uses' => "CustomerTransactionController@payment"]);
+			Route::get('pay/{code?}',['as' => "pay", 'uses' => "CustomerTransactionController@pay"]);
 			Route::get('show/{id?}',['as' => "show", 'uses' => "CustomerTransactionController@show"]);
 			Route::get('create',['as' => "create", 'uses' => "CustomerTransactionController@create"]);
 			Route::post('create',['uses' => "CustomerTransactionController@store"]);
 		});
+	});
+	Route::get('confirmation/{code?}',['as' => "confirmation",'uses' => "MainController@confirmation"]);
+	
+	Route::group(['prefix' => "digipep",'as' => "digipep."],function(){
+		Route::any('success/{code}',['as' => "success",'uses' => "DigipepController@success"]);
+		Route::any('cancel/{code}',['as' => "cancel",'uses' => "DigipepController@cancel"]);
+		Route::any('failed/{code}',['as' => "failed",'uses' => "DigipepController@failed"]);
 	});
 		// Route::group(['prefix'=> "register",'as' => 'register.' ],function(){
   //           Route::get('/', [ 'as' => "index",'uses' => "AuthController@register"]);

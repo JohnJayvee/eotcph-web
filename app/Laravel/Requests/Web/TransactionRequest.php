@@ -17,10 +17,11 @@ class TransactionRequest extends RequestManager{
 			'processing_fee' => "required",
 			'zone_id' => "required",
 			'contact_number' => "required|max:10|phone:PH",
-			'file' =>'required',
     		'file.*' => 'required|mimes:pdf,docx,doc|max:204800',
 		];
-		
+		if ($this->get('is_check') != 1 ) {
+			$rules['file'] = "required";
+		}
 		return $rules;
 		
 	}

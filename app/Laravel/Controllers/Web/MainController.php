@@ -7,6 +7,7 @@ namespace App\Laravel\Controllers\Web;
  */
 use App\Laravel\Requests\PageRequest;
 use App\Laravel\Models\Application;
+use App\Laravel\Models\Transaction;
 use App\Laravel\Models\ApplicationRequirements;
 /*
  * Models
@@ -81,6 +82,37 @@ class MainController extends Controller{
 		callback:
 		
 		return response()->json($response, 200);
+	}
+	public function confirmation($code = NULL){
+		$prefix = explode('-', $code);
+		$code = strtolower($code);
+
+		switch (strtoupper($prefix[0])) {
+			case 'APP':
+				$transaction = Transaction::whereRaw("LOWER(transaction_code)  LIKE  '%{$code}%'")->first();
+				$current_transaction_code = Str::lower($transaction->transaction_code);
+				break;
+			
+			default:
+				$transaction = Transaction::whereRaw("LOWER(processing_fee_code)  LIKE  '%{$code}%'")->first();
+				$current_transaction_code = Str::lower($transaction->processing_fee_code);
+				break;
+		}
+
+		$current_transaction_code = Str::lower(session()->get('transaction.code'));
+
+		if($current_transaction_code == $code){
+			session()->forget('transaction');
+
+			$this->data['transaction'] = $transaction;
+			$this->data['prefix'] = strtoupper($prefix[0]);
+			return view('web._components.message',$this->data);
+		}
+
+		session()->flash('notification-status',"warning");
+		session()->flash('notification-msg',"Transaction already completed. No more action is needed.");
+		return redirect()->route('web.main.index');
+
 	}
 
 }

@@ -59,7 +59,7 @@
             <th>{{ Helper::date_format($transaction->created_at)}}</th>
             <th>{{ $transaction->customer->full_name}}</th>
             <th>{{ $transaction->type ? $transaction->type->name : "N/A"}}</th>
-            <td><p class="btn text-white {{Helper::status_color($transaction->status)}}">{{Str::title($transaction->transaction_status)}}</p></td>
+            <td><p class="btn text-white {{Helper::status_color($transaction->status)}}">{{Str::title($transaction->status)}}</p></td>
             <td >
               <button type="button" class="btn btn-sm p-0" data-toggle="dropdown" style="background-color: transparent;"> <i class="mdi mdi-dots-horizontal" style="font-size: 30px"></i></button>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuSplitButton2">

@@ -55,12 +55,14 @@ class Helper{
 			'firstname' => $param['first_name'],
 			'middlename' => $param['middle_name'],
 			'lastname' => $param['last_name'],
-			'subMerchantCode' => "TAX",
-			'subMerchantName' => "TAX",
+			'emailAddress' => $param['email'],
+			'subMerchantCode' => "",
+			'subMerchantName' => "",
 			'title' => $param['title'],
 			'successUrl' => $param['success_url'],
 			'cancelUrl' => $param['cancel_url'],
 			'returnUrl' => $param['return_url'],
+			'failedUrl' => $param['failed_url'],
 			'details' => [
 				'particularFee' => $param['particular_fee'],
 				'penaltyFee' => $param['penalty_fee'],
@@ -68,7 +70,7 @@ class Helper{
 			]
 
 		];
-
+		
 		return $request;
 	}
 

@@ -9,7 +9,7 @@
       </a>
     </li>
     @if(in_array($auth->type,['super_user','admin','processor']))
-    <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.processor.list','system.processor.show')) ? 'active' : ''}}">
+    <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.processor.list','system.processor.show' )) ? 'active' : ''}}">
       <a class="nav-link" href="{{route('system.processor.list')}}">
         <i class="fa fa-user-circle menu-icon"></i>
         <span class="menu-title">Processors</span>

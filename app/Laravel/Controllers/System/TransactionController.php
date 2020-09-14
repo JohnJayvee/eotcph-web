@@ -47,7 +47,7 @@ class TransactionController extends Controller{
 		DB::beginTransaction();
 		try{
 			$transaction = $request->get('transaction_data');
-			$transaction->status = $request->get('status_type');
+			$transaction->status = strtoupper($request->get('status_type'));
 			$transaction->save();
 
 			DB::commit();

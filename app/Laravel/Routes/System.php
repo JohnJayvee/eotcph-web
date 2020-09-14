@@ -9,7 +9,6 @@ Route::group(['as' => "system.",
 		],function() {
 
 
-
 Route::group(['as' => "auth."], function(){
 		Route::get('login/{uri?}',['as' => "login",'uses' => "AuthController@login","middleware" => "system.guest"]);
 		Route::post('login/{uri?}',['uses' => "AuthController@authenticate","middleware" => "system.guest"]);
@@ -23,6 +22,7 @@ Route::group(['as' => "auth."], function(){
 		Route::any('get-municipalities',['as' => "get_municipalities", 'uses' => "AuthController@get_municipalities"]);
 	});
 	Route::group(['middleware' => "system.auth"],function(){
+
 		Route::get('/',['as' => "dashboard",'uses' => "MainController@dashboard"]);
 
 		Route::group(['as' => "transaction.",'prefix' => "transaction"], function(){
@@ -33,8 +33,6 @@ Route::group(['as' => "auth."], function(){
 			Route::any('delete/{id?}',['as' => "destroy",'uses' => "TransactionController@destroy"]);
 		});
 
-
-		
 
 		Route::group(['as' => "profile.",'prefix' => "profile"], function(){
 			Route::get('/',['as' => "index",'uses' => "ProfileController@index"]);

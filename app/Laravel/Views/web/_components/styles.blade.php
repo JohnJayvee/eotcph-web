@@ -84,8 +84,34 @@
     .fw-500{
         font-weight: 500;
     }
+    .fw-bolder{
+        font-weight: bolder;
+    }
     .text-black{
         color: #000;
+    }
+    .text-gray{
+        color:#ABABAB;
+    }
+    .text-yellow{
+        color: #F0BE1D;
+    }
+    .text-italic{
+        font-style:italic;
+    }
+    .text-blue{
+        color: #254DA0;
+    }
+    .relative{
+        position: relative;
+    }
+    .absolute{
+        position: absolute;
+    }
+    .hr-full-dashed{
+        margin: 30px -17px 20px;
+        border: 0;
+        border-top: 2px dashed #A5A5A5;
     }
     .custom-checkbox .custom-control-label::before {
         border: solid 2px #0235AA;
@@ -132,7 +158,14 @@
         border-radius: 8px;
         font-size:14px;
     }
-
+    .btn-badge-primary{
+        display: inline;
+        background-color: #0045A2 ;
+        padding: 0.8rem 1.5rem;
+    }
+    .btn-badge-primary:hover{
+        background-color: #27437D ;
+    }
     .secondary-solid-btn:hover {
         background: transparent;
         color: #1d1d1f;
@@ -158,6 +191,15 @@
         background: #1d1d1f!important; 
         color: #f5f5f7;
     }
+    .equal {
+      display: flex;
+      display: -webkit-flex;
+      flex-wrap: wrap;
+    }
+
+    .fw-normal{
+        font-weight: normal;
+    }
     .image-header img{
         width: 100%;
     }
@@ -165,6 +207,12 @@
     .registration-card{
         padding-right: 10em;
         padding-left: 3em;
+    }
+    .custom-margin{
+        margin-left: -15px;
+    }
+    .custom-margin-two{
+        margin-left: -30px;
     }
     .badge { font-family: 'SF Pro Display', sans-serif; font-weight: 400; }
 
@@ -197,6 +245,12 @@
     @media (max-width: 770px) and (min-width: 320px){
         .date-time{
             display: none;
+        }
+        .custom-margin{
+            margin-left: .5em;
+        }
+        .custom-margin-two{
+            margin-left: .5em;
         }
     }
     .brand-logo img{
