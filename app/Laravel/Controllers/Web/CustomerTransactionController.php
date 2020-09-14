@@ -61,8 +61,8 @@ class CustomerTransactionController extends Controller
 			session()->flash('notification-msg', "You must at least submit the minimum requirements needed.");
 			return redirect()->back();
 		}
-		DB::beginTransaction();
-		try{
+		// DB::beginTransaction();
+		// try{
 			$new_transaction = new Transaction;
 			$new_transaction->company_name = $request->get('company_name');
 			$new_transaction->email = $request->get('email');
@@ -126,13 +126,13 @@ class CustomerTransactionController extends Controller
 				session()->flash('notification-msg','Successfully Submit Application.');
 				return redirect()->route('web.transaction.create');
 			}
-		}catch(\Exception $e){
-			DB::rollback();
-			session()->flash('notification-status', "failed");
-			session()->flash('notification-msg', "Server Error: Code #{$e->getLine()}");
-			return redirect()->back();
+		// }catch(\Exception $e){
+		// 	DB::rollback();
+		// 	session()->flash('notification-status', "failed");
+		// 	session()->flash('notification-msg', "Server Error: Code #{$e->getLine()}");
+		// 	return redirect()->back();
 
-		}
+		// }
 		
 			
 		

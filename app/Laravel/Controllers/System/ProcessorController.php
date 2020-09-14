@@ -43,7 +43,7 @@ class ProcessorController extends Controller
 
 	public function  create(PageRequest $request){
 		$this->data['page_title'] .= "Processor - Add new record";
-		$ref_num = User::where('type',"processor")->withTrashed()->latest('id')->first();
+		$ref_num = User::where('type','<>','super_user')->withTrashed()->latest('id')->first();
 		
 		$num =  $ref_num ? $ref_num->id : 1 ;
 
@@ -86,7 +86,8 @@ class ProcessorController extends Controller
 					'full_name' => $new_processor->fname ." " .$new_processor->lname,
 					'ref_id' => $new_processor->reference_id,
 	                'contact_number' => $new_processor->contact_number,
-	                'otp' => $new_processor->otp
+	                'otp' => $new_processor->otp,
+	                'type' => $new_processor->type
 	            ];	
 				$notification_data = new SendProcessorReference($insert);
 			    Event::dispatch('send-sms-processor', $notification_data);

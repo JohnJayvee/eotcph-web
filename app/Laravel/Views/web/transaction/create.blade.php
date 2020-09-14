@@ -229,7 +229,7 @@
     };
 
     $.fn.get_requirements = function(application_id){
-        
+        $("#requirements tr").remove(); 
         $.getJSON( "{{route('web.get_requirements')}}?type_id="+application_id, function( response ) {
             $.each(response.data,function(index,value){
                 $("#requirements").find('tbody').append("<tr><td>" + value + "</td></tr>");
