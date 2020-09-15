@@ -8,6 +8,7 @@
 <!--team section start-->
 <section class="team-section ptb-120 home-bg ">
     <div class="container">
+        @include('web._components.notifications')
         <div class="row ">
             <div class="col-md-4 col-lg-4">
                 <div class="row">
