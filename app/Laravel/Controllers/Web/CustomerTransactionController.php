@@ -65,6 +65,7 @@ class CustomerTransactionController extends Controller
 		
 		DB::beginTransaction();
 		try{
+			
 			$new_transaction = new Transaction;
 			$new_transaction->company_name = $request->get('company_name');
 			$new_transaction->email = $request->get('email');

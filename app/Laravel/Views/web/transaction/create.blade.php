@@ -17,10 +17,9 @@
         <div class="card">
             <form method="POST" action="" enctype="multipart/form-data">
             {!!csrf_field()!!}
-                <input type="hidden" name="department_name" id="input_department_name">
-                <input type="hidden" name="application_name" id="input_application_name">
-                <input type="hidden" name="zone_name" id="input_zone_name">
-                <input type="hidden" name="zone_name" id="input_zone_name">
+                <input type="hidden" name="department_name" id="input_department_name" value="{{old('department_name')}}">
+                <input type="hidden" name="application_name" id="input_application_name" value="{{old('application_name')}}">
+                <input type="hidden" name="zone_name" id="input_zone_name" value="{{old('zone_name')}}">
                 <div class="card-body px-5 py-0">
                     <h5 class="text-title text-uppercase pt-5">Application information</h5>
                     <div class="row">
@@ -249,12 +248,12 @@
     })
 
     $("#input_zone_id").on("change",function(){
-      var _text = $("#input_zone_location option:selected").text();
+      var _text = $("#input_zone_id option:selected").text();
       $('#input_zone_name').val(_text);
     })
 
     $('#input_application_id').change(function() {
-        var _text = $("#input_department_id option:selected").text();
+        var _text = $("#input_application_id option:selected").text();
         $.getJSON('/amount?type_id='+this.value, function(result){
             $('#input_processing_fee').val(result.data);
         });
