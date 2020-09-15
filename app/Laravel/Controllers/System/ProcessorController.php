@@ -94,7 +94,7 @@ class ProcessorController extends Controller
 
 				DB::commit();
 				session()->flash('notification-status', "success");
-				session()->flash('notification-msg', "New Processor has been added.");
+				session()->flash('notification-msg', "New ".str::title($new_processor->type)." has been added.");
 				return redirect()->route('system.processor.index');
 			}
 			

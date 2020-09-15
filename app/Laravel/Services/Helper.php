@@ -152,36 +152,23 @@ class Helper{
 		return $result;
 	} 
 
-	public static function status_badge($status){
+	public static function status_badge($type){
 		$result = "default";
-		switch(Str::lower($status)){
-			case 'resident':
-			case 'contractual' : $result = "info"; break;
-			case 'assigned':
-			case 'regular': $result = "primary"; break;
+		switch(Str::lower($type)){
+			case 'unpaid' : 
+			case 'inactive': $result = "light"; break;
+			case 'ongoing': $result = "info"; break;
+			case 'completed': $result = 'primary'; break;
+			case 'paid' : 
 			case 'approved':
-			case 'entry':
-			case 'available':
 			case 'active': $result = "success"; break;
-			case 'temporary':
+			case 'pending' : $result = "warning"; break;
 			case 'cancelled':
-			case 'visitor':
-			case 'inactive' : $result = "secondary"; break;
-			case 'pending':
-			case 'for_approval':
-			case 'probationary': $result = "warning"; break;
-			case 'resigned':
-			case 'dismissed':
-			case 'disapproved':
-			case 'banned':
-			case 'declined':
-			case 'exit':
-			case 'expired':
-			case 'eoc' : $result = "danger"; break;
-
+			case 'declined' : $result = "danger"; break;
 		}
 		return $result;
 	}
+
 
   	/**
 	 * Parse date to the specified format

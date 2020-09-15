@@ -31,7 +31,7 @@
       <div class="card-body" style="border-bottom: 3px dashed #E3E3E3;">
         <div class="row">
           <div class="col-md-6">
-            <p class="text-title fw-500">Applying For: <span class="text-black">{{$transaction->type ? Str::title($transaction->type->name) : "N/A"}}</span></p>
+            <p class="text-title fw-500">Applying For: <span class="text-black">{{$transaction->type ? Str::title($transaction->type->name) : "N/A"}} [{{$transaction->code}}]</span></p>
             <p class="text-title fw-500">Email Address: <span class="text-black">{{$transaction->email}}</span></p>
           </div>
           <div class="col-md-6">
@@ -39,7 +39,7 @@
             <p class="text-title fw-500">Contact Number: <span class="text-black">+63{{$transaction->customer->contact_number}}</span></p>
           </div>
           <div class="col-md-6">
-             <p class="fw-500" style="color: #DC3C3B;">Amount: Php {{Helper::money_format($transaction->processing_fee)}}</p>
+             <p class="fw-500" style="color: #DC3C3B;">Amount: Php {{Helper::money_format($transaction->processing_fee)}}  [{{$transaction->processing_fee_code}}]</p>
           </div>
           <div class="col-md-6">
            
@@ -79,8 +79,8 @@
                   <td >
                     <button type="button" class="btn btn-sm p-0" data-toggle="dropdown" style="background-color: transparent;"> <i class="mdi mdi-dots-horizontal" style="font-size: 30px"></i></button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuSplitButton2">
-                      <a class="dropdown-item action-process" href="#" data-url="{{route('system.transaction.requirements',[$attachment->id])}}?status=approved" data-toggle="modal" data-target="#confirm-process">Approved</a>
-                      <a class="dropdown-item action-process" href="#" data-url="{{route('system.transaction.requirements',[$attachment->id])}}?status=declined"  data-toggle="modal" data-target="#confirm-process">Declined</a>
+                      <a class="dropdown-item action-process" href="#" data-url="{{route('system.transaction.requirements',[$attachment->id])}}?status=approved" data-toggle="modal" data-target="#confirm-process">Approve</a>
+                      <a class="dropdown-item action-process" href="#" data-url="{{route('system.transaction.requirements',[$attachment->id])}}?status=declined"  data-toggle="modal" data-target="#confirm-process">Decline</a>
                     </div>
                   </td>
                   @endif
@@ -97,7 +97,7 @@
 
     @if(Auth::user()->type == "processor")
       @if($transaction->status == "PENDING" || $transaction->status == "ONGOING")
-        <a data-url="{{route('system.transaction.process',[$transaction->id])}}?status_type=approved" data-toggle="modal" data-target="#confirm-process" class="btn btn-primary mt-4 border-5 text-white action-process {{$transaction->status == 'approved' ? "isDisabled" : ""}}"><i class="fa fa-check-circle"></i> Approved Transactions</a>
+        <a data-url="{{route('system.transaction.process',[$transaction->id])}}?status_type=approved" data-toggle="modal" data-target="#confirm-process" class="btn btn-primary mt-4 border-5 text-white action-process {{$transaction->status == 'approved' ? "isDisabled" : ""}}"><i class="fa fa-check-circle"></i> Approve Transactions</a>
         <a  data-url="{{route('system.transaction.process',[$transaction->id])}}?status_type=declined" data-toggle="modal" data-target="#confirm-process" class="btn btn-danger mt-4 border-5 text-white action-process {{$transaction->status == 'approved' ? "isDisabled" : ""}}""><i class="fa fa-times-circle"></i> Decline Transactions</a>
       @endif
     @endif

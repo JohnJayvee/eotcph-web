@@ -10,8 +10,8 @@ class ApplicationRequest extends RequestManager{
 		$rules = [
 			'name' => "required",
 			'department_id' => "required",
-			'processing_fee' => "required",
-			'processing_days' => "required",
+			'processing_fee' => "required|numeric|min:0",
+			'processing_days' => "required|integer",
 			'requirements_id' => "required"
 		];
 
@@ -21,6 +21,9 @@ class ApplicationRequest extends RequestManager{
 	public function messages(){
 		return [
 			'required'	=> "Field is required.",
+			'numeric' => "Please input a valid amount.",
+			'min' => "Minimum amount is 0.",
+			'integer' => "Invalid data. Please provide a valid input.",
 		];
 	}
 }

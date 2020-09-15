@@ -136,8 +136,8 @@
           </div>
           <div class="col-md-6">
             <div class="form-group">
-              <label for="input_title">OBO Cluster</label>
-              <input type="text" class="form-control {{$errors->first('obo_cluster') ? 'is-invalid' : NULL}}" id="input_obo_cluster" name="obo_cluster" placeholder="Obo cluster" value="{{old('obo_cluster',$zone_location->obo_cluster)}}">
+              <label for="input_title">Serial Number</label>
+              <input type="text" class="form-control {{$errors->first('obo_cluster') ? 'is-invalid' : NULL}}" id="input_obo_cluster" name="obo_cluster" placeholder="Serial Number" value="{{old('obo_cluster',$zone_location->obo_cluster)}}">
               @if($errors->first('obo_cluster'))
               <p class="mt-1 text-danger">{!!$errors->first('obo_cluster')!!}</p>
               @endif

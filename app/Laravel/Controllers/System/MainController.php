@@ -32,9 +32,9 @@ class MainController extends Controller{
 		$this->data['page_title'] .= "Admin - Dashboard";
 
 		$this->data['applications'] = Transaction::orderBy('created_at',"DESC")->get(); 
-		$this->data['pending'] = Transaction::where('status',"pending")->count();
-		$this->data['approved'] = Transaction::where('status',"approved")->count(); 
-		$this->data['declined'] = Transaction::where('status',"declined")->count(); 
+		$this->data['pending'] = Transaction::where('status',"PENDING")->count();
+		$this->data['approved'] = Transaction::where('status',"APPROVED")->count(); 
+		$this->data['declined'] = Transaction::where('status',"DECLINED")->count(); 
 		$this->data['application_today'] = Transaction::whereDate('created_at', Carbon::now())->count(); 
 
 		$chart_data = [];
@@ -44,10 +44,10 @@ class MainController extends Controller{
     	$approved_year_start = Carbon::now()->startOfYear()->subMonth();
     	$declined_year_start = Carbon::now()->startOfYear()->subMonth();
 		foreach(range(1,12) as $index => $value){
-			$approved = Transaction::whereRaw("MONTH(created_at) = '".$approved_year_start->addMonth()->format('m')."' AND YEAR(created_at) = '".Carbon::now()->format('Y')."'")->where('status','approved');
+			$approved = Transaction::whereRaw("MONTH(created_at) = '".$approved_year_start->addMonth()->format('m')."' AND YEAR(created_at) = '".Carbon::now()->format('Y')."'")->where('status','APPROVED');
 			$total_approved = $approved->count();
 
-			$declined = Transaction::whereRaw("MONTH(created_at) = '".$declined_year_start->addMonth()->format('m')."' AND YEAR(created_at) = '".Carbon::now()->format('Y')."'")->where('status','declined');
+			$declined = Transaction::whereRaw("MONTH(created_at) = '".$declined_year_start->addMonth()->format('m')."' AND YEAR(created_at) = '".Carbon::now()->format('Y')."'")->where('status','DECLINED');
 			$total_declined = $declined->count();
 
 			array_push($per_month_application, ["month"=>$approved_year_start->format("M"),"approved"=>$total_approved,"declined"=>$total_declined]);

@@ -26,7 +26,7 @@ class ApplicationController extends Controller
 	public function __construct(){
 		parent::__construct();
 		array_merge($this->data, parent::get_data());
-		$this->data['department'] = ['' => "All Department/Agency"] + Department::pluck('name','id')->toArray();
+		$this->data['department'] = ['' => "All Peza Unit"] + Department::pluck('name','id')->toArray();
 		$this->data['requirements'] =  ApplicationRequirements::pluck('name','id')->toArray();
 		$this->per_page = env("DEFAULT_PER_PAGE",10);
 	}

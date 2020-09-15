@@ -61,12 +61,12 @@ class AuthController extends Controller{
 			session()->put('auth_id',$account->id);
 			if($uri AND session()->has($uri)){
 				session()->flash('notification-status','success');
-				session()->flash('notification-msg',"Welcome {$account->name}!");
+				session()->flash('notification-msg',"Welcome {$account->full_name}!");
 				return redirect( session()->get($uri) );
 			}
 
 			session()->flash('notification-status','success');
-			session()->flash('notification-msg',"Welcome {$account->name}!");
+			session()->flash('notification-msg',"Welcome {$account->full_name}!");
 			return redirect()->route('system.dashboard');
 		}elseif (Auth::attempt(['reference_id' => $username,'password' => $password])) {
 			$account = Auth::user();

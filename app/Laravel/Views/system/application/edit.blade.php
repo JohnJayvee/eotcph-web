@@ -22,15 +22,15 @@
         @include('system._components.notifications')
         {!!csrf_field()!!}
         <div class="form-group">
-          <label for="input_title">Name</label>
-          <input type="text" class="form-control {{$errors->first('name') ? 'is-invalid' : NULL}}" id="input_title" name="name" placeholder="Department/Agency Name" value="{{old('name',$application->name)}}">
+          <label for="input_title">Application Name</label>
+          <input type="text" class="form-control {{$errors->first('name') ? 'is-invalid' : NULL}}" id="input_title" name="name" placeholder="Application name" value="{{old('name',$application->name)}}">
           @if($errors->first('name'))
           <p class="mt-1 text-danger">{!!$errors->first('name')!!}</p>
           @endif
         </div>
        
         <div class="form-group">
-          <label for="input_suffix">Department/Agency</label>
+          <label for="input_suffix">Peza Unit</label>
           {!!Form::select("department_id", $department, old('department_id',$application->department_id), ['id' => "input_department_id", 'class' => "form-control mb-2 mr-sm-2 ".($errors->first('department_id') ? 'is-invalid' : NULL)])!!}
           @if($errors->first('department_id'))
           <p class="mt-1 text-danger">{!!$errors->first('department_id')!!}</p>

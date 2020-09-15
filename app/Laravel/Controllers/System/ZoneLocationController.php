@@ -53,7 +53,7 @@ class ZoneLocationController extends Controller
 			$new_zone_location->save();
 			DB::commit();
 			session()->flash('notification-status', "success");
-			session()->flash('notification-msg', "New Processor has been added.");
+			session()->flash('notification-msg', "New Zone Location has been added.");
 			return redirect()->route('system.zone_location.index');
 		}catch(\Exception $e){
 			DB::rollback();

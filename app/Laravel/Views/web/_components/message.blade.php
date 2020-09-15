@@ -1,4 +1,4 @@
-@extends('frontend.layouts.auth')
+@extends('web._layouts.main')
 
 @section('title')
 Confirmation
@@ -23,7 +23,7 @@ Confirmation
         Your payment has been processed. This is to confirm your Online Application was successful.
     </p>
     <div class="flex flex-col items-center justify-center bg-white w-3/4 lg:w-1/4 px-8 py-12 rounded-lg">
-        <a href="{{ route('frontend.index') }}" class="w-full px-8 py-2 bg-blue hover:bg-blue-800 text-white rounded-lg flex flex-row items-center justify-center">
+        <a href="{{ route('web.main.index') }}" class="w-full px-8 py-2 bg-blue hover:bg-blue-800 text-white rounded-lg flex flex-row items-center justify-center">
             <p class="pl-1 font-semibold">Go back to home</p>
         </a>
     </div>
@@ -41,7 +41,7 @@ Confirmation
         Sorry your payment was not processed. 
     </p>
     <div class="flex flex-col items-center justify-center bg-white w-3/4 lg:w-1/4 px-8 py-12 rounded-lg">
-        <a href="{{ route('frontend.index') }}" class="w-full px-8 py-2 bg-blue hover:bg-blue-800 text-white rounded-lg flex flex-row items-center justify-center">
+        <a href="{{ route('web.main.index') }}" class="w-full px-8 py-2 bg-blue hover:bg-blue-800 text-white rounded-lg flex flex-row items-center justify-center">
             <p class="pl-1 font-semibold">Go back to home</p>
         </a>
     </div>
@@ -56,7 +56,7 @@ Confirmation
     <p class="text-gray-payment text-xl font-semibold">Transaction Failed</p>
     <p class="text-gray-payment font-medium mt-10 px-5 text-center">Sorry your card transaction cannot be processed. Please try again, or you may contact your Bank. Thank you.</p>
     <div class="flex flex-col items-center justify-center bg-white w-3/4 lg:w-1/4 px-8 py-12 rounded-lg">
-        <a href="{{ route('frontend.index') }}" class="w-full px-8 py-2 bg-blue hover:bg-blue-800 text-white rounded-lg flex flex-row items-center justify-center">
+        <a href="{{ route('web.main.index') }}" class="w-full px-8 py-2 bg-blue hover:bg-blue-800 text-white rounded-lg flex flex-row items-center justify-center">
             <p class="pl-1 font-semibold">Go back to home</p>
         </a>
     </div>
