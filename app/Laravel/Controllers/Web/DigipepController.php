@@ -23,7 +23,6 @@ class DigipepController extends Controller
 	public function success(PageRequest $request,$code = NULL){
 		Log::info("Digipep Success",array($request->all()));
 		$response = json_decode(json_encode($request->all()));
-		dd($response);
 		if(isset($response->referenceCode)){
 			$code = strtolower($response->referenceCode);
 			$prefix = explode('-', $code)[0];
@@ -103,10 +102,8 @@ class DigipepController extends Controller
 	}
 
 	public function failed(PageRequest $request,$code = NULL){
-
 		Log::info("Digipep Failed",array($request->all()));
 		$response = json_decode(json_encode($request->all()));
-		dd($response);
 		if(isset($response->referenceCode)){
 			$code = strtolower($response->referenceCode);
 			$prefix = explode('-', $code)[0];
