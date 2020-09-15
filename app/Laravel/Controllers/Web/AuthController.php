@@ -35,7 +35,7 @@ class AuthController extends Controller{
 		$this->data['page_title'] = " :: Login";
 		return view('web.auth.login',$this->data);
 	}
-	public function authenticate($redirect_uri = NULL , PageRequest $request){
+	public function authenticate(PageRequest $request){
 
 		try{
 			$this->data['page_title'] = " :: Login";
@@ -43,15 +43,12 @@ class AuthController extends Controller{
 			$password = $request->get('password');
 			
 			if(Auth::guard('customer')->attempt(['email' => $email,'password' => $password])){
-				
+
 				$user = Auth::guard('customer')->user();
 				session()->put('auth_id', Auth::guard('customer')->user()->id);
 				session()->flash('notification-status','success');
 				session()->flash('notification-msg',"Welcome to EOTC Portal, {$user->full_name}!");
 				
-				if($redirect_uri AND session()->has($redirect_uri)){
-					return redirect( session()->get($redirect_uri) );
-				}
 				return redirect()->route('web.transaction.create');
 			}
 			session()->flash('notification-status','error');

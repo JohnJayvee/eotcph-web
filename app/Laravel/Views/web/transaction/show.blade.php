@@ -29,17 +29,17 @@
       <div class="card-body" style="border-bottom: 3px dashed #E3E3E3;">
         <div class="row">
           <div class="col-md-6">
-            <p class="text-title fw-600">Application: <span class="text-black">{{$transaction->type ? Str::title($transaction->type->name) : "N/A"}}</span></p>
+            <p class="text-title fw-600">Application: <span class="text-black">{{$transaction->type ? Str::title($transaction->type->name) : "N/A"}} [{{$transaction->code}}] </span></p>
             <p class="text-title fw-600">Email Address: <span class="text-black">{{$transaction->email}}</span></p>
 
-            <p class="fw-600" style="color: #DC3C3B;">Amount: Php {{Helper::money_format($transaction->amount ? $transaction->amount : "0.00")}}</p>
+            <p class="fw-600" style="color: #DC3C3B;">Amount: Php {{$transaction->amount ? $transaction->amount : "0.00"}} </p>
 
-            <p class="text-title fw-600">Application Status: <span class="btn-sm text-center fw-600 text-black {{Helper::status_color($transaction->transaction_status)}}">{{Str::title($transaction->transaction_status)}}</span></p>
+            <p class="text-title fw-600">Application Status: <span class="badge badge-pill badge-{{Helper::status_badge($transaction->payment_status)}} p-2">{{Str::title($transaction->transaction_status)}}</span></p>
           </div>
           <div class="col-md-6">
             <p class="text-title fw-600">Deparatment/Agency: <span class="text-black">{{$transaction->department ? Str::title($transaction->department->name) : "N/A"}}</span></p>
             <p class="text-title fw-600">Contact Number: <span class="text-black">+63{{$transaction->customer->contact_number}}</span></p>
-            <p class="fw-600" style="color: #DC3C3B;">Processing Fee: Php {{Helper::money_format($transaction->processing_fee)}}</p>
+            <p class="fw-600" style="color: #DC3C3B;">Processing Fee: Php {{Helper::money_format($transaction->processing_fee)}} [{{$transaction->processing_fee_code}}]</p>
           </div>
         </div> 
        

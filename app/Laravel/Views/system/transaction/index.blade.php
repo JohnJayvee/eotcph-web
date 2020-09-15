@@ -77,7 +77,8 @@
               </div>
               @if($transaction->status == 'APPROVED')
                 <div class="mt-1"><p>Processor: {{ $transaction->admin ? $transaction->admin->full_name : '---' }}<p></div>
-              @endif</td>
+              @endif
+            </td>
             <td >
               <button type="button" class="btn btn-sm p-0" data-toggle="dropdown" style="background-color: transparent;"> <i class="mdi mdi-dots-horizontal" style="font-size: 30px"></i></button>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuSplitButton2">

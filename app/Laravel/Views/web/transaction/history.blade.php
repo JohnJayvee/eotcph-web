@@ -3,26 +3,25 @@
 
 @section('content')
 
-
-
 <!--team section start-->
 <section class="px-120 pt-110 pb-80 gray-light-bg">
     <div class="container">
          
          <div class="row flex-row items-center px-4">
             <h5 class="text-title pb-3"><i class="fa fa-file"></i> E<span class="text-title-two"> APPLICATION HISTORY</span></h5>
-            <a href="{{route('web.transaction.history')}}" class="custom-btn badge-primary-2 text-white " style="float: right;margin-left: auto;">E-Submission</a>
+            <a href="{{route('web.transaction.create')}}" class="custom-btn badge-primary-2 text-white " style="float: right;margin-left: auto;">E-Submission</a>
          </div>
           
         <div class="card">
         <table class="table table-striped table-font">
             <thead>
               <tr>
-                <th width="25%" class="text-title fs-15 fs-500 p-3">Company Name</th>
-                <th width="25%" class="text-title fs-15 fs-500 p-3">Application</th>
-                <th width="15%" class="text-title fs-15 fs-500 p-3">Processing Fee</th>
-                <th width="15%" class="text-title fs-15 fs-500 p-3">Status</th>
-                <th width="20%" class="text-title fs-15 fs-500 p-3">Date</th>
+                <th class="text-title fs-15 fs-500 p-3">Company Name</th>
+                <th class="text-title fs-15 fs-500 p-3">Application</th>
+                <th class="text-title fs-15 fs-500 p-3 text-center">Processing Fee</th>
+                <th class="text-title fs-15 fs-500 p-3 ">Amount</th>
+                <th class="text-title fs-15 fs-500 p-3">Status</th>
+                <th class="text-title fs-15 fs-500 p-3">Date</th>
               </tr>
             </thead>
             <tbody>
@@ -30,8 +29,29 @@
               <tr>
                 <td>{{$transaction->company_name}}</th>
                 <td>{{$transaction->type->name}}<br><a href="{{route('web.transaction.show',[$transaction->id])}}">{{$transaction->code}}</a></th>
-                <td style="text-align: center;">{{$transaction->processing_fee}}<p class="btn-status btn-sm bg-warning text-white">{{$transaction->payment_status}}</p></th>
-                <td><p class="btn text-white {{Helper::status_color($transaction->status)}}">{{Str::title($transaction->transaction_status)}}</p></td>
+                <td style="text-align: center;">
+                  <div>{{$transaction->processing_fee ?: 0 }}</div>
+                  <div>
+                    <small><span class="badge badge-pill badge-{{Helper::status_badge($transaction->payment_status)}} p-2">{{Str::upper($transaction->payment_status)}}</span></small>
+                  </div>
+                  <div class="mt-3">
+                    <small><span class="badge badge-pill badge-{{Helper::status_badge($transaction->transaction_status)}} p-2 pt-2">{{Str::upper($transaction->transaction_status)}}</span></small>
+                  </div>
+                </td>
+                <td>
+                  <div>{{$transaction->amount ?: '- - -'}}</div>
+                  <div>
+                    <small><span class="badge badge-pill badge-{{Helper::status_badge($transaction->application_payment_status)}} p-2">{{Str::upper($transaction->application_payment_status)}}</span></small>
+                  </div>
+                  <div class="mt-3">
+                    <small><span class="badge badge-pill badge-{{Helper::status_badge($transaction->application_transaction_status)}} p-2">{{Str::upper($transaction->application_transaction_status)}}</span></small>
+                  </div>
+                </td>
+                <td style="vertical-align: middle;">
+                  <div>
+                    <span class="badge badge-pill badge-{{Helper::status_badge($transaction->status)}} p-2">{{Str::upper($transaction->status)}}</span>
+                  </div>
+                </td>
                 <td>{{Helper::date_format($transaction->created_at)}}</td>
               </tr>
               @empty

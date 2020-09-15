@@ -156,7 +156,7 @@ class Helper{
 		$result = "default";
 		switch(Str::lower($type)){
 			case 'unpaid' : 
-			case 'inactive': $result = "light"; break;
+			case 'inactive': $result = "secondary"; break;
 			case 'ongoing': $result = "info"; break;
 			case 'completed': $result = 'primary'; break;
 			case 'paid' : 

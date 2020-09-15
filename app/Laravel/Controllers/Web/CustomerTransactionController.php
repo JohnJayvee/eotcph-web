@@ -77,6 +77,8 @@ class CustomerTransactionController extends Controller
 			$new_transaction->application_name = $request->get('application_name');
 			$new_transaction->department_id = $request->get('department_id');
 			$new_transaction->department_name = $request->get('department_name');
+			$new_transaction->payment_status = $request->get('processing_fee') > 0 ? "UNPAID" : "PAID";
+			$new_transaction->transaction_status = $request->get('processing_fee') > 0 ? "PENDING" : "COMPLETED";
 			$new_transaction->save();
 
 			$new_transaction->code = 'EOTC-' . Helper::date_format(Carbon::now(), 'ym') . str_pad($new_transaction->id, 5, "0", STR_PAD_LEFT) . Str::upper(Str::random(3));
