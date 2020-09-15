@@ -23,7 +23,7 @@ use App\Laravel\Models\TransactionRequirements;
 use App\Laravel\Events\SendReference;
 use App\Laravel\Events\SendApplication;
 
-use Carbon,Auth,DB,Str,ImageUploader,Event,FileUploader,PDF,QrCode,Helper,Curl;
+use Carbon,Auth,DB,Str,ImageUploader,Event,FileUploader,PDF,QrCode,Helper,Curl,Log;
 
 class CustomerTransactionController extends Controller
 {
@@ -333,7 +333,6 @@ class CustomerTransactionController extends Controller
 
 			}else{
 				Log::alert("DIGIPEP Request System Error ($code): ", array($response));
-		
 				session()->flash('notification-status',"failed");
 				session()->flash('notification-msg',"There's an error while connecting to our online payment. Please try again.");
 				return redirect()->back();

@@ -36,16 +36,18 @@ class AuthController extends Controller{
 		return view('web.auth.login',$this->data);
 	}
 	public function authenticate($redirect_uri = NULL , PageRequest $request){
+
 		try{
 			$this->data['page_title'] = " :: Login";
 			$email = $request->get('email');
 			$password = $request->get('password');
 			
 			if(Auth::guard('customer')->attempt(['email' => $email,'password' => $password])){
+				
 				$user = Auth::guard('customer')->user();
 				session()->put('auth_id', Auth::guard('customer')->user()->id);
 				session()->flash('notification-status','success');
-				session()->flash('notification-msg',"Welcome to EOTC Portal, {$user->fullname}!");
+				session()->flash('notification-msg',"Welcome to EOTC Portal, {$user->full_name}!");
 				
 				if($redirect_uri AND session()->has($redirect_uri)){
 					return redirect( session()->get($redirect_uri) );
