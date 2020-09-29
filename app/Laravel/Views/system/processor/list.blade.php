@@ -30,20 +30,20 @@
   </div>
   <div class="col-md-12">
     <h4 class="pb-4">Record Data</h4>
-    <div class="table-responsive shadow fs-15">
-      <table class="table table-striped">
+    <div class="shadow fs-15">
+      <table class="table table-striped table-wrap" style="table-layout: fixed;">
         <thead>
           <tr>
-            <th width="25%" class="text-title fs-15 fs-500 p-3">Name</th>
-            <th width="25%" class="text-title fs-15 fs-500 p-3"># of Application Processed</th>
-            <th width="10%" class="text-title fs-15 fs-500 p-3">Action</th>
+            <th class="text-title p-3" width="35%">Name</th>
+            <th class="text-title p-3" width="35%"># of Application Processed</th>
+            <th class="text-title p-3" width="30%">Action</th>
           </tr>
         </thead>
         <tbody>
           @forelse($processors as $processor)
           <tr>
-            <th>{{ $processor->full_name}}</th>
-            <th>{{ Helper::processed_count($processor->id)}} as of {{Helper::date_format(Carbon::now())}}</th>
+            <td>{{ $processor->full_name}}</td>
+            <td>{{ Helper::processed_count($processor->id)}} as of {{Helper::date_format(Carbon::now())}}</td>
             <td >
               <button type="button" class="btn btn-sm p-0" data-toggle="dropdown" style="background-color: transparent;"> <i class="mdi mdi-dots-horizontal" style="font-size: 30px"></i></button>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuSplitButton2">
@@ -56,7 +56,6 @@
            <td colspan="6" class="text-center"><i>No Accounts Records Available.</i></td>
           </tr>
           @endforelse
-          
         </tbody>
       </table>
     </div>

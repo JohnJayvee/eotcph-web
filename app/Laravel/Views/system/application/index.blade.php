@@ -34,24 +34,24 @@
   </div>
   <div class="col-md-12">
       
-    <div class="table-responsive shadow fs-15">
-      <table class="table table-striped">
+    <div class="shadow fs-15">
+      <table class="table table-striped table-wrap" style="table-layout: fixed;">
         <thead>
           <tr>
-            <th width="25%" class="text-title fs-15 fs-500 p-3">Application Name</th>
-            <th width="25%" class="text-title fs-15 fs-500 p-3">Payment Fee</th>
-            <th width="25%" class="text-title fs-15 fs-500 p-3">Department</th>
-            <th width="25%" class="text-title fs-15 fs-500 p-3">Created At</th>
-            <th width="10%" class="text-title fs-15 fs-500 p-3">Action</th>
+            <th width="25%" class="text-title p-3">Application Name</th>
+            <th width="25%" class="text-title p-3">Payment Fee</th>
+            <th width="25%" class="text-title p-3">Department</th>
+            <th width="25%" class="text-title p-3">Created At</th>
+            <th width="10%" class="text-title p-3">Action</th>
           </tr>
         </thead>
         <tbody>
           @forelse($applications as $application)
           <tr>
-            <th>{{ $application->name}}</th>
-            <th>PHP {{ Helper::money_format($application->processing_fee)}}</th>
-            <th>{{ $application->department ? Str::title($application->department->name) : "N/A"}}</th>
-            <th>{{ Helper::date_format($application->created_at)}}</th>
+            <td>{{ $application->name}}</td>
+            <td>PHP {{ Helper::money_format($application->processing_fee)}}</td>
+            <td>{{ $application->department ? Str::title($application->department->name) : "N/A"}}</td>
+            <td>{{ Helper::date_format($application->created_at)}}</th>
             <td >
               <button type="button" class="btn btn-sm p-0" data-toggle="dropdown" style="background-color: transparent;"> <i class="mdi mdi-dots-horizontal" style="font-size: 30px"></i></button>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuSplitButton2">
@@ -62,7 +62,7 @@
           </tr>
           @empty
           <tr>
-           <td colspan="5" class="text-center"><i>No Application Types Records Available.</i></td>
+            <td colspan="5" class="text-center"><i>No Application Types Records Available.</i></td>
           </tr>
           @endforelse
           
@@ -99,7 +99,6 @@
   </div>
 </div>
 @stop
-
 
 @section('page-scripts')
 <script src="{{asset('system/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>

@@ -42,30 +42,30 @@
     </form>
   </div>
   <div class="col-md-12">
-    <div class="table-responsive shadow-sm fs-15">
-      <table class="table table-striped">
+     <div class="shadow fs-15">
+      <table class="table table-striped table-wrap" style="table-layout: fixed;">
         <thead>
-          <tr class="text-center">
-            <th class="text-title fs-15 fs-500 p-3">Transaction Date</th>
-            <th class="text-title fs-15 fs-500 p-3">Submitted By</th>
-            <th class="text-title fs-15 fs-500 p-3">Application Type</th>
-            <th class="text-title fs-15 fs-500 p-3">Processing Fee</th>
-            <th class="text-title fs-15 fs-500 p-3">Amount</th>
-            <th class="text-title fs-15 fs-500 p-3">Processor/Status</th>
-            <th class="text-title fs-15 fs-500 p-3">Action</th>
+          <tr class="text-center ">
+            <th class="text-title p-3" width="15%">Transaction Date</th>
+            <th class="text-title p-3" width="15%">Submitted By</th>
+            <th class="text-title p-3" width="30%">Application Type</th>
+            <th class="text-title p-3" width="10%">Processing Fee</th>
+            <th class="text-title p-3" width="10%">Amount</th>
+            <th class="text-title p-3" width="10%">Processor/Status</th>
+            <th class="text-title p-3" width="10%">Action</th>
           </tr>
         </thead>
         <tbody>
           @forelse($transactions as $transaction)
           <tr class="text-center">
-            <th>{{ Helper::date_format($transaction->created_at)}}</th>
-            <th>{{ $transaction->customer->full_name}}</th>
-            <th >{{ $transaction->type ? Strtoupper($transaction->type->name) : "N/A"}}<br> {{$transaction->code}}</th>
-            <th >
+            <td>{{ Helper::date_format($transaction->created_at)}}</td>
+            <td>{{ $transaction->customer->full_name}}</td>
+            <td >{{ $transaction->type ? Strtoupper($transaction->type->name) : "N/A"}}<br> {{$transaction->code}}</td>
+            <td >
               <div>{{$transaction->processing_fee ?: 0 }}</div>
               <div><small><span class="badge badge-pill badge-{{Helper::status_badge($transaction->payment_status)}} p-2">{{Str::upper($transaction->payment_status)}}</span></small></div>
               <div><small><span class="badge badge-pill badge-{{Helper::status_badge($transaction->transaction_status)}} p-2 mt-1">{{Str::upper($transaction->transaction_status)}}</span></small></div>
-            </th>
+            </td>
             <td>
               <div>{{$transaction->amount ?: '---'}}</div>
               <div><small><span class="badge badge-pill badge-{{Helper::status_badge($transaction->application_payment_status)}} p-2">{{Str::upper($transaction->application_payment_status)}}</span></small></div>
@@ -76,7 +76,7 @@
                 <span class="badge badge-pill badge-{{Helper::status_badge($transaction->status)}} p-2">{{Str::upper($transaction->status)}}</span>
               </div>
               @if($transaction->status == 'APPROVED')
-                <div class="mt-1"><p>Processor: {{ $transaction->admin ? $transaction->admin->full_name : '---' }}<p></div>
+                <div class="mt-1"><p>Processor: {{ $transaction->admin ? $transaction->admin->full_name : '---' }}</p></div>
               @endif
             </td>
             <td >
@@ -100,32 +100,6 @@
 </div>
 @stop
 
-@section('page-modals')
-<div id="confirm-delete" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Confirm your action</h5>
-      </div>
-
-      <div class="modal-body">
-        <h6 class="text-semibold">Deleting Record...</h6>
-        <p>You are about to delete a record, this action can no longer be undone, are you sure you want to proceed?</p>
-
-        <hr>
-
-        <h6 class="text-semibold">What is this message?</h6>
-        <p>This dialog appears everytime when the chosen action could hardly affect the system. Usually, it occurs when the system is issued a delete command.</p>
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
-        <a href="#" class="btn btn-sm btn-danger" id="btn-confirm-delete">Delete</a>
-      </div>
-    </div>
-  </div>
-</div>
-@stop
 
 @section('page-styles')
 <link rel="stylesheet" href="{{asset('system/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css')}}">
@@ -135,6 +109,7 @@
     border-radius: 10px;
   }
 </style>
+
 @stop
 
 @section('page-scripts')

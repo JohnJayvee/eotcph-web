@@ -34,8 +34,8 @@
         <a href="{{route('system.application_requirements.create')}}" class="btn btn-sm btn-primary">Add New</a>
       </span>
     </h4>
-    <div class="table-responsive shadow fs-15">
-      <table class="table table-striped">
+    <div class="shadow fs-15">
+      <table class="table table-striped table-wrap" style="table-layout: fixed;">
         <thead>
           <tr>
             <th width="25%" class="text-title fs-15 fs-500 p-3">Name</th>
@@ -47,9 +47,9 @@
         <tbody>
           @forelse($application_requirements as $application_requirement)
           <tr >
-            <th style="text-transform: capitalize;">{{ $application_requirement->name}}</th>
-            <th style="text-transform: capitalize;">{{ $application_requirement->is_required}}</th>
-            <th>{{ Helper::date_format($application_requirement->created_at)}}</th>
+            <td style="text-transform: capitalize;">{{ $application_requirement->name}}</td>
+            <td style="text-transform: capitalize;">{{ $application_requirement->is_required}}</td>
+            <td>{{ Helper::date_format($application_requirement->created_at)}}</th>
             <td >
               <button type="button" class="btn btn-sm p-0" data-toggle="dropdown" style="background-color: transparent;"> <i class="mdi mdi-dots-horizontal" style="font-size: 30px"></i></button>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuSplitButton2">

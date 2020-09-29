@@ -32,7 +32,10 @@
     .text-danger{
         color: #df1234 !important;
     }
-    
+    .table-wrap td{
+        word-wrap:break-word !important;
+        white-space: normal !important;
+    }
     .badge-success,.btn-success{
         background-color: #14a70a;
     }

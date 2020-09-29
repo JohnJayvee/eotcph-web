@@ -34,28 +34,28 @@
         <a href="{{route('system.processor.create')}}" class="btn btn-sm btn-primary">Add New</a>
       </span>
     </h4>
-    <div class="table-responsive shadow fs-15">
-      <table class="table table-striped">
+    <div class="shadow fs-15">
+      <table class="table table-striped table-wrap" style="table-layout: fixed;">
         <thead>
           <tr>
-            <th width="25%" class="text-title fs-15 fs-500 p-3">Reference #</th>
-            <th width="25%" class="text-title fs-15 fs-500 p-3">Last Name</th>
-            <th width="25%" class="text-title fs-15 fs-500 p-3">First Name</th>
-            <th width="10%" class="text-title fs-15 fs-500 p-3">Status</th>
-            <th width="10%" class="text-title fs-15 fs-500 p-3">Type</th>
-            <th width="10%" class="text-title fs-15 fs-500 p-3">Date Created</th>
-            <th width="10%" class="text-title fs-15 fs-500 p-3">Action</th>
+            <th width="25%" class="text-title p-3">Reference #</th>
+            <th width="25%" class="text-title p-3">Last Name</th>
+            <th width="25%" class="text-title p-3">First Name</th>
+            <th width="10%" class="text-title p-3">Status</th>
+            <th width="10%" class="text-title p-3">Type</th>
+            <th width="10%" class="text-title p-3">Date Created</th>
+            <th width="10%" class="text-title p-3">Action</th>
           </tr>
         </thead>
         <tbody>
           @forelse($processors as $processor)
           <tr>
-            <th>{{ $processor->reference_id}}</th>
-            <th>{{ Str::title($processor->lname)}}</th>
-            <th>{{ Str::title($processor->fname)}}</th>
-            <th>{{ Str::title($processor->status)}}</th>
-            <th>{{ Str::title($processor->type)}}</th>
-            <th>{{ Helper::date_format($processor->created_at)}}</th>
+            <td>{{ $processor->reference_id}}</td>
+            <td>{{ Str::title($processor->lname)}}</td>
+            <td>{{ Str::title($processor->fname)}}</td>
+            <td>{{ Str::title($processor->status)}}</td>
+            <td>{{ Str::title($processor->type)}}</td>
+            <td>{{ Helper::date_format($processor->created_at)}}</td>
             <td >
               <button type="button" class="btn btn-sm p-0" data-toggle="dropdown" style="background-color: transparent;"> <i class="mdi mdi-dots-horizontal" style="font-size: 30px"></i></button>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuSplitButton2">
