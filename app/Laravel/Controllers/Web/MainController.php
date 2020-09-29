@@ -104,11 +104,14 @@ class MainController extends Controller{
 		$current_transaction_code = Str::lower(session()->get('transaction.code'));
 
 		if($current_transaction_code == $code){
-			session()->forget('transaction');
-
-			$this->data['transaction'] = $transaction;
-			$this->data['prefix'] = strtoupper($prefix[0]);
-			return view('web._components.message',$this->data);
+			if ($transaction->transaction_status != "COMPLETED") {
+				return redirect()->route('web.confirmation.index',[$code]);
+			}else{
+				session()->forget('transaction');
+				$this->data['transaction'] = $transaction;
+				$this->data['prefix'] = strtoupper($prefix[0]);
+				return view('web._components.message',$this->data);
+			}
 		}
 
 		session()->flash('notification-status',"warning");
