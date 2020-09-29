@@ -105,7 +105,7 @@ class MainController extends Controller{
 
 		if($current_transaction_code == $code){
 			if ($transaction->transaction_status != "COMPLETED") {
-				return redirect()->route('web.confirmation.index',[$code]);
+				return redirect()->route('web.confirmation',[$code]);
 			}else{
 				session()->forget('transaction');
 				$this->data['transaction'] = $transaction;
