@@ -38,16 +38,16 @@
       <table class="table table-striped">
         <thead>
           <tr>
-            <th width="25%" class="text-title fs-15 fs-500 p-3">Name</th>
-            <th width="25%" class="text-title fs-15 fs-500 p-3">Created At</th>
-            <th width="10%" class="text-title fs-15 fs-500 p-3">Action</th>
+            <th width="25%" class="text-title p-3">Name</th>
+            <th width="25%" class="text-title p-3">Created At</th>
+            <th width="10%" class="text-title p-3">Action</th>
           </tr>
         </thead>
         <tbody>
           @forelse($departments as $department)
           <tr>
-            <th>{{ $department->name}}</th>
-            <th>{{ Helper::date_format($department->created_at)}}</th>
+            <td>{{ $department->name}}</td>
+            <td>{{ Helper::date_format($department->created_at)}}</td>
             <td >
               <button type="button" class="btn btn-sm p-0" data-toggle="dropdown" style="background-color: transparent;"> <i class="mdi mdi-dots-horizontal" style="font-size: 30px"></i></button>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuSplitButton2">

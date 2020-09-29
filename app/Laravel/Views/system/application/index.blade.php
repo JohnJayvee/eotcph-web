@@ -35,7 +35,7 @@
   <div class="col-md-12">
       
     <div class="shadow fs-15">
-      <table class="table table-striped table-wrap" style="table-layout: fixed;">
+      <table class="table table-responsive table-striped table-wrap" style="table-layout: fixed;">
         <thead>
           <tr>
             <th width="25%" class="text-title p-3">Application Name</th>

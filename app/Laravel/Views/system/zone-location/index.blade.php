@@ -35,7 +35,7 @@
       </span>
     </h4>
     <div class="shadow fs-15">
-      <table class="table table-striped table-wrap" style="table-layout: fixed;">
+      <table class="table table-responsive table-striped table-wrap" style="table-layout: fixed;">
         <thead>
           <tr>
             <th width="15%" class="text-title p-3">Zone Code</th>

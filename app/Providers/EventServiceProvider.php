@@ -25,6 +25,12 @@ class EventServiceProvider extends ServiceProvider
         'send-sms-processor' => [
             'App\Laravel\Listeners\SendProcessorReferenceListener'
         ],
+        'send-sms-approved' => [
+            'App\Laravel\Listeners\SendApprovedReferenceListener'
+        ],
+        'send-sms-declined' => [
+            'App\Laravel\Listeners\SendDeclinedReferenceListener'
+        ],
         'send-sms' => [
             'App\Laravel\Listeners\SendReferenceListener'
         ],

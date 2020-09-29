@@ -20,7 +20,7 @@
 	.badge-black {background: #333333; color: #fff;}
     .task-container{ background: #f2f2f2; padding: 15px 10px; margin-top: 10px; margin-bottom: 10px; border: 1px dashed #333; min-height: 100px; height: 100px; overflow-y: hidden; text-overflow: ellipsis; -o-text-overflow: ellipsis;}
     .navbar .navbar-brand-wrapper .navbar-brand img{
-        width: 30%;
+        width: 20%;
     }
     .navbar .navbar-brand-wrapper .brand-logo-mini img { width: auto; max-width: 175%!important; height: 50px; }
     .btn-action { text-decoration: none; }

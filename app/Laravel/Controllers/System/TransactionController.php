@@ -12,10 +12,11 @@ use App\Laravel\Requests\PageRequest;
  */
 use App\Laravel\Models\Transaction;
 use App\Laravel\Models\TransactionRequirements;
-
+use App\Laravel\Events\SendApprovedReference;
+use App\Laravel\Events\SendDeclinedReference;
 /* App Classes
  */
-use Carbon,Auth,DB,Str,ImageUploader;
+use Carbon,Auth,DB,Str,ImageUploader,Helper,Event;
 
 class TransactionController extends Controller{
 
@@ -44,11 +45,42 @@ class TransactionController extends Controller{
 	}
 	
 	public function process($id = NULL,PageRequest $request){
+		$type = strtoupper($request->get('status_type'));
 		DB::beginTransaction();
 		try{
 			$transaction = $request->get('transaction_data');
-			$transaction->status = strtoupper($request->get('status_type'));
+			$transaction->status = $type;
+			$transaction->amount = $type == "APPROVED" ? $request->get('amount') : NULL;
+			$transaction->remarks = $type == "DECLINED" ? $request->get('remarks') : NULL;
+			$transaction->processor_user_id = Auth::user()->id;
+			$transaction->modified_at = Carbon::now();
 			$transaction->save();
+
+			if ($type == "APPROVED") {
+				$insert[] = [
+	            	'contact_number' => $transaction->contact_number,
+	                'ref_num' => $transaction->transaction_code,
+	                'amount' => $transation->amount
+            	];	
+
+				$notification_data = new SendApprovedReference($insert);
+			    Event::dispatch('send-sms-approved', $notification_data);
+			}
+			if ($type == "DECLINED") {
+				$insert[] = [
+	            	'contact_number' => $transaction->contact_number,
+	                'ref_num' => $transaction->processing_fee_code,
+	                'remarks' => $transaction->remarks,
+	                'full_name' => $transaction->customer->full_name,
+	                'application_name' => $transaction->application_name,
+	                'department_name' => $transaction->department_name,
+	                'modified_at' => Helper::date_only($transaction->modified_at)
+            	];	
+
+				$notification_data = new SendDeclinedReference($insert);
+			    Event::dispatch('send-sms-declined', $notification_data);
+			}
+			
 
 			DB::commit();
 			session()->flash('notification-status', "success");

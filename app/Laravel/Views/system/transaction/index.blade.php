@@ -43,7 +43,7 @@
   </div>
   <div class="col-md-12">
      <div class="shadow fs-15">
-      <table class="table table-striped table-wrap" style="table-layout: fixed;">
+      <table class="table table-responsive table-striped table-wrap" style="table-layout: fixed;">
         <thead>
           <tr class="text-center ">
             <th class="text-title p-3" width="15%">Transaction Date</th>
@@ -76,7 +76,7 @@
                 <span class="badge badge-pill badge-{{Helper::status_badge($transaction->status)}} p-2">{{Str::upper($transaction->status)}}</span>
               </div>
               @if($transaction->status == 'APPROVED')
-                <div class="mt-1"><p>Processor: {{ $transaction->admin ? $transaction->admin->full_name : '---' }}</p></div>
+                <div class="mt-1"><p>{{ $transaction->admin ? $transaction->admin->full_name : '---' }}</p></div>
               @endif
             </td>
             <td >
