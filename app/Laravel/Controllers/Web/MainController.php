@@ -57,8 +57,9 @@ class MainController extends Controller{
 		$payment_amount = Application::find($id);
 		$response['msg'] = "List of Application";
 		$response['status_code'] = "TYPE_LIST";
-		$response['data'] = $payment_amount->processing_fee;
+		$response['data'] = [$payment_amount->processing_fee,$payment_amount->partial_amount];
 		callback:
+		
 		return response()->json($response, 200);
 	}
 
@@ -71,19 +72,25 @@ class MainController extends Controller{
 		foreach ($requirements as $key => $value) {
 			if ($value->is_required == "yes") {
 				$string = $value->name . " (Required)";
+				$string_id = "file".$value->id;
+				$is_required = "required";
 			}else{
 				$string = $value->name . " (Optional)";
+				$string_id = "file".$value->id;
+				$is_required = " ";
 			}
-			array_push($required, [$string]);
+			
+			array_push($required, [$string,$string_id,$value->id,$is_required]);
 		}
 		$response['msg'] = "List of Requirements";
 		$response['status_code'] = "TYPE_LIST";
 		$response['data'] = $required;
 		callback:
-		
 		return response()->json($response, 200);
 	}
+
 	public function confirmation($code = NULL){
+		sleep(10);
 		$this->data['page_title'] = " :: confirmation";
 
 		$prefix = explode('-', $code);
@@ -103,10 +110,13 @@ class MainController extends Controller{
 
 		$current_transaction_code = Str::lower(session()->get('transaction.code'));
 
-				session()->forget('transaction');
-				$this->data['transaction'] = $transaction;
-				$this->data['prefix'] = strtoupper($prefix[0]);
-				return view('web._components.message',$this->data);
+		if($current_transaction_code == $code){
+			
+			session()->forget('transaction');
+			$this->data['transaction'] = $transaction;
+			$this->data['prefix'] = strtoupper($prefix[0]);
+			return view('web._components.message',$this->data);
+		}
 
 		session()->flash('notification-status',"warning");
 		session()->flash('notification-msg',"Transaction already completed. No more action is needed.");

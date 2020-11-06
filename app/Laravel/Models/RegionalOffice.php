@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Laravel\Traits\DateFormatter;
 use Str;
 
-class ZoneLocation extends Model{
+class RegionalOffice extends Model{
     
     use SoftDeletes,DateFormatter;
     
@@ -16,7 +16,7 @@ class ZoneLocation extends Model{
      *
      * @var string
      */
-    protected $table = "zone_location";
+    protected $table = "regional_office";
 
     /**
      * The database connection used by the model.
@@ -36,8 +36,9 @@ class ZoneLocation extends Model{
      *
      * @var array
      */
-    protected $fillable = ['code','ecozone','type','nature','address','developer','city','city_name','province','province_name','region','region_name','dev_comp_code','obo_cluster','income_cluster','serial','region_code'];
+    /*protected $fillable = ['code','ecozone','type','nature','address','developer','city','city_name','province','province_name','region','region_name','dev_comp_code','obo_cluster','income_cluster','serial','region_code'];*/
 
+    protected $fillable = ['name'];
 
     /**
      * The attributes excluded from the model's JSON form.

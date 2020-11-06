@@ -86,11 +86,18 @@ class User extends Authenticatable{
     }*/
 
     public function getNameAttribute(){
-        return Str::title((strlen($this->mname) > 0 ? Str::title($this->mname).",": NULL)."{$this->fname} {$this->lname} ");
+        return Str::title("{$this->lname}".(strlen($this->mname) > 0 ? " ".Str::title($this->mname): NULL)." {$this->fname}");
     }
 
     public function getFullNameAttribute(){
         return Str::title("{$this->fname} {$this->lname} ");
+    }
+
+    public function department(){
+        return $this->BelongsTo("App\Laravel\Models\Department",'department_id','id');
+    }
+    public function application(){
+        return $this->BelongsTo("App\Laravel\Models\Application",'application_id','id');
     }
 
 }

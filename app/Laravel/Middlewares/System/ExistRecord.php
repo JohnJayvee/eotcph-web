@@ -3,7 +3,7 @@
 namespace App\Laravel\Middlewares\System;
 
 use Closure, Helper,Str;
-use App\Laravel\Models\{Department,ApplicationType,Application,User,Transaction,ZoneLocation,ApplicationRequirements};
+use App\Laravel\Models\{Department,ApplicationType,Application,User,Transaction,RegionalOffice,ApplicationRequirements};
 
 use App\Laravel\Models\{AccountCode};
 
@@ -67,8 +67,8 @@ class ExistRecord
                     $module = "processor.index";
                 }
             break;
-            case 'zone-location':
-                if(! $this->__exist_zone_lcation($request)) {
+            case 'regional-office':
+                if(! $this->__exist_regional_office($request)) {
                     $found_record = false;
                     session()->flash('notification-status', "failed");
                     session()->flash('notification-msg', "No record found or resource already removed.");
@@ -137,11 +137,11 @@ class ExistRecord
 
         return FALSE;
     }
-    private function __exist_zone_lcation($request){
-        $zone= ZoneLocation::find($this->reference_id);
+    private function __exist_regional_office($request){
+        $office= RegionalOffice::find($this->reference_id);
 
-        if($zone){
-            $request->merge(['zone_location_data' => $zone]);
+        if($office){
+            $request->merge(['regional_office_data' => $office]);
             return TRUE;
         }
 

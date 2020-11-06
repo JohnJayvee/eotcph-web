@@ -18,12 +18,20 @@
   <div class="col-12 ">
     <form>
       <div class="row">
-        
-        <div class="col-md-3 p-2">
+        <div class="col-md-3">
+          <label>Account Type</label>
+          {!!Form::select("type", $status_type, $selected_type, ['id' => "input_type", 'class' => "custom-select"])!!}
+        </div>
+        <div class="col-md-3">
           <div class="form-group has-search">
+            <label>Keyword</label>
             <span class="fa fa-search form-control-feedback"></span>
-            <input type="text" class="form-control form-control-lg" placeholder="Search">
+            <input type="text" class="form-control mb-2 mr-sm-2" id="input_keyword" name="keyword" value="{{$keyword}}" placeholder="Keyword">
           </div>
+        </div>
+        <div class="col-md-3 mt-4 p-1">
+          <button class="btn btn-primary btn-sm p-2" type="submit">Filter</button>
+          <a href="{{route('system.application_requirements.index')}}" class="btn btn-primary btn-sm p-2">Clear</a>
         </div>
       </div>
     </form>
@@ -31,17 +39,18 @@
   <div class="col-md-12">
     <h4 class="pb-4">Record Data
       <span class="float-right">
+        <a href="{{route('system.application_requirements.upload')}}" class="btn btn-sm btn-primary">Bulk Upload</a>
         <a href="{{route('system.application_requirements.create')}}" class="btn btn-sm btn-primary">Add New</a>
       </span>
     </h4>
-    <div class="shadow fs-15">
-      <table class="table table-responsive table-striped table-wrap" style="table-layout: fixed;">
+    <div class="shadow-sm fs-15">
+      <table class="table table-responsive table-striped table-wrap w-auto" style="table-layout: fixed;">
         <thead>
           <tr>
-            <th width="25%" class="text-title fs-15 fs-500 p-3">Name</th>
-            <th width="25%" class="text-title fs-15 fs-500 p-3">Is Required</th>
-            <th width="25%" class="text-title fs-15 fs-500 p-3">Created At</th>
-            <th width="10%" class="text-title fs-15 fs-500 p-3">Action</th>
+            <th width="35%" class="text-title fs-15 fs-500 p-3">Name</th>
+            <th width="35%" class="text-title fs-15 fs-500 p-3">Is Required</th>
+            <th width="35%" class="text-title fs-15 fs-500 p-3">Created At</th>
+            <th width="35%" class="text-title fs-15 fs-500 p-3">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -60,13 +69,20 @@
           </tr>
           @empty
           <tr>
-           <td colspan="5" class="text-center"><i>No Application Requirements Records Available.</i></td>
+           <td colspan="4" class="text-center"><i>No Application Requirements Records Available.</i></td>
           </tr>
           @endforelse
           
         </tbody>
       </table>
     </div>
+    @if($application_requirements->total() > 0)
+      <nav class="mt-2">
+        <!--  <p>Showing <strong>{{$application_requirements->firstItem()}}</strong> to <strong>{{$application_requirements->lastItem()}}</strong> of <strong>{{$application_requirements->total()}}</strong> entries</p> -->
+        {!!$application_requirements->appends(request()->query())->render()!!}
+        </ul>
+      </nav>
+    @endif
   </div>
 </div>
 @stop
@@ -96,6 +112,14 @@
     </div>
   </div>
 </div>
+@stop
+@section('page-styles')
+<style type="text/css" >
+  .btn-sm{
+    border-radius: 10px;
+  }
+</style>
+
 @stop
 
 @section('page-scripts')

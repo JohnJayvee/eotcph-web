@@ -4,8 +4,8 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{route('system.dashboard')}}">Dashboard</a></li>
-    <li class="breadcrumb-item"><a href="{{route('system.department.index')}}">Processor Management</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Edit Processor</li>
+    <li class="breadcrumb-item"><a href="{{route('system.department.index')}}">Account Management</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Reset Password</li>
   </ol>
 </nav>
 @stop
@@ -14,7 +14,7 @@
 <div class="col-md-8 grid-margin stretch-card">
   <div class="card">
     <div class="card-body">
-      <h4 class="card-title">Department Update Form</h4>
+      <h4 class="card-title">Account Update Form</h4>
       <p class="card-description">
         Fill up the <strong class="text-danger">* required</strong> fields.
       </p>

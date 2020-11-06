@@ -8,9 +8,95 @@ use App\Laravel\Models\{User,Citizen,Barangay};
 use App\Laravel\Models\{AccountCode};
 use App\Laravel\Models\{Application,ApplicationRequirements};
 
+
 use Auth, Hash,Str,Carbon,Helper,Request;
 
 class CustomValidator extends Validator {
+
+    public function validateWithCount($attribute,$value,$parameters){
+
+        if(is_array($parameters) AND isset($parameters[0])){ $file = Request::get($parameters[0]); }
+        if(is_array($parameters) AND isset($parameters[0])){ $application_id = Request::get($parameters[1]); }
+
+        $application = Application::find($application_id);
+        $requirements_count = ApplicationRequirements::whereIn('id', explode(",",$application->requirements_id))->where('is_required',"yes")->count();
+        
+        if ($file < $requirements_count) {
+            return FALSE;
+        }
+        return TRUE;
+            
+    }
+    public function validateMinimumAmount($attribute, $rule, $parameters){
+
+        $value = $this->getValue($attribute);
+     
+
+        if(is_array($parameters) AND isset($parameters[0])){ $application_id = Request::get($parameters[0]); }
+        if(is_array($parameters) AND isset($parameters[0])){ $partial_amount = Request::get($parameters[1]); }
+       
+
+        $application = Application::find($application_id);
+        $amount = $application->partial_amount ?: 0;
+        
+        if ($amount >= $partial_amount) {
+            return TRUE;
+        }
+
+            return FALSE;
+       
+    }
+
+
+    protected function replaceMinimumAmount($message,$attribute, $rule, $parameters)
+    {
+     
+        if(is_array($parameters) AND isset($parameters[0])){ $application_id = Request::get($parameters[0]); }
+        if(is_array($parameters) AND isset($parameters[0])){ $partial_amount = Request::get($parameters[1]); }
+       
+        $application = Application::find($application_id);
+        $amount = $application->partial_amount ?: 0;
+        $custom_message = "The amount you entered exceeded the allowed partial amount. allowed Partial Amount is PHP ".$amount;
+        if ($amount == 0) {
+           $custom_message = "This Application doesn't allowed partial payment";
+        }
+        
+        return str_replace(':message', $custom_message, $message);
+    }
+
+    public function validateTransactionAmount($attribute, $rule, $parameters){
+
+        $value = $this->getValue($attribute);
+       
+
+        if(is_array($parameters) AND isset($parameters[0])){ $application_id = Request::get($parameters[0]); }
+        if(is_array($parameters) AND isset($parameters[0])){ $amount = Request::get($parameters[1]); }
+       
+
+        $application = Application::find($application_id);
+        $partial_amount = $application->partial_amount ?: 0;
+        
+        if ($amount <= $partial_amount) {
+            return FALSE;
+        }
+
+            return TRUE;
+       
+    }
+
+    protected function replaceTransactionAmount($message,$attribute, $rule, $parameters)
+    {
+     
+        if(is_array($parameters) AND isset($parameters[0])){ $application_id = Request::get($parameters[0]); }
+        if(is_array($parameters) AND isset($parameters[0])){ $amount = Request::get($parameters[1]); }
+       
+        $application = Application::find($application_id);
+        $partial_amount = $application->partial_amount ?: 0;
+        $custom_message = "The amount you entered is less than the set partial amount PHP ".$partial_amount;
+    
+        
+        return str_replace(':message', $custom_message, $message);
+    }
 
     protected function replaceWithLeave($message, $attribute, $rule, $parameters)
     {

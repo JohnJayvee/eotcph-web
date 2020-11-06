@@ -7,13 +7,17 @@ namespace App\Laravel\Controllers\System;
  */
 use App\Laravel\Requests\PageRequest;
 use App\Laravel\Requests\System\DepartmentRequest;
+use App\Laravel\Requests\System\UploadRequest;
 /*
  * Models
  */
 use App\Laravel\Models\Department;
 /* App Classes
  */
-use Carbon,Auth,DB,Str;
+use App\Laravel\Models\Imports\DepartmentImport;
+
+
+use Carbon,Auth,DB,Str,Helper,Excel;
 
 class DepartmentController extends Controller
 {
@@ -23,13 +27,18 @@ class DepartmentController extends Controller
 	public function __construct(){
 		parent::__construct();
 		array_merge($this->data, parent::get_data());
-		
 		$this->per_page = env("DEFAULT_PER_PAGE",10);
 	}
 
 	public function  index(PageRequest $request){
-		$this->data['page_title'] = "Peza Unit";
-		$this->data['departments'] = Department::orderBy('created_at',"DESC")->get(); 
+		$this->data['page_title'] = "Bureau/Office";
+		$this->data['keyword'] = Str::lower($request->get('keyword'));
+
+		$this->data['departments'] = Department::where(function($query){
+		if(strlen($this->data['keyword']) > 0){
+			return $query->WhereRaw("LOWER(name)  LIKE  '%{$this->data['keyword']}%'");
+			}
+		})->orderBy('created_at',"DESC")->paginate($this->per_page);
 		return view('system.department.index',$this->data);
 	}
 
@@ -46,13 +55,13 @@ class DepartmentController extends Controller
 			$new_department->save();
 			DB::commit();
 			session()->flash('notification-status', "success");
-			session()->flash('notification-msg', "New Peza Unit has been added.");
+			session()->flash('notification-msg', "New Bureau/Office has been added.");
 			return redirect()->route('system.department.index');
 		}catch(\Exception $e){
 			DB::rollback();
 			session()->flash('notification-status', "failed");
 			session()->flash('notification-msg', "Server Error: Code #{$e->getLine()}");
-			return redirect()->back();
+			return response()->json(['success'=>'errorList','message'=> $e->errors()]);
 
 		}
 	}
@@ -73,7 +82,7 @@ class DepartmentController extends Controller
 
 			DB::commit();
 			session()->flash('notification-status', "success");
-			session()->flash('notification-msg', "Department had been modified.");
+			session()->flash('notification-msg', "Bureau/Office had been modified.");
 			return redirect()->route('system.department.index');
 		}catch(\Exception $e){
 			DB::rollback();
@@ -90,7 +99,7 @@ class DepartmentController extends Controller
 			$department->delete();
 			DB::commit();
 			session()->flash('notification-status', "success");
-			session()->flash('notification-msg', "Department removed successfully.");
+			session()->flash('notification-msg', "Bureau/Office removed successfully.");
 			return redirect()->route('system.department.index');
 		}catch(\Exception $e){
 			DB::rollback();
@@ -99,4 +108,36 @@ class DepartmentController extends Controller
 			return redirect()->back();
 		}
 	}
+
+	public function  upload(PageRequest $request){
+		$this->data['page_title'] .= " - Bulk Upload Department";
+		return view('system.department.upload-department',$this->data);
+	}
+
+	public function upload_department(UploadRequest $request) 
+	{	
+		try {
+		    Excel::import(new DepartmentImport, request()->file('file'));
+
+		    session()->flash('notification-status', "success");
+			session()->flash('notification-msg', "Importing data was successful.");
+			return redirect()->route('system.department.index');
+		} catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+		     $failures = $e->failures();
+		     
+		     foreach ($failures as $failure) {
+		         $failure->row(); // row that went wrong
+		         $failure->attribute(); // either heading key (if using heading row concern) or column index
+		         $failure->errors(); // Actual error messages from Laravel validator
+		         $failure->values(); // The values of the row that has failed.
+		     }
+		    dd($failures);
+		    session()->flash('notification-status', "failed");
+			session()->flash('notification-msg', "Something went wrong.");
+			return redirect()->route('system.department.index');
+		}
+	    
+	}
+
+	
 }

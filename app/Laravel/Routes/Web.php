@@ -13,6 +13,7 @@ Route::group(['as' => "web.",
 	Route::get('type',['as' => "get_application_type",'uses' => "MainController@get_application_type"]);
 	Route::get('amount',['as' => "get_payment_fee",'uses' => "MainController@get_payment_fee"]);
 	Route::get('requirements',['as' => "get_requirements",'uses' => "MainController@get_requirements"]);
+	Route::get('requirements_two',['as' => "get_requirements_two",'uses' => "MainController@get_requirements_two"]);
 	Route::get('contact-us',['as' => "contact",'uses' => "MainController@contact"]);
 	Route::any('logout',['as' => "logout",'uses' => "AuthController@destroy"]);
 
@@ -34,14 +35,21 @@ Route::group(['as' => "web.",
 		Route::group(['prefix' => "transaction", 'as' => "transaction."], function () {
 			Route::get('history',['as' => "history", 'uses' => "CustomerTransactionController@history"]);
 			Route::get('payment/{code?}',['as' => "payment", 'uses' => "CustomerTransactionController@payment"]);
-			Route::get('pay/{code?}',['as' => "pay", 'uses' => "CustomerTransactionController@pay"]);
+			
 			Route::get('show/{id?}',['as' => "show", 'uses' => "CustomerTransactionController@show"]);
 			Route::get('create',['as' => "create", 'uses' => "CustomerTransactionController@create"]);
 			Route::post('create',['uses' => "CustomerTransactionController@store"]);
 		});
 	});
+	Route::get('pay/{code?}',['as' => "pay", 'uses' => "CustomerTransactionController@pay"]);
 	Route::get('confirmation/{code?}',['as' => "confirmation",'uses' => "MainController@confirmation"]);
-	
+	Route::get('upload/{code?}',['as' => "upload",'uses' => "CustomerTransactionController@upload"]);
+	Route::post('upload/{code?}',['uses' => "CustomerTransactionController@store_documents"]);
+	Route::get('request-eor/{code?}',['as' => "request-eor", 'uses' => "CustomerTransactionController@request_eor"]);
+	Route::get('show-pdf/{id?}',['as' => "show-pdf", 'uses' => "CustomerTransactionController@show_pdf"]);
+	Route::get('physical-copy/{id?}',['as' => "physical-copy", 'uses' => "CustomerTransactionController@physical_pdf"]);
+	Route::get('certificate/{id?}',['as' => "certificate", 'uses' => "CustomerTransactionController@certificate"]);
+
 	Route::group(['prefix' => "digipep",'as' => "digipep."],function(){
 		Route::any('success/{code}',['as' => "success",'uses' => "DigipepController@success"]);
 		Route::any('cancel/{code}',['as' => "cancel",'uses' => "DigipepController@cancel"]);

@@ -11877,7 +11877,7 @@ input[type="button"].btn-block {
 
 }
 
-@media (max-width: 450px){
+@media (max-width: 500px){
    .header-datetime{
     display: none !important;
   }
@@ -29332,7 +29332,7 @@ div.tagsinput span.tag a {
   white-space: nowrap;
   height: 2.5rem;
   padding: 0;
-  color: #525457;
+  color: #818896;
   -webkit-transition-duration: 0.45s;
   -moz-transition-duration: 0.45s;
   -o-transition-duration: 0.45s;
@@ -29349,7 +29349,7 @@ div.tagsinput span.tag a {
   font-size: 1.25rem;
   line-height: 1;
   margin-right: .6rem;
-  color: #525457;
+  color: #818896;
 }
 
 .rtl .sidebar .nav .nav-item .nav-link i.menu-icon {
@@ -29448,10 +29448,10 @@ div.tagsinput span.tag a {
 }
 
 .sidebar-dark .sidebar .nav:not(.sub-menu) .nav-item::before {
-  border-top: 1px solid #525457;
+  border-top: 1px solid #818896;
 }
 .sidebar-dark .sidebar .nav:not(.sub-menu) .nav-item::after {
-  border-bottom: 1px solid #525457;
+  border-bottom: 1px solid #818896;
 }
 
 .sidebar .nav:not(.sub-menu) > .nav-item {
@@ -29465,7 +29465,7 @@ div.tagsinput span.tag a {
 
 
 .sidebar .nav:not(.sub-menu) > .nav-item:last-child::after {
- border-bottom: solid 2px #525457;
+ border-bottom: solid 2px #818896;
 }
 
 .sidebar .nav:not(.sub-menu) > .nav-item > .nav-link {
@@ -29506,7 +29506,7 @@ div.tagsinput span.tag a {
 }
 
 .sidebar .nav.sub-menu .nav-item .nav-link {
-  color: #031b4e;
+  color: #818896;
   padding: 0;
   height: 2rem;
   position: relative;
@@ -29516,7 +29516,7 @@ div.tagsinput span.tag a {
 }
 
 .sidebar .nav.sub-menu .nav-item .nav-link:hover {
-  color: #7571f9;
+  color: #fff;
 }
 
 .sidebar .nav.sub-menu .nav-item .nav-link.active {
@@ -29691,7 +29691,7 @@ div.tagsinput span.tag a {
 
 @media (max-width: 991px) {
   .navbar .navbar-menu-wrapper {
-    width: calc(100% - 55px);
+    width: calc(100% - 143px);
     padding-left: 15px;
     padding-right: 15px;
   }
@@ -30366,7 +30366,7 @@ div.tagsinput span.tag a {
     flex-direction: row;
   }
   .navbar .navbar-brand-wrapper {
-    width: 55px;
+    width: 143px;
   }
   .navbar .navbar-brand-wrapper .navbar-brand.brand-logo {
     display: none;
@@ -30382,7 +30382,7 @@ div.tagsinput span.tag a {
 
 @media (max-width: 480px) {
   .navbar .navbar-brand-wrapper {
-    width: 55px;
+    width: 143px;
   }
   .navbar .navbar-brand-wrapper .brand-logo-mini {
     padding-top: 0px;

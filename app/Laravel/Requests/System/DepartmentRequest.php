@@ -8,7 +8,7 @@ class DepartmentRequest extends RequestManager{
 	public function rules(){
 
 		$rules = [
-			'name' => "required"
+			'name' => "required|unique:department,name,NULL,id,deleted_at,NULL"
 		];
 
 		return $rules;
@@ -17,6 +17,7 @@ class DepartmentRequest extends RequestManager{
 	public function messages(){
 		return [
 			'required'	=> "Field is required.",
+			'name.unique'	=> "The Bureau/Office name is already exist.",
 		];
 	}
 }

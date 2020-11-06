@@ -22,6 +22,12 @@ class EventServiceProvider extends ServiceProvider
         //     // add your listeners (aka providers) here
         //     'SocialiteProviders\\Graph\\GraphExtendSocialite@handle',
         // ],
+        'send-transaction-processor-email' => [
+            'App\Laravel\Listeners\SendEmailProcessorTransactionListener'
+        ],
+        'send-transaction-processor' => [
+            'App\Laravel\Listeners\SendProcessorTransactionListener'
+        ],
         'send-sms-processor' => [
             'App\Laravel\Listeners\SendProcessorReferenceListener'
         ],
@@ -37,6 +43,19 @@ class EventServiceProvider extends ServiceProvider
         'send-application' => [
             'App\Laravel\Listeners\SendApplicationListener'
         ],
+        'send-eorurl' => [
+            'App\Laravel\Listeners\SendEorUrlListener'
+        ],
+        'send-email-declined' => [
+            'App\Laravel\Listeners\SendDeclinedEmailListener'
+        ],
+        'send-email-approved' => [
+            'App\Laravel\Listeners\SendApprovedEmailListener'
+        ],
+         'send-email-certificate' => [
+            'App\Laravel\Listeners\SendCertificateListener'
+        ],
+
     ];
 
     /**

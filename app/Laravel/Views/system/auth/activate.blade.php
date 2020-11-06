@@ -30,18 +30,24 @@
                                 {{ csrf_field() }}
                                 @include('system._components.notifications')
                               <div class="brand-logo text-center">
-                                <img src="{{asset('web/img/peza-eotcphp-logo.png')}}" alt="logo" class="img-fluid" />
+                                <img src="{{asset('web/img/dti-logo-web.png')}}" alt="logo" class="img-fluid" />
                              </div>
                               <h4 class="fw-600 text-black text-center mb-4">Activate your Account</h4>
                               <p class="text-style">Take Note: Please use the given reference number and the password by your Admin to activate your account</p>
                           
                             <div class="form-group">
                                 <input type="text" class="form-control login-input" id="input_reference_id" name="reference_id" value="{{old('reference_id')}}" placeholder="Reference Number">
+                                @if($errors->first('reference_id'))
+                                  <p class="mt-1 text-danger">{!!$errors->first('reference_id')!!}</p>
+                                @endif
                             </div>
                             <!-- Password -->
                             <div class="form-group">
                                 <input type="password" id="input_otp" class="form-control login-input" placeholder="Password" name="otp">
                                 <span toggle="#input_otp" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                                @if($errors->first('otp'))
+                                  <p class="mt-1 text-danger">{!!$errors->first('otp')!!}</p>
+                                @endif
                             </div>
                             <!-- Submit -->
                             <button type="submit" class="btn btn-block btn-white fw-500 mt-4 mb-3 text-black">

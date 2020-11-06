@@ -16,7 +16,7 @@ use App\Laravel\Models\ApplicationRequirements;
 
 /* App Classes
  */
-use Carbon,Auth,DB,Str;
+use Carbon,Auth,DB,Str,Helper;
 
 class ApplicationController extends Controller
 {
@@ -26,14 +26,32 @@ class ApplicationController extends Controller
 	public function __construct(){
 		parent::__construct();
 		array_merge($this->data, parent::get_data());
-		$this->data['department'] = ['' => "All Peza Unit"] + Department::pluck('name','id')->toArray();
+		$this->data['department'] = ['' => "All Department"] + Department::pluck('name','id')->toArray();
 		$this->data['requirements'] =  ApplicationRequirements::pluck('name','id')->toArray();
 		$this->per_page = env("DEFAULT_PER_PAGE",10);
 	}
 
 	public function  index(PageRequest $request){
 		$this->data['page_title'] = "Application";
-		$this->data['applications'] = Application::orderBy('created_at',"DESC")->get(); 
+		$auth = Auth::user();
+
+		$this->data['keyword'] = Str::lower($request->get('keyword'));
+		$this->data['selected_department_id'] = $auth->type == "office_head" ? $auth->department_id : $request->get('department_id');
+
+		$this->data['applications'] = Application::where(function($query){
+		if(strlen($this->data['keyword']) > 0){
+			return $query->WhereRaw("LOWER(name)  LIKE  '%{$this->data['keyword']}%'");
+			}
+		})
+		->where(function($query){
+			if ($this->data['auth']->type == "office_head") {
+				return $query->where('department_id',$this->data['auth']->department_id);
+			}else{
+				if(strlen($this->data['selected_department_id']) > 0){
+					return $query->where('department_id',$this->data['selected_department_id']);
+				}
+			}
+		})->orderBy('created_at',"DESC")->paginate($this->per_page);
 		return view('system.application.index',$this->data);
 	}
 
@@ -47,8 +65,9 @@ class ApplicationController extends Controller
 			$new_application = new Application;
 			$new_application->department_id = $request->get('department_id');
 			$new_application->name = $request->get('name');
-			$new_application->processing_fee = number_format($request->get('processing_fee'),2);
-			$new_application->processing_days = $request->get('processing_days');
+			$new_application->processing_fee = Helper::db_amount($request->get('processing_fee'));
+			$new_application->partial_amount = Helper::db_amount($request->get('partial_amount'));
+			// $new_application->processing_days = $request->get('processing_days');
 			$new_application->requirements_id = implode(",", $request->get('requirements_id'));
 			$new_application->save();
 			DB::commit();
@@ -76,7 +95,8 @@ class ApplicationController extends Controller
 			$application = $request->get('application_data');
 			$application->department_id = $request->get('department_id');
 			$application->name = $request->get('name');
-			$application->processing_fee = number_format($request->get('processing_fee'),2);
+			$application->processing_fee = Helper::db_amount($request->get('processing_fee'));
+			$application->partial_amount = Helper::db_amount($request->get('partial_amount'));
 			$application->processing_days = $request->get('processing_days');
 			$application->requirements_id = implode(",", $request->get('requirements_id'));
 			$application->save();

@@ -18,12 +18,9 @@ class RegisterRequest extends RequestManager{
 			'unit_number' => "required",
 			'zipcode' => "required",
 			'birthdate' => "required",
-			'tin_no' => "required",
-			'sss_no' => "required",
-			'phic_no' => "required",
 			'contact_number' => "required|max:10|phone:PH",
 			'email'	=> "required|unique:customer,email,{$id}",
-			'password'	=> "required|confirmed",
+			'password'	=> "required|password_format|confirmed",
 		];
 		
 		return $rules;
@@ -33,6 +30,7 @@ class RegisterRequest extends RequestManager{
 		return [
 			'required'	=> "Field is required.",
 			'contact_number.phone' => "Please provide a valid PH mobile number.",
+			'password_format' => "Password must be 6-20 alphanumeric and some allowed special characters only.",
 		];
 	}
 }

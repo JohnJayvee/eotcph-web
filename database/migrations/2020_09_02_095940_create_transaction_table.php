@@ -16,6 +16,9 @@ class CreateTransactionTable extends Migration
         Schema::create('transaction', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('customer_id')->nullable();
+            $table->string('fname')->nullable();
+            $table->string('mname')->nullable();
+            $table->string('lname')->nullable();
             $table->string('company_name')->nullable();
             $table->string('code')->nullable();
             $table->string('email')->nullable();
@@ -27,8 +30,8 @@ class CreateTransactionTable extends Migration
             $table->string('application_name')->nullable();
             $table->string('department_id')->nullable();
             $table->string('department_name')->nullable();
-            $table->string('zone_id')->nullable();
-            $table->string('zone_name')->nullable();
+            $table->string('regional_id')->nullable();
+            $table->string('regional_name')->nullable();
             $table->string('is_received_copy')->default(0)->nullable();
 
 
@@ -43,6 +46,7 @@ class CreateTransactionTable extends Migration
             $table->string('convenience_fee')->nullable();
             $table->date('payment_date')->nullable();
             $table->string('amount')->nullable();
+            $table->text('eor_url')->nullable();
 
             $table->string('application_payment_reference')->nullable();
             $table->string('application_payment_type')->nullable();
@@ -53,14 +57,15 @@ class CreateTransactionTable extends Migration
             $table->string('application_total_amount')->nullable();
             $table->string('application_convenience_fee')->nullable();
             $table->timestamp('application_payment_date')->nullable();
-
+            $table->text('application_eor_url')->nullable();
+            
             $table->string('processor_user_id')->nullable();
             $table->string('status')->nullable()->default('PENDING');
             $table->timestamp('application_date')->nullable();
             $table->timestamp('modified_at')->nullable();
             $table->text('remarks')->nullable();
             $table->string('is_printed_requirements')->default(0)->nullable();
-            
+            $table->string('is_resent')->default(0)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

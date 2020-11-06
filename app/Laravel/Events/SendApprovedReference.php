@@ -18,9 +18,6 @@ class SendApprovedReference extends Event {
 	{
 		$this->data = $form_data;
 		// $this->email = $form_data['insert'];
-
-	
-
 	}
 
 	public function job(){	
@@ -29,18 +26,18 @@ class SendApprovedReference extends Event {
 		foreach($this->data as $index =>$value){
 			$phone = $value['contact_number'];
 			$ref_num = $value['ref_num'];
+			$full_name = $value['full_name'];
+			$department_name = $value['department_name'];
+			$application_name = $value['application_name'];
+			$modified_at = $value['modified_at'];
+			$amount = $value['amount'];
 
 			$nexmo = Nexmo::message()->send([
 				'to' => '+63'.(int)$phone,
 				'from' => 'EOTCPH' ,
-				'text' => "The transaction code for your application for EOTC-PH is #" . $ref_num . "\r\n\n Please enter this reference code on the EPAYMENT section on:\r\n www.eotcphp.ph to proceed.",
+				'text' => "Hello " . $full_name . ",\r\n\nGood day. We are pleased to inform you that your application has been approved by our processor and is now for payment. \r\n\nBelow are your transaction details: \r\nPayment reference number: " .$ref_num."\r\nApplication: ".$application_name."\r\nDepartment: ".$department_name."\r\nDate: ".$modified_at."\r\nAmount: ".Helper::money_format($amount)."\r\n\nPlease visit the ".env("APP_URL")." and input the payment reference number to the E-Payment section to pay. This payment reference number will expire at 11:59 PM. You can pay via online(Debit/Credit card, e-wallet, etc.) or over-the-counter (7Eleven, Bayad Center, Cebuana Lhuillier, and to other affiliated partners)",
 			]);
 			
 		}
-
-
-		
-		
-		
 	}
 }

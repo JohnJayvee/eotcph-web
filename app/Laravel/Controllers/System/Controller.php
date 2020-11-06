@@ -6,7 +6,7 @@ use App\Laravel\Controllers\Controller as BaseController;
 
 use Auth, Session,Carbon, Helper,Route, Request,Str;
 
-use  App\Laravel\Models\{AttendanceOvertime,AttendanceLeave};
+use  App\Laravel\Models\{AttendanceOvertime,AttendanceLeave,Transaction};
 
 class Controller extends BaseController{
 
@@ -40,14 +40,17 @@ class Controller extends BaseController{
 		$auth = Auth::user();
 
 		if($auth){
-			$this->data['counter'] = [
-				// 'pending_overtime' => AttendanceOvertime::where('employee_id',$auth->id)->where('status','for_approval')->count(),
-				// 'pending_leave' =>  AttendanceLeave::where('employee_id',$auth->id)->where('status','for_approval')->count(),
+		$this->data['counter'] = [
+			'pending' => Transaction::where('status','PENDING')->where('is_resent',0)->count(),
+			'approved' => Transaction::where('status','APPROVED')->count(),
+			'declined' => Transaction::where('status','DECLINED')->count(),
+			'resent' => Transaction::where('status',"PENDING")->where('is_resent',1)->count()
+			// 'pending_leave' =>  AttendanceLeave::where('employee_id',$auth->id)->where('status','for_approval')->count(),
 
-				// 'all_pending_overtime' => AttendanceOvertime::where('status','for_approval')->count(),
-				// 'all_pending_leave' => AttendanceLeave::where('status','for_approval')->count(),
+			// 'all_pending_overtime' => AttendanceOvertime::where('status','for_approval')->count(),
+			// 'all_pending_leave' => AttendanceLeave::where('status','for_approval')->count(),
 
-			];
+		];
 
 			// $this->data['counter']['for_approval'] = $this->data['counter']['pending_overtime']+$this->data['counter']['pending_leave'];
 

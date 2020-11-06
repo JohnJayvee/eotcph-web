@@ -7,13 +7,17 @@ namespace App\Laravel\Controllers\System;
  */
 use App\Laravel\Requests\PageRequest;
 use App\Laravel\Requests\System\ApplicationRequirementsRequest;
+use App\Laravel\Requests\System\UploadRequest;
 /*
  * Models
  */
 use App\Laravel\Models\ApplicationRequirements;
 /* App Classes
  */
-use Carbon,Auth,DB,Str;
+
+use App\Laravel\Models\Imports\ApplicationRequirementsImport;
+
+use Carbon,Auth,DB,Str,Excel;
 
 class ApplicationRequirementController extends Controller
 {
@@ -28,7 +32,18 @@ class ApplicationRequirementController extends Controller
 
 	public function  index(PageRequest $request){
 		$this->data['page_title'] = "Application Requirements";
-		$this->data['application_requirements'] = ApplicationRequirements::orderBy('created_at',"DESC")->get(); 
+		$this->data['keyword'] = Str::lower($request->get('keyword'));
+		$this->data['selected_type'] = Str::lower($request->get('type'));
+		$this->data['application_requirements'] = ApplicationRequirements::where(function($query){
+		if(strlen($this->data['keyword']) > 0){
+			return $query->WhereRaw("LOWER(name)  LIKE  '%{$this->data['keyword']}%'");
+			}
+		})->where(function($query){
+			if(strlen($this->data['selected_type']) > 0){
+				return $query->where('is_required',$this->data['selected_type']);
+			}
+		})->orderBy('created_at',"DESC")->paginate($this->per_page);
+
 		return view('system.application-requirements.index',$this->data);
 	}
 
@@ -72,7 +87,7 @@ class ApplicationRequirementController extends Controller
 
 			DB::commit();
 			session()->flash('notification-status', "success");
-			session()->flash('notification-msg', "Department had been modified.");
+			session()->flash('notification-msg', "Application Requirement had been modified.");
 			return redirect()->route('system.application_requirements.index');
 		}catch(\Exception $e){
 			DB::rollback();
@@ -97,5 +112,34 @@ class ApplicationRequirementController extends Controller
 			session()->flash('notification-msg', "Server Error: Code #{$e->getLine()}");
 			return redirect()->back();
 		}
+	}
+	public function  upload(PageRequest $request){
+		$this->data['page_title'] .= " - Bulk Upload Department";
+		return view('system.application-requirements.upload',$this->data);
+	}
+
+	public function upload_department(UploadRequest $request) 
+	{	
+		try {
+		    Excel::import(new ApplicationRequirementsImport, request()->file('file'));
+
+		    session()->flash('notification-status', "success");
+			session()->flash('notification-msg', "Importing data was successful. [Note: if your data does not reflect , The Application Requirement name is already exist]");
+			return redirect()->route('system.application_requirements.index');
+		} catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+		     $failures = $e->failures();
+		     
+		     foreach ($failures as $failure) {
+		         $failure->row(); // row that went wrong
+		         $failure->attribute(); // either heading key (if using heading row concern) or column index
+		         $failure->errors(); // Actual error messages from Laravel validator
+		         $failure->values(); // The values of the row that has failed.
+		     }
+		    dd($failures);
+		    session()->flash('notification-status', "failed");
+			session()->flash('notification-msg', "Something went wrong.");
+			return redirect()->route('system.application_requirements.index');
+		}
+	    
 	}
 }

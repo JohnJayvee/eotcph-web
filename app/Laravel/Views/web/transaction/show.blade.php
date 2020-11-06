@@ -10,7 +10,7 @@
     <div class="container">
          
          <div class="row flex-row items-center px-4">
-            <h5 class="text-title pb-3"><i class="fa fa-file"></i> E<span class="text-title-two"> Application History</span></h5>
+            <h5 class="text-title pb-3"><i class="fa fa-file"></i> E<span class="text-title-two"> APPLICATION DETAILS</span></h5>
             <a href="{{route('web.transaction.history')}}" class="custom-btn badge-primary-2 text-white " style="float: right;margin-left: auto;">E-Submission</a>
          </div>
           
@@ -29,18 +29,34 @@
       <div class="card-body" style="border-bottom: 3px dashed #E3E3E3;">
         <div class="row">
           <div class="col-md-6">
-            <p class="text-title fw-600">Application: <span class="text-black">{{$transaction->type ? Str::title($transaction->type->name) : "N/A"}} [{{$transaction->code}}] </span></p>
-            <p class="text-title fw-600">Email Address: <span class="text-black">{{$transaction->email}}</span></p>
-
-            <p class="fw-600" style="color: #DC3C3B;">Amount: Php {{$transaction->amount ? $transaction->amount : "0.00"}} </p>
-
-            <p class="text-title fw-600">Application Status: <span class="badge badge-pill badge-{{Helper::status_badge($transaction->payment_status)}} p-2">{{Str::title($transaction->transaction_status)}}</span></p>
+            <p class="text-title fw-600 m-0">Name: <span class="text-black">{{str::title($transaction->customer ? $transaction->customer->full_name : $transaction->customer_name)}}</span></p>
+            <p class="text-title fw-600 m-0">Application: <span class="text-black">{{$transaction->type ? Str::title($transaction->type->name) : "N/A"}} [{{$transaction->code}}] </span></p>
+            <p class="text-title fw-600 m-0">Email Address: <span class="text-black">{{$transaction->email}}</span></p>
+            <p class="text-title fw-600 m-0">Processor Status: <span class="badge badge-{{Helper::status_badge($transaction->status)}} p-2">{{Str::title($transaction->status)}}</span></p>
           </div>
           <div class="col-md-6">
-            <p class="text-title fw-600">Deparatment/Agency: <span class="text-black">{{$transaction->department ? Str::title($transaction->department->name) : "N/A"}}</span></p>
-            <p class="text-title fw-600">Contact Number: <span class="text-black">+63{{$transaction->customer->contact_number}}</span></p>
-            <p class="fw-600" style="color: #DC3C3B;">Processing Fee: Php {{Helper::money_format($transaction->processing_fee)}} [{{$transaction->processing_fee_code}}]</p>
+            <p class="text-title fw-600 m-0">Deparatment/Agency: <span class="text-black">{{$transaction->department ? Str::title($transaction->department->name) : "N/A"}}</span></p>
+            <p class="text-title fw-600 m-0">Contact Number: <span class="text-black">+63{{$transaction->contact_number}}</span></p>
+          
+            @if($transaction->status == "DECLINED")
+              <p class="text-title fw-600 m-0">Remarks: <span class="text-black">{{$transaction->remarks}}</span></p>
+            @endif
           </div>
+          <div class="col-md-6 mt-4">
+            <p class="text-title fw-600 m-0">Transaction Details:</span></p>
+            <p class="text-title fw-600 m-0">Status: <span class="badge  badge-{{Helper::status_badge($transaction->transaction_status)}} p-2">{{Str::title($transaction->transaction_status)}}</span></p>
+            <p class="fw-600 m-0" style="color: #DC3C3B;">Processing Fee: Php {{Helper::money_format($transaction->processing_fee)}} [{{$transaction->processing_fee_code}}]</p>
+            <p class="text-title fw-600 m-0">Payment Status: <span class="badge  badge-{{Helper::status_badge($transaction->payment_status)}} p-2">{{Str::title($transaction->payment_status)}}</span></p>
+            <p class="fw-600 m-0" style="color: #DC3C3B;">Partial Amount: Php {{Helper::money_format($transaction->partial_amount)}}</p>
+          </div>
+          @if($transaction->amount)
+          <div class="col-md-6 mt-4">
+            <p class="text-title fw-600 m-0">Application Details:</span></p>
+            <p class="text-title fw-600 m-0">Status: <span class="badge  badge-{{Helper::status_badge($transaction->application_transaction_status)}} p-2">{{Str::title($transaction->application_transaction_status)}}</span></p>
+            <p class="fw-600 m-0" style="color: #DC3C3B;">Amount: Php {{Helper::money_format($transaction->amount ? $transaction->amount : "0.00")}} [{{$transaction->amount != NULL ? $transaction->transaction_code:"N/A"}}]</p>
+            <p class="text-title fw-600 m-0">Payment Status: <span class="badge  badge-{{Helper::status_badge($transaction->application_payment_status)}} p-2">{{Str::title($transaction->application_payment_status)}}</span></p>
+          </div>
+          @endif
         </div> 
        
       </div>
@@ -54,13 +70,15 @@
         <div class="row justify-content-center">
           <table class="table table-striped">
             <thead>
-              <th>FileName</th>
+              <th>Requirement Name</th>
+              <th>File</th>
               <th>Date Submitted</th>
               <th>Status</th>
             </thead>
             <tbody>
             @forelse($attachments as $index => $attachment)
               <tr>
+                <td>{{$attachment->requirement_name ? $attachment->requirement_name->name : "N/A"}}</td>
                 <td><a href="{{$attachment->directory}}/{{$attachment->filename}}" target="_blank" class="fw-600">{{$attachment->original_name}}</a></td>
                 <td>{{Helper::date_format($attachment->created_at)}}</td>
                 <td><p class="btn-sm text-center fw-600 text-black {{Helper::status_color($attachment->status)}}">{{Str::title($attachment->status)}}</p></td>

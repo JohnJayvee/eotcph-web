@@ -15,9 +15,6 @@
   <div class="card">
     <div class="card-body">
       <h4 class="card-title">Application Type Edit Form</h4>
-      <p class="card-description">
-        Fill up the <strong class="text-danger">* required</strong> fields.
-      </p>
       <form class="create-form" method="POST" enctype="multipart/form-data">
         @include('system._components.notifications')
         {!!csrf_field()!!}
@@ -30,13 +27,13 @@
         </div>
        
         <div class="form-group">
-          <label for="input_suffix">Peza Unit</label>
+          <label for="input_suffix">Department</label>
           {!!Form::select("department_id", $department, old('department_id',$application->department_id), ['id' => "input_department_id", 'class' => "form-control mb-2 mr-sm-2 ".($errors->first('department_id') ? 'is-invalid' : NULL)])!!}
           @if($errors->first('department_id'))
           <p class="mt-1 text-danger">{!!$errors->first('department_id')!!}</p>
           @endif
         </div>
-         <div class="form-group">
+        <div class="form-group">
           <label for="input_title">Processing Fee</label>
           <input type="text" class="form-control {{$errors->first('processing_fee') ? 'is-invalid' : NULL}}" id="input_title" name="processing_fee" placeholder="Payment Fee" value="{{old('processing_fee',$application->processing_fee)}}">
           @if($errors->first('processing_fee'))
@@ -44,12 +41,19 @@
           @endif
         </div>
         <div class="form-group">
+          <label for="input_title">Partial Amount</label>
+          <input type="text" class="form-control {{$errors->first('partial_amount') ? 'is-invalid' : NULL}}" id="input_title" name="partial_amount" placeholder="Payment Fee" value="{{old('partial_amount',$application->partial_amount)}}">
+          @if($errors->first('partial_amount'))
+          <p class="mt-1 text-danger">{!!$errors->first('partial_amount')!!}</p>
+          @endif
+        </div>
+        <!-- <div class="form-group">
           <label for="input_title">Processing Days</label>
           <input type="text" class="form-control {{$errors->first('processing_days') ? 'is-invalid' : NULL}}" id="input_processing_days" name="processing_days" placeholder="Processing Days" value="{{old('processing_days',$application->processing_days)}}">
           @if($errors->first('processing_days'))
           <p class="mt-1 text-danger">{!!$errors->first('processing_days')!!}</p>
           @endif
-        </div>
+        </div> -->
         <div class="form-group">
           <label for="input_suffix">Application Requirements</label>
           {!!Form::select("requirements_id[]", $requirements, old('requirements_id',explode(",", $application->requirements_id)), ['id' => "input_requirements_id", 'multiple' => 'multiple','class' => "custom-select select2 mb-2 mr-sm-2 ".($errors->first('requirements_id') ? 'is-invalid' : NULL)])!!}

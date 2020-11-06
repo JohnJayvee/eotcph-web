@@ -27,6 +27,13 @@ Route::group(['as' => "auth."], function(){
 
 		Route::group(['as' => "transaction.",'prefix' => "transaction"], function(){
 			Route::get('/',['as' => "index",'uses' => "TransactionController@index"]);
+			Route::get('pending',['as' => "pending",'uses' => "TransactionController@pending"]);
+			Route::get('ongoing',['as' => "ongoing",'uses' => "TransactionController@ongoing"]);
+			Route::get('approved',['as' => "approved",'uses' => "TransactionController@approved"]);
+			Route::get('declined',['as' => "declined",'uses' => "TransactionController@declined"]);
+			Route::get('resent',['as' => "resent",'uses' => "TransactionController@resent"]);
+			Route::get('create',['as' => "create",'uses' => "TransactionController@create"]);
+			Route::post('create',['uses' => "TransactionController@store"]);
 			Route::get('show/{id?}',['as' => "show",'uses' => "TransactionController@show",'middleware' => "system.exist:transaction"]);
 			Route::get('process/{id?}',['as' => "process",'uses' => "TransactionController@process",'middleware' => "system.exist:transaction"]);
 			Route::get('requirements/{id?}',['as' => "requirements",'uses' => "TransactionController@process_requirements"]);
@@ -43,6 +50,12 @@ Route::group(['as' => "auth."], function(){
 			Route::post('password',['uses' => "ProfileController@update_password"]);
 		});
 
+		Route::group(['as' => "report.",'prefix' => "report"], function(){
+			Route::get('/',['as' => "index",'uses' => "ReportController@index"]);
+			Route::get('export',['as' => "export",'uses' => "ReportController@export"]);
+			Route::get('pdf',['as' => "pdf",'uses' => "ReportController@pdf"]);
+		});
+
 		Route::group(['as' => "department.",'prefix' => "department"], function(){
 			Route::get('/',['as' => "index",'uses' => "DepartmentController@index"]);
 			Route::get('create',['as' => "create",'uses' => "DepartmentController@create"]);
@@ -50,7 +63,8 @@ Route::group(['as' => "auth."], function(){
 			Route::get('edit/{id?}',['as' => "edit",'uses' => "DepartmentController@edit",'middleware' => "system.exist:department"]);
 			Route::post('edit/{id?}',['uses' => "DepartmentController@update",'middleware' => "system.exist:department"]);
 			Route::any('delete/{id?}',['as' => "destroy",'uses' => "DepartmentController@destroy",'middleware' => "system.exist:department"]);
-			
+			Route::get('upload',['as' => "upload",'uses' => "DepartmentController@upload"]);
+			Route::post('upload',['uses' => "DepartmentController@upload_department"]);
 		});
 
 		Route::group(['as' => "application_requirements.",'prefix' => "application-requirements"], function(){
@@ -60,19 +74,21 @@ Route::group(['as' => "auth."], function(){
 			Route::get('edit/{id?}',['as' => "edit",'uses' => "ApplicationRequirementController@edit",'middleware' => "system.exist:requirements"]);
 			Route::post('edit/{id?}',['uses' => "ApplicationRequirementController@update",'middleware' => "system.exist:requirements"]);
 			Route::any('delete/{id?}',['as' => "destroy",'uses' => "ApplicationRequirementController@destroy",'middleware' => "system.exist:requirements"]);
+			Route::get('upload',['as' => "upload",'uses' => "ApplicationRequirementController@upload"]);
+			Route::post('upload',['uses' => "ApplicationRequirementController@upload_department"]);
 			
 		});
 
-		Route::group(['as' => "zone_location.",'prefix' => "zone-location"], function(){
-			Route::get('/',['as' => "index",'uses' => "ZoneLocationController@index"]);
-			Route::get('create',['as' => "create",'uses' => "ZoneLocationController@create"]);
-			Route::post('create',['uses' => "ZoneLocationController@store"]);
-			Route::get('edit/{id?}',['as' => "edit",'uses' => "ZoneLocationController@edit",'middleware' => "system.exist:zone-location"]);
-			Route::post('edit/{id?}',['uses' => "ZoneLocationController@update",'middleware' => "system.exist:zone-location"]);
-			Route::any('delete/{id?}',['as' => "destroy",'uses' => "ZoneLocationController@destroy",'middleware' => "system.exist:zone-location"]);
-			Route::any('get-municipalities',['as' => "get_municipalities", 'uses' => "ZoneLocationController@get_municipalities"]);
-			Route::any('get-province',['as' => "get_provinces", 'uses' => "ZoneLocationController@get_provinces"]);
-			Route::any('get-region',['as' => "get_region", 'uses' => "ZoneLocationController@get_region"]);
+		Route::group(['as' => "regional_office.",'prefix' => "regional-office"], function(){
+			Route::get('/',['as' => "index",'uses' => "RegionalOfficeController@index"]);
+			Route::get('create',['as' => "create",'uses' => "RegionalOfficeController@create"]);
+			Route::post('create',['uses' => "RegionalOfficeController@store"]);
+			Route::get('edit/{id?}',['as' => "edit",'uses' => "RegionalOfficeController@edit",'middleware' => "system.exist:regional-office"]);
+			Route::post('edit/{id?}',['uses' => "RegionalOfficeController@update",'middleware' => "system.exist:regional-office"]);
+			Route::any('delete/{id?}',['as' => "destroy",'uses' => "RegionalOfficeController@destroy",'middleware' => "system.exist:regional-office"]);
+			// Route::any('get-municipalities',['as' => "get_municipalities", 'uses' => "ZoneLocationController@get_municipalities"]);
+			// Route::any('get-province',['as' => "get_provinces", 'uses' => "ZoneLocationController@get_provinces"]);
+			// Route::any('get-region',['as' => "get_region", 'uses' => "ZoneLocationController@get_region"]);
 			
 		});
 

@@ -19,7 +19,7 @@
             {!!csrf_field()!!}
                 <input type="hidden" name="department_name" id="input_department_name" value="{{old('department_name')}}">
                 <input type="hidden" name="application_name" id="input_application_name" value="{{old('application_name')}}">
-                <input type="hidden" name="zone_name" id="input_zone_name" value="{{old('zone_name')}}">
+                <!-- <input type="hidden" name="regional_name" id="input_regional_name" value="{{old('regional_name')}}"> -->
                 <div class="card-body px-5 py-0">
                     <h5 class="text-title text-uppercase pt-5">Application information</h5>
                     <div class="row">
@@ -38,55 +38,6 @@
                                 <input type="text" class="form-control form-control-sm {{ $errors->first('company_name') ? 'is-invalid': NULL  }}" placeholder="Company Name" name="company_name" value="{{old('company_name')}}">
                                 @if($errors->first('company_name'))
                                     <small class="form-text pl-1" style="color:red;">{{$errors->first('company_name')}}</small>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                            <div class="col-sm-12 col-md-6 col-lg-6">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1" class="text-form pb-2">Zone Location</label>
-                                {!!Form::select("zone_id", $zone_locations, old('zone_id'), ['id' => "input_zone_id", 'class' => "form-control form-control-sm classic ".($errors->first('zone_id') ? 'border-red' : NULL)])!!}
-                            </div>
-                            @if($errors->first('zone_id'))
-                                <small class="form-text pl-1" style="color:red;">{{$errors->first('zone_id')}}</small>
-                            @endif
-                            </div>
-                            <div class="col-sm-12 col-md-6 col-lg-6">
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1" class="text-form pb-2">Peza Unit</label>
-                                    {!!Form::select("department_id", $department, old('department_id'), ['id' => "input_department_id", 'class' => "form-control form-control-sm classic ".($errors->first('department_id') ? 'border-red' : NULL)])!!}
-                                </div>
-                                @if($errors->first('department_id'))
-                                    <small class="form-text pl-1" style="color:red;">{{$errors->first('department_id')}}</small>
-                                @endif
-                            </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12 col-md-6 col-lg-6">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1" class="text-form pb-2">Type of Application</label>
-                                {!!Form::select('application_id',['' => "--Choose Application Type--"],old('application_id'),['id' => "input_application_id",'class' => "form-control form-control-sm classic ".($errors->first('application_id') ? 'border-red' : NULL)])!!}
-                               
-                            </div>
-                            @if($errors->first('application_id'))
-                                <small class="form-text pl-1" style="color:red;">{{$errors->first('application_id')}}</small>
-                            @endif
-                        </div>
-                        <div class="col-sm-12 col-md-6 col-lg-6">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1" class="text-form pb-2">Processing Fee</label>
-                                <div class="input-group mb-3">
-                                  <div class="input-group-prepend">
-                                    <span class="input-group-text text-title fw-600">PHP <span class="pr-1 pl-2" style="padding-bottom: 2px"> |</span></span>
-                                  </div>
-                                  <input type="number" class="form-control br-left-white br-right-white {{ $errors->first('processing_fee') ? 'is-invalid': NULL  }}" placeholder="Payment Amount" name="processing_fee" id="input_processing_fee" value="{{old('processing_fee')}}" readonly>
-                                  <div class="input-group-append">
-                                    <span class="input-group-text text-title fw-600">| <span class="text-gray pl-2 pr-2 pt-1"> .00</span></span>
-                                  </div>
-                                </div>
-                                @if($errors->first('processing_fee'))
-                                    <small class="form-text pl-1" style="color:red;">{{$errors->first('processing_fee')}}</small>
                                 @endif
                             </div>
                         </div>
@@ -116,43 +67,115 @@
                             </div>
                         </div>
                     </div>
-                    <div id="requirements_container">
-                        <label class="text-form pb-2">Required Documents</label>
-                        <table id="requirements">
-                           <tbody>
-                               
-                           </tbody>
-                        </table>
-                    </div>
-                    <h5 class="text-title text-uppercase pt-3">Upload Requirements</h5>
                     <div class="row">
-                        <div class="col-md-12 col-lg-12">
-                            <label class="text-form pb-2">Application Requirements</label>
+                            <!-- <div class="col-sm-12 col-md-6 col-lg-6">
                             <div class="form-group">
-                                <div class="upload-btn-wrapper">
-                                    <button class="btn vertical" style="color: #ADADAD">
-                                        <i class="fa fa-upload fa-4x" ></i>
-                                        <span class="pt-1">Upload Here</span>
-                                    </button>
-                                    <input type="file" name="file[]" class="form-control" id="file" accept="application/pdf" multiple>
+                                <label for="exampleInputEmail1" class="text-form pb-2">Regional Offices</label>
+                                {!!Form::select("regional_id", $regional_offices, old('regional_id'), ['id' => "input_regional_id", 'class' => "form-control form-control-sm classic ".($errors->first('regional_id') ? 'border-red' : NULL)])!!}
+                            </div>
+                            @if($errors->first('regional_id'))
+                                <small class="form-text pl-1" style="color:red;">{{$errors->first('regional_id')}}</small>
+                            @endif
+                            </div> -->
+                        <div class="col-sm-12 col-md-6 col-lg-6">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1" class="text-form pb-2">Bureau/Office</label>
+                                {!!Form::select("department_id", $department, old('department_id'), ['id' => "input_department_id", 'class' => "form-control form-control-sm classic ".($errors->first('department_id') ? 'border-red' : NULL)])!!}
+                            </div>
+                            @if($errors->first('department_id'))
+                                <small class="form-text pl-1" style="color:red;">{{$errors->first('department_id')}}</small>
+                            @endif
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-6">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1" class="text-form pb-2">Type of Application</label>
+                                {!!Form::select('application_id',['' => "--Choose Application Type--"],old('application_id'),['id' => "input_application_id",'class' => "form-control form-control-sm classic ".($errors->first('application_id') ? 'border-red' : NULL)])!!}
+                               
+                            </div>
+                            @if($errors->first('application_id'))
+                                <small class="form-text pl-1" style="color:red;">{{$errors->first('application_id')}}</small>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 col-lg-6">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1" class="text-form pb-2">Processing Fee</label>
+                                <div class="input-group mb-3">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text text-title fw-600">PHP <span class="pr-1 pl-2" style="padding-bottom: 2px"> |</span></span>
+                                  </div>
+                                  <input type="text" class="form-control br-left-white br-right-white {{ $errors->first('processing_fee') ? 'is-invalid': NULL  }}" placeholder="Payment Amount" name="processing_fee" id="input_processing_fee" value="{{old('processing_fee')}}" readonly>
+                                  <div class="input-group-append">
+                                    <span class="input-group-text text-title fw-600">| <span class="text-gray pl-2 pr-2 pt-1"> .00</span></span>
+                                  </div>
                                 </div>
-                                @foreach($errors->all() as $error)
-                                    @if($error == "Only PDF File are allowed.")
-                                        <label id="lblName" style="vertical-align: top;padding-top: 40px;color: red;" class="fw-500 pl-3">{{$error}}</label>
-                                    @endif
-                                @endforeach
-                                @if($errors->first('file'))
-                                    <label id="lblName" style="vertical-align: top;padding-top: 40px;color: red;" class="fw-500 pl-3">{{$errors->first('file')}}</label>
-                                @else
-                                    <label id="lblName" style="vertical-align: top;padding-top: 40px;" class="fw-500 pl-3"></label>
+                                @if($errors->first('processing_fee'))
+                                    <small class="form-text pl-1" style="color:red;">{{$errors->first('processing_fee')}}</small>
                                 @endif
                             </div>
                         </div>
+                        <div class="col-sm-12 col-md-6 col-lg-6">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1" class="text-form pb-2">Partial Amount</label>
+                                <div class="input-group mb-3">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text text-title fw-600">PHP <span class="pr-1 pl-2" style="padding-bottom: 2px"> |</span></span>
+                                  </div>
+                                  <input type="text" class="form-control br-left-white" placeholder="Partial Amount" name="partial_amount" value="{{old('partial_amount')}}" id="input_partial_amount" readonly>
+                                </div>
+                                @if($errors->first('partial_amount'))
+                                    <small class="form-text pl-1" style="color:red;">{{$errors->first('partial_amount')}}</small>
+                                @endif
+                            </div>
+                        </div>
+                       
+                    </div>
+                   <input type="hidden" name="requirements_id" id="requirements_id_containter">
+                   
+                    <div id="requirements_container">
+                        
+                        <table class="table table-responsive table-striped table-wrap" style="table-layout: fixed;" id="requirements">
+                            <thead>
+                               
+                            </thead>
+                            <tbody>
+                               
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="old_requirements_container">
+                        @if(old('requirements_id'))
+                        <table class="table table-responsive table-striped table-wrap" style="table-layout: fixed;"  id="old_requirements">
+                            <thead>
+                                <tr>
+                                    <th class="text-title fs-15 fs-500 p-3" width="15%">Requirement Name</th>
+                                    <th class="text-title fs-15 fs-500 p-3" width="15%">File</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach(explode(",",old('requirements_id')) as $index => $value)
+                                    @foreach($all_requirements as $req)
+                                         @if($value == $req->id)
+                                        <tr>
+                                            <td>{{$req->name}} {{$req->is_required == "yes" ? "(Required)" : "(Optional)"}}</td>
+                                            <td><input type="file" name="file{{$value}}" accept="application/pdf,application/vnd.ms-excel">
+                                            @if($errors->first('file'.$value))
+                                                <small class="form-text pl-1" style="color:red;">{{$errors->first('file'.$value)}}</small>
+                                            @endif
+                                            </td>
+                                        </tr>
+                                        @endif
+                                    @endforeach
+                                @endforeach
+                            </tbody>
+                        </table>
+                         @endif
                     </div>
                 </div>
                 <hr class="form pt-0">
                 <div class=" card-body px-5 pb-5">
-                    <h5 class="text-title text-uppercase ">Print Requirements</h5>
+                    <h5 class="text-title text-uppercase ">Physical Submission</h5>
                     <div class="custom-control custom-checkbox mb-3">
                         <input type="checkbox" class="custom-control-input" id="customControlValidation1" name="is_check" value="1">
                         <label class="custom-control-label fs-14 fw-600 text-black" for="customControlValidation1">&nbsp;&nbsp; Check this option if you're going to submit physical copies of your documents. The system will generate a QR Code that you'll have to attach to the envelope of your physical copies.</label>
@@ -181,10 +204,15 @@
         background-color: #7093DC !important;
         color: #fff !important;
     }
+    #input_partial_label:focus{
+         outline:none;
+    }
 </style>
 @endsection
 @section('page-scripts')
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script type="text/javascript">
+$(document).ready(function() {
 
     $('#file').change(function(e){
         $('#lblName').empty();
@@ -194,7 +222,9 @@
             files.push($(this)[0].files[i].name);
         }
         $('#lblName').text(files.join(', '));
+        $('#file_count').val(files.length);
     });
+
 
 
     $.fn.get_application_type = function(department_id,input_purpose,selected){
@@ -226,19 +256,54 @@
         });
         // return result;
     };
-
     $.fn.get_requirements = function(application_id){
-        $("#requirements tr").remove(); 
+        str = '';
+        var html = "";
+        var file = "file1"
         $.getJSON( "{{route('web.get_requirements')}}?type_id="+application_id, function( response ) {
             $.each(response.data,function(index,value){
-                $("#requirements").find('tbody').append("<tr><td>" + value + "</td></tr>");
-            })
+                    html += "<tr>";
+                    html += "<td>" + value[0] + "</td>";
+                    html += "<td><input type='file' accept='application/pdf,application/vnd.ms-excel' name=" + value[1] + "></td>"
+                    html += "</tr>";
+                str += value[2] + ",";
+                resultString = str.replace(/,(?=[^,]*$)/, '')
 
-            $("#requirements_container").show();
+            })
+            $("#requirements").find('tbody').append(html);
+             $("#requirements").find('thead').append("<tr><th class='text-title fs-15 fs-500 p-3' width='15%''>Requirement Name</th><th class='text-title fs-15 fs-500 p-3' width='15%'>File</th></tr>");
+            $("#requirements_id_containter").val(resultString);
         });
         // return result;
     };
-    $("#requirements_container").hide();
+    $.fn.get_requirements_id = function(application_id){
+        str = '';
+        var html = "";
+        var file = "file1"
+        $.getJSON( "{{route('web.get_requirements')}}?type_id="+application_id, function( response ) {
+            $.each(response.data,function(index,value){
+                str += value[2] + ",";
+                resultString = str.replace(/,(?=[^,]*$)/, '')
+
+            })
+            $("#requirements_id_containter").val(resultString);
+        });
+        // return result;
+    };
+    $.fn.get_partial_amount = function(application_id){
+        $.getJSON('/amount?type_id='+application_id, function(result){
+            amount = parseFloat(result.data[0])
+            partial_amount = parseFloat(result.data[1])
+            if (partial_amount > 0) {
+                $('#input_partial_amount').prop("readonly" ,false);
+            }else{
+                $('#input_partial_amount').val('');
+                $('#input_partial_amount').prop("readonly" ,true);
+            }
+            $('#input_processing_fee').val(formatNumber(amount));
+        });
+        // return result;
+    };
 
     $("#input_department_id").on("change",function(){
       var department_id = $(this).val()
@@ -247,27 +312,38 @@
       $('#input_department_name').val(_text);
     })
 
-    $("#input_zone_id").on("change",function(){
-      var _text = $("#input_zone_id option:selected").text();
-      $('#input_zone_name').val(_text);
+    $("#input_regional_id").on("change",function(){
+      var _text = $("#input_regional_id option:selected").text();
+      $('#input_regional_name').val(_text);
     })
 
-    $('#input_application_id').change(function() {
+    $('#input_application_id').on("change",function(){
+        var amount;
+        $("#old_requirements").find('tbody').empty();
+        $("#old_requirements").find('thead').empty();
+        $("#requirements").find('tbody').empty();
+        $("#requirements").find('thead').empty();
         var _text = $("#input_application_id option:selected").text();
-        $.getJSON('/amount?type_id='+this.value, function(result){
-            $('#input_processing_fee').val(result.data);
-        });
+        
         var application_id = $(this).val()
+        $(this).get_partial_amount(application_id,"#input_application_id","")
         $(this).get_requirements(application_id,"#input_application_id","")
         
         $('#input_application_name').val(_text);
+
     });
-
-
-    @if(old('application_id'))
-        $(this).get_requirements("{{old('application_id')}}","#input_application_id","{{old('application_id')}}")
-        $(this).get_application_type("{{old('department_id')}}","#input_application_id","{{old('application_id')}}")
+    function formatNumber (num) {
+        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+    }
+    @if(old('department_id'))
+        $(this).get_application_type("{{old('department_id')}}","#input_application_id","")
     @endif
+    @if(old('department_id') and  old('application_id'))
+        $(this).get_application_type("{{old('department_id')}}","#input_application_id","{{old('application_id')}}")
+        $(this).get_requirements_id("{{old('application_id')}}","#input_application_id","{{old('application_id')}}")
+        $(this).get_partial_amount("{{old('application_id')}}","#input_application_id","{{old('application_id')}}")
+    @endif
+ });
 </script>
 
 @endsection

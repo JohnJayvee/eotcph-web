@@ -18,24 +18,38 @@
   <div class="col-12 ">
     <form>
       <div class="row">
-        
-        <div class="col-md-3 p-2">
+        <div class="col-md-3">
+          <label>Bureau/Office</label>
+          @if(Auth::user()->type == "super_user" || Auth::user()->type == "admin")
+            {!!Form::select("department_id", $department, $selected_department_id, ['id' => "input_department_id", 'class' => "custom-select"])!!}
+          @elseif(Auth::user()->type == "office_head")
+            <input type="text" class="form-control mb-2 mr-sm-2" value="{{Auth::user()->department->name}}" readonly>
+            <input type="hidden" name="selected_department_id" value="{{$selected_department_id}}">
+          @endif
+        </div>
+        <div class="col-md-3">
+          <label>Keywords</label>
           <div class="form-group has-search">
             <span class="fa fa-search form-control-feedback"></span>
-            <input type="text" class="form-control form-control-lg" placeholder="Search">
+            <input type="text" class="form-control mb-2 mr-sm-2" id="input_keyword" name="keyword" value="{{$keyword}}" placeholder="Keyword">
           </div>
+        </div>
+        <div class="col-md-3 mt-4 p-1">
+          <button class="btn btn-primary btn-sm p-2" type="submit">Filter</button>
+          <a href="{{route('system.processor.list')}}" class="btn btn-primary btn-sm p-2">Clear</a>
         </div>
       </div>
     </form>
   </div>
   <div class="col-md-12">
     <h4 class="pb-4">Record Data</h4>
-    <div class="shadow fs-15">
-      <table class="table table-responsive table-striped table-wrap" style="table-layout: fixed;">
+    <div class="shadow fs-15 table-responsive">
+      <table class="table  table-striped table-wrap" style="table-layout: fixed;">
         <thead>
           <tr>
             <th class="text-title p-3" width="35%">Name</th>
             <th class="text-title p-3" width="35%"># of Application Processed</th>
+            <th class="text-title p-3" width="35%">Bureau/Office</th>
             <th class="text-title p-3" width="30%">Action</th>
           </tr>
         </thead>
@@ -44,6 +58,7 @@
           <tr>
             <td>{{ $processor->full_name}}</td>
             <td>{{ Helper::processed_count($processor->id)}} as of {{Helper::date_format(Carbon::now())}}</td>
+            <td>{{ Str::title($processor->department ? $processor->department->name : "N/A")}}</td>
             <td >
               <button type="button" class="btn btn-sm p-0" data-toggle="dropdown" style="background-color: transparent;"> <i class="mdi mdi-dots-horizontal" style="font-size: 30px"></i></button>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuSplitButton2">
@@ -59,6 +74,13 @@
         </tbody>
       </table>
     </div>
+    @if($processors->total() > 0)
+      <nav class="mt-2">
+       <!--  <p>Showing <strong>{{$processors->firstItem()}}</strong> to <strong>{{$processors->lastItem()}}</strong> of <strong>{{$processors->total()}}</strong> entries</p> -->
+        {!!$processors->appends(request()->query())->render()!!}
+        </ul>
+      </nav>
+    @endif
   </div>
 </div>
 @stop
@@ -89,7 +111,14 @@
   </div>
 </div>
 @stop
+@section('page-styles')
+<style type="text/css" >
+  .btn-sm{
+    border-radius: 10px;
+  }
+</style>
 
+@stop
 @section('page-scripts')
 <script src="{{asset('system/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>
 <script type="text/javascript">
